@@ -12,16 +12,8 @@ public class CMVCalculatorTest {
         float[] point1 = new float[]{ 1.0f, 2.0f};
         float[] point2 = new float[]{ 1.0f, -5.0f};
         float[][] points = new float[][]{ point1, point2};
-        double LENGTH1 = 6.0f;
-        boolean result = CMVCalculator.checkLIC0(points, LENGTH1);
-        assertTrue(result);
-
-        LENGTH1 = 10.0f;
-        result = CMVCalculator.checkLIC0(points, LENGTH1);
-        assertFalse(result);
-
-        LENGTH1 = -1.0f;
-        result = CMVCalculator.checkLIC0(points, LENGTH1);
-        assertFalse(result);
+        assertTrue(CMVCalculator.checkLIC0(points, 6.0d));
+        assertFalse(CMVCalculator.checkLIC0(points, 10.0d));
+        assertFalse(CMVCalculator.checkLIC0(points, -1.0d));
     }
 }
