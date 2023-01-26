@@ -8,11 +8,11 @@ public class CMVCalculator {
 
     /**
      * Used for calculate distance between two 2D points
-     * @param point1 a array containing x coordinate and y coordinate of point 1
-     * @param point2 a array containing x coordinate and y coordinate of point 2
+     * @param point1 an array containing x coordinate and y coordinate of point 1
+     * @param point2 an array containing x coordinate and y coordinate of point 2
      * @return the distance between point1 and point2
      */
-    static double calcDistanceBetweenTwoPoints(float[] point1, float[] point2)
+    private static double calcDistanceBetweenTwoPoints(float[] point1, float[] point2)
     {
         float del_x = point1[0] - point2[0];
         float del_y = point1[1] - point2[1];
@@ -25,13 +25,12 @@ public class CMVCalculator {
      * (0 ≤ LENGTH1)
      * @param points a 2D array indicating the 2D point coordinates
      * @param LENGTH1 a double value given in the parameters
-     * @return result is returned with boolean true or false
+     * @return whether there are two consecutive data points for which the distance is bigger than the provided length parameter
      */
     public static boolean checkLIC0(float[][] points, double LENGTH1) {
         if(LENGTH1 < 0) {return false;}  // length is invalid
         for (int i=0; i<points.length -1; i++){
-            double length = calcDistanceBetweenTwoPoints(points[i], points[i+1]);
-            if(length > LENGTH1){
+            if(calcDistanceBetweenTwoPoints(points[i], points[i+1]) > LENGTH1){
                 return true;
             }
         }
