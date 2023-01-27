@@ -7,14 +7,33 @@ package org.example;
 public class CMVCalculator {
 
     /**
+     * Used for calculate distance between two 2D points
+     * @param point1 an array containing x coordinate and y coordinate of point 1
+     * @param point2 an array containing x coordinate and y coordinate of point 2
+     * @return the distance between point1 and point2
+     */
+    private static double calcDistanceBetweenTwoPoints(float[] point1, float[] point2)
+    {
+        float del_x = point1[0] - point2[0];
+        float del_y = point1[1] - point2[1];
+        return Math.sqrt(del_x*del_x + del_y * del_y);
+    }
+
+    /**
      * There exists at least one set of two consecutive data points that are a distance greater than
      * the length, LENGTH1, apart.
      * (0 ≤ LENGTH1)
-     * @param
-     * @param
-     * @return
+     * @param points a 2D array indicating the 2D point coordinates
+     * @param LENGTH1 a double value given in the parameters
+     * @return whether there are two consecutive data points for which the distance is bigger than the provided length parameter
      */
-    public static boolean checkLIC0() {
+    public static boolean checkLIC0(float[][] points, double LENGTH1) {
+        if(LENGTH1 < 0) {return false;}  // length is invalid
+        for (int i=0; i<points.length -1; i++){
+            if(calcDistanceBetweenTwoPoints(points[i], points[i+1]) > LENGTH1){
+                return true;
+            }
+        }
         return false;
     }
 
