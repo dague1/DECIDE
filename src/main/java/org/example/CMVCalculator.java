@@ -140,7 +140,7 @@ public class CMVCalculator {
      * (0 ≤ RADIUS1)
      * @param points a 2D array indicating the 2D point coordinates
      * @param RADIUS1 a double value given in the parameters
-     * @return whether there are three consecutive data points that
+     * @return whether there are three consecutive data points that cannot all be contained within or on a circle of radius RADIUS1.
      */
     public static boolean checkLIC1(float[][] points, double RADIUS1) {
         if(RADIUS1 < 0) {return false;}
