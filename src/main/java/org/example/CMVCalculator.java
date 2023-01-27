@@ -74,7 +74,18 @@ public class CMVCalculator {
      * @param
      * @return
      */
-    public static boolean checkLIC3() {
+    public static boolean checkLIC3(double[][] points, double area1) {
+        // There need to be atleast three consecutive data points for the condition to be true.
+        if (points.length < 3) {
+            return false;
+        }
+
+        for (int i = 0; i < points.length - 2; i++) {
+            if (MathUtils.calcTriangleArea(points[i], points[i + 1], points[i + 2]) >= area1) {
+                return true;
+            }
+        }
+
         return false;
     }
 
