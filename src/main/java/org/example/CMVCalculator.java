@@ -20,6 +20,20 @@ public class CMVCalculator {
     }
 
     /**
+     * Used for judge whether three 2D points are on the same line
+     * This is calculated by the equation (y1-y2) * (x1-x3) = (y1-y3) * (x1-x2)
+     * If the three points are on the same line, the above equation should be true
+     * @param point1 an array containing x coordinate and y coordinate of point 1
+     * @param point2 an array containing x coordinate and y coordinate of point 2
+     * @param point3 an array containing x coordinate and y coordinate of point 2
+     * @return whether the three points are on the same line
+     */
+    private static boolean checkCollinear(float[] point1, float[] point2, float[] point3)
+    {
+        return (point1[1] - point2[1]) * (point1[0] - point3[0]) == (point1[1] - point3[1]) * (point1[0] - point2[0]);
+    }
+
+    /**
      * There exists at least one set of two consecutive data points that are a distance greater than
      * the length, LENGTH1, apart.
      * (0 ≤ LENGTH1)
@@ -45,7 +59,13 @@ public class CMVCalculator {
      * @param
      * @return
      */
-    public static boolean checkLIC1() {
+    public static boolean checkLIC1(float[][] points, double RADIUS1) {
+        if(RADIUS1 < 0) {return false;}
+        for (int i=0; i<points.length-2; i++)
+        {
+            // first check if the three points are on same line
+
+        }
         return false;
     }
 
