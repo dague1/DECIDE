@@ -35,7 +35,6 @@ public class CMVCalculator {
 
     /**
      * Used for calculate the center point (or middle point) between two 2D points
-     * If the three points are on the same line, the above equation should be true
      * @param point1 an array containing x coordinate and y coordinate of point 1
      * @param point2 an array containing x coordinate and y coordinate of point 2
      * @return the center point between point1 and point2
@@ -45,6 +44,76 @@ public class CMVCalculator {
         float center_x = (point1[0] + point2[0]) / 2.0f;
         float center_y = (point1[1] + point2[1]) / 2.0f;
         return new float[]{center_x, center_y};
+    }
+
+    /**
+     * Used for calculate the circumcenter of a triangle
+     * Formula according to https://en.wikipedia.org/wiki/Circumscribed_circle#Circumcircle_equations
+     * @param point1 an array containing x coordinate and y coordinate of triangle vertex 1
+     * @param point2 an array containing x coordinate and y coordinate of triangle vertex 2
+     * @param point3 an array containing x coordinate and y coordinate of triangle vertex 3
+     * @return the circumcenter of the input triangle
+     */
+    private static float[] getCircumcenter(float[] point1, float[] point2, float[] point3)
+    {
+        float D = 2.0f * (point1[0] * (point2[1]-point3[1]) + point2[0] * (point3[1]-point1[1]) + point3[0] * (point1[1] - point2[1]));
+        float Ax2 = point1[0] * point1[0];
+        float Ay2 = point1[1] * point1[1];
+        float Bx2 = point2[0] * point2[0];
+        float By2 = point2[1] * point2[1];
+        float Cx2 = point3[0] * point3[0];
+        float Cy2 = point3[1] * point3[1];
+        float U_x = 1.0f / D * ((Ax2 + Ay2) * (point2[1] - point3[1]) + (Bx2 + By2) * (point3[1] - point1[1]) + (Cx2 + Cy2) * (point1[1] - point2[1]));
+        float U_y = 1.0f / D * ((Ax2 + Ay2) * (point3[0] - point2[0]) + (Bx2 + By2) * (point1[0] - point3[0]) + (Cx2 + Cy2) * (point2[0] - point1[0]));
+        return new float[]{ U_x, U_y };
+    }
+
+    /**
+     * Used for calculate the minimum enclosing circle radius for the given three 2D points
+     * First check if the three points are collinear (apply also to three identical points)
+     * Then check if the three points satisfy that two points on the circle boundary and the other inside the circle
+     * If above two check failed, then compute the circumcenter O of the triangle and the radius would be |OA|
+     * A could be any point from the three points
+     * @param point1 an array containing x coordinate and y coordinate point1
+     * @param point2 an array containing x coordinate and y coordinate point2
+     * @param point3 an array containing x coordinate and y coordinate point3
+     * @return the radius of the minimum enclosing circle of the three input points
+     */
+    private static double calcMinimumEnclosingCircleRadius(float[] point1, float[] point2, float[] point3)
+    {
+        double radius;
+        // first check if the three points are collinear (this also apply if three points are identical)
+        if(checkCollinear(point1, point2, point3))
+        {
+            // the minimum enclosing circle radius should be
+            // half of the maximum length between L1_2, L1_3, L2_3
+            radius = Math.max(calcDistanceBetweenTwoPoints(point1, point2), calcDistanceBetweenTwoPoints(point1, point3));
+            radius = Math.max(radius, calcDistanceBetweenTwoPoints(point2,point3)) / 2.0d;
+            return radius;
+        }
+
+        // try all 2 points (on boundary) circles
+        // in this case, we assume the line between the 2 points is the circle's diameter
+        // if we could find the enclosing circle, compare the radius with RADIUS1
+        float[][] points = new float[][]{point1, point2, point3};
+        for (int m = 0; m < 3; m++) {
+            for (int n = m + 1; n < 3; n++) {
+                float[] center = getMiddlePoint(points[m], points[n]);
+                radius = calcDistanceBetweenTwoPoints(points[m], points[n]) / 2.0d;
+                // check if the third point is enclosed in the circle
+                // if so, we found the minimum enclosing circle (which is unique)
+                if (calcDistanceBetweenTwoPoints(center, points[3 - m - n]) < radius) {
+                    return radius;
+                }
+            }
+        }
+
+        // if above conditions are not met, then
+        // the 3 points (all on boundary) circle would be the minimum enclosing circle
+        // get the radius and compare it with RADIUS1
+        float[] center = getCircumcenter(point1, point2, point3);
+        radius = calcDistanceBetweenTwoPoints(center, point1);
+        return radius;
     }
 
     /**
