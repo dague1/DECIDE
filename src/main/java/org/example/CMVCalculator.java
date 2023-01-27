@@ -34,6 +34,20 @@ public class CMVCalculator {
     }
 
     /**
+     * Used for calculate the center point (or middle point) between two 2D points
+     * If the three points are on the same line, the above equation should be true
+     * @param point1 an array containing x coordinate and y coordinate of point 1
+     * @param point2 an array containing x coordinate and y coordinate of point 2
+     * @return the center point between point1 and point2
+     */
+    private static float[] getCenterPoint(float[] point1, float[] point2)
+    {
+        float center_x = (point1[0] + point2[0]) / 2.0f;
+        float center_y = (point1[1] + point2[1]) / 2.0f;
+        return new float[]{center_x, center_y};
+    }
+
+    /**
      * There exists at least one set of two consecutive data points that are a distance greater than
      * the length, LENGTH1, apart.
      * (0 ≤ LENGTH1)
