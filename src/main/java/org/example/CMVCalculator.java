@@ -138,16 +138,17 @@ public class CMVCalculator {
      * There exists at least one set of three consecutive data points that cannot all be contained
      * within or on a circle of radius RADIUS1.
      * (0 ≤ RADIUS1)
-     * @param
-     * @param
-     * @return
+     * @param points a 2D array indicating the 2D point coordinates
+     * @param RADIUS1 a double value given in the parameters
+     * @return whether there are three consecutive data points that
      */
     public static boolean checkLIC1(float[][] points, double RADIUS1) {
         if(RADIUS1 < 0) {return false;}
+        double radius;
         for (int i=0; i<points.length-2; i++)
         {
-            // first check if the three points are on same line
-
+            radius = calcMinimumEnclosingCircleRadius(points[i], points[i+1], points[i+2]);
+            if (radius > RADIUS1) return true;
         }
         return false;
     }
