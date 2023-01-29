@@ -64,4 +64,26 @@ public class CMVCalculatorTest {
         assertFalse(CMVCalculator.checkLIC1(points, 5.0d));
         assertFalse(CMVCalculator.checkLIC1(points, 5.1d));
     }
+
+    @Test
+    public void testCheckLIC10True() {
+        float[][] dataPoints = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}, {11, 12}, {13, 14}};
+        int EPTS = 1;
+        int FPTS = 1;
+        double AREA1 = 0.5;
+
+        assertTrue(CMVCalculator.checkLIC10(EPTS, FPTS, AREA1, dataPoints));
+    }
+
+    @Test
+    public void testCheckLIC10False() {
+        float[][] dataPoints = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}};
+        int EPTS = 2;
+        int FPTS = 2;
+        double AREA1 = 0.5;
+
+        assertFalse(CMVCalculator.checkLIC10(EPTS, FPTS, AREA1, dataPoints));
+    }
+
+
 }
