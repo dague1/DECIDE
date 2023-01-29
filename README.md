@@ -1,5 +1,8 @@
 # DD2480 Assignment 1: DECIDE - Group 4
 
+## Launch Interceptor Program
+This program decides whether an interceptor should belaunched based upon input radar tracking information. For exact specifications, see the pdf document named "decide".
+
 
 ## Git Conventions
 The goal is to keep the revision history as clean as possible.
