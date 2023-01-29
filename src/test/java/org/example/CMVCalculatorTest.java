@@ -64,4 +64,24 @@ public class CMVCalculatorTest {
         assertFalse(CMVCalculator.checkLIC1(points, 5.0d));
         assertFalse(CMVCalculator.checkLIC1(points, 5.1d));
     }
+
+    @Test
+    public void testCheckLIC4true() {
+        int NUMPOINTS = 10;
+        float[][] dataPoints = {{1, 2}, {-3, 4}, {5, -6}, {-7, -8}, {9, 10}, {-11, 12}, {13, -14}, {-15, -16}, {17, 18}, {-19, 20}};
+        int QPTS = 4;
+        int QUADS = 3;
+        assertTrue(CMVCalculator.checkLIC4(NUMPOINTS, dataPoints, QPTS, QUADS));
+    }
+
+    @Test
+    public void testCheckLIC4false() {
+        int NUMPOINTS = 5;
+        float[][] dataPoints = {{1, 2}, {-3, 4}, {5, -6}, {-7, -8}, {9, 10}, {-11, 12}, {13, -14}, {-15, -16}, {17, 18}, {-19, 20}};
+        int QPTS = 3;
+        int QUADS = 3;
+        assertFalse(CMVCalculator.checkLIC4(NUMPOINTS, dataPoints, QPTS, QUADS));
+    }
+
+
 }
