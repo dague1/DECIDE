@@ -55,20 +55,23 @@ public class CMVCalculator {
 
     /**
      * There exists at least one set of three consecutive data points that are the vertices of a triangle
-     * with area greater than AREA1.
-     * (0 ≤ AREA1)
-     * @param
-     * @param
-     * @return
+     * with area greater than AREA1. If there are less than three poitns, there is no triangle and the
+     * result will be false.
+     *
+     * @param points An array containing any number of points. Each point should consist of two coordinates.
+     * @param area The boundary value that should be smaller or equal to at-least triangle determined by successive
+     *             points for the result to be true.
+     * @return True if there is atleast one set of three consecutive points which create a triangle with an area
+     *         larger than the provided area paramter. False if there are less than three points.
      */
-    public static boolean checkLIC3(double[][] points, double area1) {
+    public static boolean checkLIC3(double[][] points, double area) {
         // There need to be atleast three consecutive data points for the condition to be true.
         if (points.length < 3) {
             return false;
         }
 
         for (int i = 0; i < points.length - 2; i++) {
-            if (MathUtils.calcTriangleArea(points[i], points[i + 1], points[i + 2]) >= area1) {
+            if (MathUtils.calcTriangleArea(points[i], points[i + 1], points[i + 2]) >= area) {
                 return true;
             }
         }
