@@ -179,12 +179,40 @@ public class CMVCalculator {
      * than AREA1. The condition is not met when NUMPOINTS < 5.
      * 1 ≤ E PTS, 1 ≤ F PTS
      * E PTS+F PTS ≤ NUMPOINTS−3
-     * @param
-     * @param
-     * @return
+     //write the @param and @return
+
+
+     * @param EPTS the number of consecutive intervening points between the first and second data points
+     * @param FPTS the number of consecutive intervening points between the second and third data points
+     * @param AREA1 the area of the triangle
+     * @param dataPoints the data points
+     * @return true if the condition is met, false otherwise
      */
-    public static boolean checkLIC10() {
+    public static boolean checkLIC10(int EPTS, int FPTS, double AREA1, float [][] dataPoints) {
+        if (dataPoints.length < 5) {
+            return false;
+        }
+        for (int i = 0; i < dataPoints.length - 3; i++) {
+            for (int j = i + EPTS + 1; j < dataPoints.length - 2; j++) {
+                for (int k = j + FPTS + 1; k < dataPoints.length - 1; k++) {
+                    if (calcArea(dataPoints[i], dataPoints[j], dataPoints[k]) > AREA1) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
+    }
+
+    /**
+     * Calculates the area of a triangle given three points
+     * @param p1 the first point
+     * @param p2 the second point
+     * @param p3 the third point
+     * @return the area of the triangle
+     */
+    private static double calcArea(float[] p1, float[] p2, float[] p3) {
+        return Math.abs((p1[0] * (p2[1] - p3[1]) + p2[0] * (p3[1] - p1[1]) + p3[0] * (p1[1] - p2[1])) / 2.0);
     }
 
 
