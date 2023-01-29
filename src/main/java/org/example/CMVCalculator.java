@@ -172,7 +172,24 @@ public class CMVCalculator {
      * @param
      * @return
      */
-    public static boolean checkLIC2() {
+    public static boolean checkLIC2(float[][] points, double EPSILON) {
+        if(EPSILON >= Math.PI || EPSILON < 0) {
+            return false;
+        }
+        for (int i = 0; i < points.length - 2; i++){
+            if (points[i] == points[i+1] || points[i+1] == points[i+2]){
+                continue;
+            }
+            float dotVec = (points[i][0] - points[i+1][0]) * (points[i+2][0] - points[i+1][0]) +
+                            (points[i][1] - points[i+1][1]) * (points[i+2][1] - points[i+2][1]);
+            double length1 = calcDistanceBetweenTwoPoints(points[i], points[i+1]);
+            double length2 = calcDistanceBetweenTwoPoints(points[i+2], points[i+1]);
+            double cosAngle = dotVec / length1 * length2;
+            double angle = Math.acos(cosAngle);
+            if(angle < Math.PI - EPSILON || angle > Math.PI + EPSILON){
+                return true;
+            }
+        }
         return false;
     }
 
