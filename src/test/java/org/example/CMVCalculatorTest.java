@@ -153,5 +153,16 @@ public class CMVCalculatorTest {
         assertTrue(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2, NUMPOINTS));
     }
 
-
+    public void testLIC7() {
+        float[] point0 = new float[]{0.0f, 0.0f};
+        float[] point1 = new float[]{0.0f, 4.0f};
+        float[] point2 = new float[]{0.0f, 4.0f};
+        float[] point3 = new float[]{0.0f, 4.0f};
+        float[][] points = new float[][]{point0, point1, point2, point3};
+     
+        assertTrue(CMVCalculator.checkLIC7(points, 3.9f, 1));
+        assertTrue(CMVCalculator.checkLIC7(points, 3.9f, 2));
+        assertFalse(CMVCalculator.checkLIC7(points, 4.0f, 1));
+        assertFalse(CMVCalculator.checkLIC7(points, 3.0f, 3));
+    }
 }
