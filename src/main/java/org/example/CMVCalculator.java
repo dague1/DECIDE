@@ -95,7 +95,7 @@ public class CMVCalculator {
 
     /**
      * There exists at least one set of two consecutive data points, (X[i],Y[i]) and (X[i+1],Y[i+1]), such
-     * that X[i+1] - X[i] < 0. (where i = j-1)
+     * that X[i+1] - X[i] < 0.
      * @param points An array consisting on points. Each point in the array must have exactly two values.
      *               There must be at least two points in the array.
      * @return Whether there exist two consecutive points such that the second point's x-coordinate is bigger than
