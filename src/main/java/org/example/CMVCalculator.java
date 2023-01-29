@@ -131,10 +131,11 @@ public class CMVCalculator {
         }
 
         for (int i = 0; i < points.length - 1; i++) {
-            if(MathUtils.calcDistanceBetweenTwoPoints(points[i], points[i + 1]) > LENGTH1){
+            if (MathUtils.calcDistanceBetweenTwoPoints(points[i], points[i + 1]) > LENGTH1){
                 return true;
             }
         }
+
         return false;
     }
 
