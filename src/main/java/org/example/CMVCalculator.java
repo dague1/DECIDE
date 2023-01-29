@@ -168,9 +168,9 @@ public class CMVCalculator {
      * is not satisfied by those three points.
      * (0 ≤ EPSILON < PI)
      *
-     * @param
-     * @param
-     * @return
+     * @param points a 2D array indicating the 2D point coordinates
+     * @param EPSILON a double value given in the parameters
+     * @return whether there exists at least one set of three consecutive data points that satisfy above conditions
      */
     public static boolean checkLIC2(float[][] points, double EPSILON) {
         if(EPSILON >= Math.PI || EPSILON < 0) {
@@ -180,11 +180,13 @@ public class CMVCalculator {
             if (points[i] == points[i+1] || points[i+1] == points[i+2]){
                 continue;
             }
+            // calculate angle using vector doc product
+            // note that point[i+1] is the vertex of the angle
             float dotVec = (points[i][0] - points[i+1][0]) * (points[i+2][0] - points[i+1][0]) +
-                            (points[i][1] - points[i+1][1]) * (points[i+2][1] - points[i+2][1]);
+                            (points[i][1] - points[i+1][1]) * (points[i+2][1] - points[i+1][1]);
             double length1 = calcDistanceBetweenTwoPoints(points[i], points[i+1]);
             double length2 = calcDistanceBetweenTwoPoints(points[i+2], points[i+1]);
-            double cosAngle = dotVec / length1 * length2;
+            double cosAngle = dotVec / (length1 * length2);
             double angle = Math.acos(cosAngle);
             if(angle < Math.PI - EPSILON || angle > Math.PI + EPSILON){
                 return true;

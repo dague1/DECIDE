@@ -67,8 +67,8 @@ public class CMVCalculatorTest {
 
     @Test
     public void testThreeAndFourPointsLIC2(){
-        float[] point1 = new float[]{0.0f, 0.0f};
-        float[] point2 = new float[]{0.0f, 1.0f};
+        float[] point1 = new float[]{0.0f, 1.0f};
+        float[] point2 = new float[]{0.0f, 0.0f};
         float[] point3 = new float[]{1.0f, 0.0f};
         float[][] points = new float[][]{point1, point2, point3};
         // Epsilon invalid
@@ -85,12 +85,12 @@ public class CMVCalculatorTest {
         assertFalse(CMVCalculator.checkLIC2(points, 0.5d * Math.PI));
 
         // angle123 = pi, angle234 = 0.25 * pi
-        point3 = new float[]{0.0f, 2.0f};
-        float[] point4 = new float[]{1.0f, 1.0f};
+        point3 = new float[]{0.0f, -1.0f};
+        float[] point4 = new float[]{1.0f, 0.0f};
         points = new float[][]{point1, point2, point3, point4};
         assertTrue(CMVCalculator.checkLIC2(points, 0));
         // angle123 = pi, angle234 = 0.5 * pi
-        point4[1] = 2.0f;
+        point4[1] = -1.0f;
         assertFalse(CMVCalculator.checkLIC2(points, 0.5*Math.PI));
     }
 }
