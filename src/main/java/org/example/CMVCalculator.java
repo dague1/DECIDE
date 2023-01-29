@@ -358,10 +358,10 @@ public class CMVCalculator {
      * @param AREA1 - The area of the triangle
      * @param AREA2 - The area of the triangle
      * @param dataPoints - The data points
-     * @return true if the LIC is true, false otherwise
+     * @return true if constaints and both conditions satisfied, false otherwise
      */
 
-    public static boolean checkLIC14( int EPTS, int FPTS, double AREA1, double AREA2, float [][] dataPoints) {
+    public static boolean checkLIC14( int EPTS, int FPTS, double AREA1, double AREA2, double [][] dataPoints) {
 
         if (dataPoints.length < 5) {
             return false;
@@ -370,17 +370,22 @@ public class CMVCalculator {
         if (AREA2 < 0) {
             return false;
         }
-
-        // Check if there exist three data points separated by exactly E PTS and F PTS consecutive
-        // intervening points, respectively, that are the vertices of a triangle with area greater than AREA1
-
+        boolean area1requirementIsSatisfied = false;
         for (int i = 0; i < dataPoints.length - 2 - EPTS - FPTS; i++) {
-            double area = calcArea(dataPoints[i], dataPoints[i + EPTS + 1], dataPoints[i + EPTS + FPTS + 2]);
-            if (area > AREA1 && area < AREA2) {
-                return true;
+            double area = MathUtils.calcTriangleArea(dataPoints[i], dataPoints[i + EPTS + 1], dataPoints[i + EPTS + FPTS + 2]);
+            if (area > AREA1) {
+                area1requirementIsSatisfied = true;
             }
         }
-        return false;
+        boolean area2requirementIsSatisfied = false;
+        for (int i = 0; i < dataPoints.length - 2 - EPTS - FPTS; i++) {
+            double area = MathUtils.calcTriangleArea(dataPoints[i], dataPoints[i + EPTS + 1], dataPoints[i + EPTS + FPTS + 2]);
+            if (area < AREA2) {
+                area2requirementIsSatisfied = true;
+            }
+        }
+
+        return area2requirementIsSatisfied && area1requirementIsSatisfied;
     }
 
     /**

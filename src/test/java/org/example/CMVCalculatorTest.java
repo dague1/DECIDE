@@ -71,16 +71,12 @@ public class CMVCalculatorTest {
         int FPTS = 1;
         double AREA1 = 10;
         double AREA2 = 20;
-        float[][] dataPoints = new float[][] {
-                {1, 2}, {3, 4}, {5, 6}, {7, 8},
+        double[][] dataPoints = new double[][] {
+                {1, 2}, {1, 1}, {3, 1}, {22, 8},
                 {9, 10}, {11, 12}, {13, 14}, {15, 16}
         };
+        //returns true because the area of the triangle formed by the first, third, and fourth data points is 16.5
 
-        /*
-        returns true because the area of the triangle formed by the first,
-         fourth, and fifth data points is greater than 10 and less than 20,
-         and the second and third data points are separated by 2 and 1 consecutive intervening points respectively.
-        */
         assertTrue(CMVCalculator.checkLIC14(EPTS, FPTS, AREA1, AREA2, dataPoints));
     }
 
@@ -90,13 +86,12 @@ public class CMVCalculatorTest {
         int FPTS = 1;
         double AREA1 = 30;
         double AREA2 = 40;
-        float[][] dataPoints = new float[][] {
+        double[][] dataPoints = new double[][] {
                 {1, 2}, {3, 4}, {5, 6}, {7, 8},
                 {9, 10}, {11, 12}, {13, 14}, {15, 16}
         };
 
-        //should return false because the area of the triangle formed by the first,
-        // fourth, and fifth data points is not greater than 30 and less than 40
+        //returns false because all of these points form a line with area of 0 between any 3 of them
         assertFalse(CMVCalculator.checkLIC14(EPTS, FPTS, AREA1, AREA2, dataPoints));
     }
 
