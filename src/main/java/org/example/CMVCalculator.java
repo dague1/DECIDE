@@ -125,7 +125,7 @@ public class CMVCalculator {
      * @param LENGTH1 a double value given in the parameters
      * @return whether there are two consecutive data points for which the distance is bigger than the provided length parameter
      */
-    public static boolean checkLIC0(float[][] points, double LENGTH1) {
+    public static boolean checkLIC0(double[][] points, double LENGTH1) {
         if(LENGTH1 < 0) {
             return false;
         }
@@ -250,7 +250,29 @@ public class CMVCalculator {
      * @param
      * @return
      */
-    public static boolean checkLIC6() {
+    public static boolean checkLIC6(double[][] points, final int N_POINTS, final int DIST) {
+        // The condition can not be met if there are less than three points.
+        if (points.length < 3) {
+            return false;
+        }
+
+        for (int i = 0; i < points.length - N_POINTS; i++) {
+            double[] startPoint = points[i];
+            double[] endPoint = points[i + N_POINTS - 1];
+
+            for (int j = i; j < i + N_POINTS; j++) {
+                double[] curPoint = points[i + 1];
+
+                double dist = startPoint[0] == endPoint[0] && startPoint[1] == endPoint[1]
+                        ? MathUtils.calcDistanceBetweenTwoPoints(startPoint, curPoint)
+                        : MathUtils.calcDistanceBetweenPointAndLine(curPoint, startPoint, endPoint);
+
+                if (dist >= DIST) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
