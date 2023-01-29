@@ -64,4 +64,33 @@ public class CMVCalculatorTest {
         assertFalse(CMVCalculator.checkLIC1(points, 5.0d));
         assertFalse(CMVCalculator.checkLIC1(points, 5.1d));
     }
+
+    @Test
+    public void testThreeAndFourPointsLIC2(){
+        float[] point1 = new float[]{0.0f, 0.0f};
+        float[] point2 = new float[]{0.0f, 1.0f};
+        float[] point3 = new float[]{1.0f, 0.0f};
+        float[][] points = new float[][]{point1, point2, point3};
+        // Epsilon invalid
+        assertFalse(CMVCalculator.checkLIC2(points, -1.0d));
+        // 0.5*pi < pi - 0.25*pi
+        assertTrue(CMVCalculator.checkLIC2(points, 0.25d * Math.PI));
+        // 0.5*pi = pi - 0.5*pi
+        assertFalse(CMVCalculator.checkLIC2(points, 0.5d * Math.PI));
+        // 0.5*pi > pi - 0.75*pi
+        assertFalse(CMVCalculator.checkLIC2(points, 0.75d * Math.PI));
+
+        // angle do not exist
+        points[2] = point2;
+        assertFalse(CMVCalculator.checkLIC2(points, 0.5d * Math.PI));
+
+        // angle123 = pi, angle234 = 0.25 * pi
+        point3 = new float[]{0.0f, 2.0f};
+        float[] point4 = new float[]{1.0f, 1.0f};
+        points = new float[][]{point1, point2, point3, point4};
+        assertTrue(CMVCalculator.checkLIC2(points, 0));
+        // angle123 = pi, angle234 = 0.5 * pi
+        point4[1] = 2.0f;
+        assertFalse(CMVCalculator.checkLIC2(points, 0.5*Math.PI));
+    }
 }
