@@ -239,16 +239,26 @@ public class CMVCalculator {
     }
 
     /**
-     * There exists at least one set of N PTS consecutive data points such that at least one of the
+     * Check LIC6
+     * <br>
+     * There exists at least one set of N_POINTS consecutive data points such that at least one of the
      * points lies a distance greater than DIST from the line joining the first and last of these N PTS
-     * points. If the first and last points of these N PTS are identical, then the calculated distance
+     * points. If the first and last points of these N_POINTS are identical, then the calculated distance
      * to compare with DIST will be the distance from the coincident point to all other points of
      * the N PTS consecutive points. The condition is not met when NUMPOINTS < 3.
-     * (3 ≤ N PTS ≤ NUMPOINTS), (0 ≤ DIST)
+     * (3 ≤ N_POINTS ≤ NUMPOINTS), (0 ≤ DIST)
      *
-     * @param
-     * @param
-     * @return
+     * @param points An array of points. Each element should contain exactly two points representing x and y-coordinate.
+     * @param N_POINTS The number of consecutive data points for the check above.
+     * @param DIST The distance threshold for the condition.
+     * @return False if less than three points are provided. Otherwise true only if there exist N_POINTS consecutive
+     *         points such that:
+     *         <ol>
+     *             <li>The first and last point are the same and there is atleast one point further
+     *             than the distance parameter to these two points</li>
+     *             <li>The first and the last points are not the same and there is at least one point further
+     *             than away from the line defined by these two points than the provided distance.</li>
+     *         </ol>either (1) the first and last of these con
      */
     public static boolean checkLIC6(double[][] points, final int N_POINTS, final double DIST) {
         // The condition can not be met if there are less than three points.
