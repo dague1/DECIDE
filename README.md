@@ -12,3 +12,11 @@ The goal is to keep the revision history as clean as possible.
 - Branches should be associated with an issue and the issue number should be contained in the branch name. Ideally, you let Github create the branch automatically. 
 - Branches should be merged into the main branch through a pull request (PR). The pull request should be merged using the 'Squash and Merge' option.
 - Commits should be atomic. They should change or add exactly one thing to the codebase. Squash your commits if needed to achieve this. 
+
+## Contributions
+
+### David:
+### Marten: 
+### Chenyi: 
+### Nils: 
+### Karlis: 
