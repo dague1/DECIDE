@@ -146,7 +146,7 @@ public class CMVCalculatorTest {
         assertFalse(CMVCalculator.checkLIC4(dataPoints, QPTS, QUADS));
     }
 
-
+    @Test
     public void testLIC3FalseForLessThanThreePoints() {
         for (int i = 0; i <= 2; i++) {
             double[][] points = new double[i][2];
