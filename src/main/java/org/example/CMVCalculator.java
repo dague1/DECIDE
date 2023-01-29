@@ -442,12 +442,31 @@ public class CMVCalculator {
      * circle of radius RADIUS2. Both parts must be true for the LIC to be true. The condition is
      * not met when NUMPOINTS < 5.
      * 0 ≤ RADIUS2
-     * @param
-     * @param
-     * @return
+
+     *
+     * @param points An array consisting on points. Each point in the array must have exactly two values. There must be at least two points in the array.
+     * @param aPts first separation size
+     * @param bPts second separation size
+     * @param radius1 specified radius of the first circle
+     * @param radius2 specified radius of the second circle
+     * @return whether the points in the points-array meet the aforementioned conditions.
      */
-    public static boolean checkLIC13() {
-        return false;
+    public static boolean checkLIC13(float[][] points, int aPts, int bPts, double radius1, double radius2) {
+
+        if(points.length < 5 ) return false;
+        if(radius2 < 0) throw new IllegalArgumentException("Faulty input");
+
+        boolean condition1 = false;
+        boolean condition2 = false;
+        double radius;
+
+        for(int i = 0;i < points.length - aPts - bPts - 2; ++i) {
+            radius = calcMinimumEnclosingCircleRadius(points[i], points[i+aPts+1], points[i+aPts+bPts+1]);
+            if(radius >= radius1) condition1 = true;
+            if(radius <= radius2) condition2 = true;
+        }
+
+        return (condition1 && condition2);
     }
 
     /**
