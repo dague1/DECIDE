@@ -353,15 +353,45 @@ public class CMVCalculator {
      * AREA2. Both parts must be true for the LIC to be true. The condition is not met when
      * NUMPOINTS < 5.
      * 0 ≤ AREA2
-     *
-     * @param
-     * @param
-     * @return
+     * @param EPTS - The number of consecutive intervening points
+     * @param FPTS - The number of consecutive intervening points
+     * @param AREA1 - The area of the triangle
+     * @param AREA2 - The area of the triangle
+     * @param dataPoints - The data points
+     * @return true if the LIC is true, false otherwise
      */
 
-    public static boolean checkLIC14() {
+    public static boolean checkLIC14( int EPTS, int FPTS, double AREA1, double AREA2, float [][] dataPoints) {
+
+        if (dataPoints.length < 5) {
+            return false;
+        }
+
+        if (AREA2 < 0) {
+            return false;
+        }
+
+        // Check if there exist three data points separated by exactly E PTS and F PTS consecutive
+        // intervening points, respectively, that are the vertices of a triangle with area greater than AREA1
+
+        for (int i = 0; i < dataPoints.length - 2 - EPTS - FPTS; i++) {
+            double area = calcArea(dataPoints[i], dataPoints[i + EPTS + 1], dataPoints[i + EPTS + FPTS + 2]);
+            if (area > AREA1 && area < AREA2) {
+                return true;
+            }
+        }
         return false;
     }
+
+    /**
+     * Calculates the area of a triangle given three points
+     * @param p1 - The first point
+     * @param p2 - The second point
+     * @param p3 - The third point
+     * @return the area of the triangle
+     */
+    private static double calcArea(float[] p1, float[] p2, float[] p3) {
+        return 0.5 * Math.abs((p1[0] * (p2[1] - p3[1]) + p2[0] * (p3[1] - p1[1]) + p3[0] * (p1[1] - p2[1])));
 
     public static boolean[] calculateCMV(float[][] points, Parameter parameter) {
 
