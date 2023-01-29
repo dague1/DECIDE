@@ -116,9 +116,8 @@ public class CMVCalculatorTest {
         double radius2 = 1;
         int aPts = 1;
         int bPts = 1;
-        int NUMPOINTS = 4;
         float[][] points = new float[][]{point1, point2, point3, point4};
-        assertFalse(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2, NUMPOINTS));
+        assertFalse(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2));
     }
 
     @Test
@@ -132,9 +131,8 @@ public class CMVCalculatorTest {
         double radius2 = 1;
         int aPts = 1;
         int bPts = 1;
-        int NUMPOINTS = 5;
         float[][] points = new float[][]{point1, point2, point3, point4, point5};
-        assertFalse(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2, NUMPOINTS));
+        assertFalse(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2));
     }
 
     @Test
@@ -144,13 +142,16 @@ public class CMVCalculatorTest {
         float[] point3 = new float[]{2.0f, 0.0f};
         float[] point4 = new float[]{4.0f, 0.0f};
         float[] point5 = new float[]{4.0f, 0.0f};
+
         double radius1 = 1;
         double radius2 = 5;
+
         int aPts = 1;
         int bPts = 1;
-        int NUMPOINTS = 5;
+
         float[][] points = new float[][]{point1, point2, point3, point4, point5};
-        assertTrue(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2, NUMPOINTS));
+
+        assertTrue(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2));
     }
 
     public void testLIC7() {

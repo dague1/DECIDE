@@ -380,16 +380,16 @@ public class CMVCalculator {
      * @param NUMPOINTS number of points on the radar
      * @return whether the points in the points-array meet the aforementioned conditions.
      */
-    public static boolean checkLIC13(float[][] points, int aPts, int bPts, double radius1, double radius2, int NUMPOINTS) {
+    public static boolean checkLIC13(float[][] points, int aPts, int bPts, double radius1, double radius2) {
 
-        if(NUMPOINTS < 5 ) return false;
+        if(points.length < 5 ) return false;
         if(radius2 < 0) throw new IllegalArgumentException("Faulty input");
 
         boolean condition1 = false;
         boolean condition2 = false;
         double radius;
 
-        for(int i = 0;i < NUMPOINTS - aPts - bPts - 2; ++i) {
+        for(int i = 0;i < points.length - aPts - bPts - 2; ++i) {
             radius = calcMinimumEnclosingCircleRadius(points[i], points[i+aPts+1], points[i+aPts+bPts+1]);
             if(radius >= radius1) condition1 = true;
             if(radius <= radius2) condition2 = true;
