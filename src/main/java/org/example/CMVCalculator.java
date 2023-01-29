@@ -389,14 +389,14 @@ public class CMVCalculator {
      * @param dataPoints the data points
      * @return true if the condition is met, false otherwise
      */
-    public static boolean checkLIC10(int EPTS, int FPTS, double AREA1, float [][] dataPoints) {
+    public static boolean checkLIC10(int EPTS, int FPTS, double AREA1, double [][] dataPoints) {
         if (dataPoints.length < 5) {
             return false;
         }
         for (int i = 0; i < dataPoints.length - 3; i++) {
             for (int j = i + EPTS + 1; j < dataPoints.length - 2; j++) {
                 for (int k = j + FPTS + 1; k < dataPoints.length - 1; k++) {
-                    if (calcArea(dataPoints[i], dataPoints[j], dataPoints[k]) > AREA1) {
+                    if (MathUtils.calcTriangleArea(dataPoints[i], dataPoints[j], dataPoints[k]) > AREA1) {
                         return true;
                     }
                 }
@@ -405,16 +405,6 @@ public class CMVCalculator {
         return false;
     }
 
-    /**
-     * Helper function to calculate the area of a triangle given 3 points
-     * @param p1 1st point
-     * @param p2 2nd point
-     * @param p3 3rd point
-     * @return area of a triangle given the vertices of 3 points
-     */
-    public static double calcArea(float[] p1, float[] p2, float[] p3) {
-        return 0.5 * Math.abs((p1[0] * (p2[1] - p3[1]) + p2[0] * (p3[1] - p1[1]) + p3[0] * (p1[1] - p2[1])));
-    }
 
     /**
      * There exists at least one set of two data points, (X[i],Y[i]) and (X[j],Y[j]), separated by

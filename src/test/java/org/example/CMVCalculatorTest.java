@@ -82,7 +82,7 @@ public class CMVCalculatorTest {
     @Test
 
     public void testCheckLIC10True() {
-        float[][] dataPoints = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}, {11, 12}, {13, 14}};
+        double[][] dataPoints = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}, {11, 12}, {13, 14}};
         int EPTS = 1;
         int FPTS = 1;
         double AREA1 = 0.5;
@@ -93,7 +93,7 @@ public class CMVCalculatorTest {
 
     @Test
     public void testCheckLIC10False() {
-        float[][] dataPoints = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}};
+        double[][] dataPoints = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}};
         int EPTS = 2;
         int FPTS = 2;
         double AREA1 = 0.5;
@@ -102,13 +102,6 @@ public class CMVCalculatorTest {
     }
 
     @Test
-    public void testCalcAreaTrue() {
-        float[] p1 = {1, 2};
-        float[] p2 = {3, 4};
-        float[] p3 = {5, 6};
-        assertEquals(6.0, CMVCalculator.calcArea(p1, p2, p3), 0.01);
-    }
-
     public void testCheckLIC4true() {
         float[][] dataPoints = {{1, 2}, {-3, 4}, {5, -6}, {-7, -8}, {9, 10}, {-11, 12}, {13, -14}, {-15, -16}, {17, 18}, {-19, 20}};
         int QUADS = 3;
