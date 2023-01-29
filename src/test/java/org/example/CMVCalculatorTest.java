@@ -71,7 +71,8 @@ public class CMVCalculatorTest {
         int EPTS = 1;
         int FPTS = 1;
         double AREA1 = 0.5;
-
+        // the points (1, 2), (3, 4), and (7, 8) form a triangle with area greater than 0.5 (the value of AREA1).
+        // These points are separated by 1 (the value of EPTS) and 2 (the value of FPTS) consecutive intervening points, respectively
         assertTrue(CMVCalculator.checkLIC10(EPTS, FPTS, AREA1, dataPoints));
     }
 
@@ -81,7 +82,7 @@ public class CMVCalculatorTest {
         int EPTS = 2;
         int FPTS = 2;
         double AREA1 = 0.5;
-
+        //here the only option is (1,2), (5, 6) and (9, 10) but the points are on a straight line so the area is 0
         assertFalse(CMVCalculator.checkLIC10(EPTS, FPTS, AREA1, dataPoints));
     }
 
