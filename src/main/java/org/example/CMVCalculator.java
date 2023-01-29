@@ -66,11 +66,38 @@ public class CMVCalculator {
      * is in quadrant I, the point (-l,0) is in quadrant II, the point (0,-l) is in quadrant III, the point
      * (0,1) is in quadrant I and the point (1,0) is in quadrant I.
      * (2 ≤ Q PTS ≤ NUMPOINTS), (1 ≤ QUADS ≤ 3)
-     * @param
-     * @param
-     * @return
+     * @param NUMPOINTS an integer representing the total number of data points
+     * @param dataPoints 2D array of floats, where each sub-array represents a point in the form of [x, y]
+     * @param QPTS an integer representing the number of consecutive points to check in each set
+     * @param QUADS an integer representing the number of quadrants that must be present in a set of QPTS points for the method to return true
+     * @return true if at least one set of consecutive QPTS points in dataPoints fall in more than QUADS quadrants, false otherwise.
      */
-    public static boolean checkLIC4() {
+    public static boolean checkLIC4(int NUMPOINTS, float[][] dataPoints, int QPTS, int QUADS) {
+        for (int i = 0; i <= NUMPOINTS - QPTS; i++) {
+            int[] quadrantCount = new int[4];
+            for (int j = i; j < i + QPTS; j++) {
+                float x = dataPoints[j][0];
+                float y = dataPoints[j][1];
+                if (x >= 0 && y >= 0) {
+                    quadrantCount[0]++;
+                } else if (x < 0 && y >= 0) {
+                    quadrantCount[1]++;
+                } else if (x <= 0 && y < 0) {
+                    quadrantCount[2]++;
+                } else if (x > 0 && y < 0) {
+                    quadrantCount[3]++;
+                }
+            }
+            int quadrants = 0;
+            for (int count : quadrantCount) {
+                if (count > 0) {
+                    quadrants++;
+                }
+            }
+            if (quadrants > QUADS) {
+                return true;
+            }
+        }
         return false;
     }
 
