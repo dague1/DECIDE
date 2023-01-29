@@ -105,4 +105,53 @@ public class CMVCalculatorTest {
         assertTrue(CMVCalculator.checkLIC3(points, 13.5));
         assertFalse(CMVCalculator.checkLIC3(points, 15));
     }
+
+    @Test
+    public void testLIC13TooFewPoints() {
+        float[] point1 = new float[]{1.5f, 3.0f};
+        float[] point2 = new float[]{1.5f, 0.0f};
+        float[] point3 = new float[]{1.5f, 3.0f};
+        float[] point4 = new float[]{1.5f, 0.0f};
+        double radius1 = 1;
+        double radius2 = 1;
+        int aPts = 1;
+        int bPts = 1;
+        int NUMPOINTS = 4;
+        float[][] points = new float[][]{point1, point2, point3, point4};
+        assertFalse(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2, NUMPOINTS));
+    }
+
+    @Test
+    public void testLIC13OnlyOneConditionMet() {
+        float[] point1 = new float[]{0.0f, 0.0f};
+        float[] point2 = new float[]{2.0f, 0.0f};
+        float[] point3 = new float[]{2.0f, 0.0f};
+        float[] point4 = new float[]{4.0f, 0.0f};
+        float[] point5 = new float[]{4.0f, 0.0f};
+        double radius1 = 1;
+        double radius2 = 1;
+        int aPts = 1;
+        int bPts = 1;
+        int NUMPOINTS = 5;
+        float[][] points = new float[][]{point1, point2, point3, point4, point5};
+        assertFalse(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2, NUMPOINTS));
+    }
+
+    @Test
+    public void testLIC13BothConditionMet() {
+        float[] point1 = new float[]{0.0f, 0.0f};
+        float[] point2 = new float[]{2.0f, 0.0f};
+        float[] point3 = new float[]{2.0f, 0.0f};
+        float[] point4 = new float[]{4.0f, 0.0f};
+        float[] point5 = new float[]{4.0f, 0.0f};
+        double radius1 = 1;
+        double radius2 = 5;
+        int aPts = 1;
+        int bPts = 1;
+        int NUMPOINTS = 5;
+        float[][] points = new float[][]{point1, point2, point3, point4, point5};
+        assertTrue(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2, NUMPOINTS));
+    }
+
+
 }
