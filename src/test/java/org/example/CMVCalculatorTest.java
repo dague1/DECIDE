@@ -108,6 +108,8 @@ public class CMVCalculatorTest {
         int gPts = 1;
         assertTrue(CMVCalculator.checkLIC11(points, gPts));
 
+    }
+        @Test
     public void testCheckLIC10True() {
         double[][] dataPoints = {{0, 4}, {4, 0}, {0, 0}, {7, 8}, {9, 10}, {11, 12}, {13, 14}};
         int EPTS = 1;
