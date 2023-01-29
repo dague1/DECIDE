@@ -105,4 +105,47 @@ public class CMVCalculatorTest {
         assertTrue(CMVCalculator.checkLIC3(points, 13.5));
         assertFalse(CMVCalculator.checkLIC3(points, 15));
     }
+
+    @Test
+    public void testLIC12TooFewPoints() {
+        float[] point1 = new float[]{1.5f, 3.0f};
+        float[] point2 = new float[]{1.5f, 0.0f};
+        double length1 = 1;
+        double length2 = 1;
+        int kPts = 0;
+        int NUMPOINTS = 2;
+        float[][] points = new float[][]{point1, point2};
+        int gPts = 0;
+        assertFalse(CMVCalculator.checkLIC12(points, length1, length2, kPts, NUMPOINTS));
+    }
+
+    @Test
+    public void testLIC12BothConditionsMet() {
+        float[] point1 = new float[]{0.0f, 0.0f};
+        float[] point2 = new float[]{2.0f, 2.0f};
+        float[] point3 = new float[]{2.1f, 2.1f};
+        float[] point4 = new float[]{2.1f, 2.1f};
+        double length1 = 1;
+        double length2 = 1;
+        int kPts = 1;
+        int NUMPOINTS = 4;
+        float[][] points = new float[][]{point1, point2, point3, point4};
+        assertTrue(CMVCalculator.checkLIC12(points, length1, length2, kPts, NUMPOINTS));
+    }
+
+    @Test
+    public void testLIC12OnlyOneConditionMet() {
+        float[] point1 = new float[]{0.0f, 0.0f};
+        float[] point2 = new float[]{2.0f, 2.0f};
+        float[] point3 = new float[]{2.1f, 2.1f};
+        float[] point4 = new float[]{5.1f, 5.1f};
+        double length1 = 1;
+        double length2 = 1;
+        int kPts = 1;
+        int NUMPOINTS = 4;
+        float[][] points = new float[][]{point1, point2, point3, point4};
+        assertFalse(CMVCalculator.checkLIC12(points, length1, length2, kPts, NUMPOINTS));
+    }
+
+
 }

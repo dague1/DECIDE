@@ -341,12 +341,30 @@ public class CMVCalculator {
      * for the LIC to be true. The condition is not met when NUMPOINTS < 3.
      * 0 ≤ LENGTH2
      *
-     * @param
-     * @param
-     * @return
+     * @param points
+     * @param length1
+     * @param length2
+     * @param kPts
+     * @param NUMPOINTS
+     * @return whether the points satisfy the aforementioned conditions.
      */
-    public static boolean checkLIC12() {
-        return false;
+    public static boolean checkLIC12(float[][] points, double length1, double length2, int kPts, int NUMPOINTS) {
+
+        boolean condition1 = false;
+        boolean condition2 = false;
+
+        if(NUMPOINTS < 3) return false;
+
+        if(length2 < 0) {
+            throw new IllegalArgumentException("Faulty input");
+        }
+
+        for(int i = 0; i < NUMPOINTS - kPts - 1; ++i) {
+         if(calcDistanceBetweenTwoPoints(points[i], points[i + kPts + 1]) > length1) condition1 = true;
+         if(calcDistanceBetweenTwoPoints(points[i], points[i + kPts + 1]) < length2) condition2 = true;
+        }
+
+        return (condition1 && condition2);
     }
 
     /**
