@@ -86,5 +86,12 @@ public class CMVCalculatorTest {
         assertFalse(CMVCalculator.checkLIC10(EPTS, FPTS, AREA1, dataPoints));
     }
 
+    @Test
+    public void testCalcAreaTrue() {
+        float[] p1 = {1, 2};
+        float[] p2 = {3, 4};
+        float[] p3 = {5, 6};
+        assertEquals(6.0, CMVCalculator.calcArea(p1, p2, p3), 0.01);
+    }
 
 }

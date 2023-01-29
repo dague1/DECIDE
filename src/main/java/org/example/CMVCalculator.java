@@ -313,6 +313,16 @@ public class CMVCalculator {
         return false;
     }
 
+    /**
+     * Helper function to calculate the area of a triangle given 3 points
+     * @param p1 1st point
+     * @param p2 2nd point
+     * @param p3 3rd point
+     * @return area of a triangle given the vertices of 3 points
+     */
+    public static double calcArea(float[] p1, float[] p2, float[] p3) {
+        return 0.5 * Math.abs((p1[0] * (p2[1] - p3[1]) + p2[0] * (p3[1] - p1[1]) + p3[0] * (p1[1] - p2[1])));
+    }
 
     /**
      * There exists at least one set of two data points, (X[i],Y[i]) and (X[j],Y[j]), separated by
