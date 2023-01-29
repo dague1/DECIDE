@@ -2,8 +2,10 @@ package org.example;
 
 import org.junit.Test;
 
-
+import static org.example.OperationType.*;
 import static org.junit.jupiter.api.Assertions.*;
+
+
 
 public class CMVCalculatorTest {
 
@@ -109,7 +111,55 @@ public class CMVCalculatorTest {
     }
 
     @Test
+    public void testLIC11TooFewPoints() {
+        float[] point1 = new float[]{1.5f, 3.0f};
+        float[] point2 = new float[]{1.5f, 0.0f};
+        float[][] points = new float[][]{point1, point2};
+        int gPts = 0;
+        assertFalse(CMVCalculator.checkLIC11(points, gPts));
+    }
 
+    @Test
+    public void testLIC11WhenLICNotMet() {
+        float[] point1 = new float[]{0.0f, 0.0f};
+        float[] point2 = new float[]{0.0f, 1.0f};
+        float[] point3 = new float[]{1.0f, 3.0f};
+        float[][] points = new float[][]{point1, point2, point3};
+        int gPts = 1;
+        assertFalse(CMVCalculator.checkLIC11(points, gPts));
+    }
+    @Test
+    public void testLIC11WhenLICMet() {
+        float[] point1 = new float[]{3.0f, 0.0f};
+        float[] point2 = new float[]{0.0f, 1.0f};
+        float[] point3 = new float[]{1.0f, 3.0f};
+        float[][] points = new float[][]{point1, point2, point3};
+        int gPts = 1;
+        assertTrue(CMVCalculator.checkLIC11(points, gPts));
+
+    }
+        @Test
+    public void testCheckLIC10True() {
+        double[][] dataPoints = {{0, 4}, {4, 0}, {0, 0}, {7, 8}, {9, 10}, {11, 12}, {13, 14}};
+        int EPTS = 1;
+        int FPTS = 1;
+        double AREA1 = 0.5;
+        // the points {0, 4}, {4, 0}, {0, 0} form a triangle with area greater than 0.5 (the value of AREA1).
+        // These points are separated by 1 (the value of EPTS) and 1 (the value of FPTS) consecutive intervening points, respectively
+        assertTrue(CMVCalculator.checkLIC10(EPTS, FPTS, AREA1, dataPoints));
+    }
+
+    @Test
+    public void testCheckLIC10False() {
+        double[][] dataPoints = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}};
+        int EPTS = 2;
+        int FPTS = 2;
+        double AREA1 = 0.5;
+        //here the only option is (1,2), (5, 6) and (9, 10) but the points are on a straight line so the area is 0
+        assertFalse(CMVCalculator.checkLIC10(EPTS, FPTS, AREA1, dataPoints));
+    }
+    
+    @Test
     public void testCheckLIC4true() {
         float[][] dataPoints = {{1, 2}, {-3, 4}, {5, -6}, {-7, -8}, {9, 10}, {-11, 12}, {13, -14}, {-15, -16}, {17, 18}, {-19, 20}};
         int QUADS = 3;
@@ -127,7 +177,7 @@ public class CMVCalculatorTest {
         assertFalse(CMVCalculator.checkLIC4(dataPoints, QPTS, QUADS));
     }
 
-
+    @Test
     public void testLIC3FalseForLessThanThreePoints() {
         for (int i = 0; i <= 2; i++) {
             double[][] points = new double[i][2];
@@ -156,6 +206,93 @@ public class CMVCalculatorTest {
     }
 
     @Test
+    public void testLIC12TooFewPoints() {
+        float[] point1 = new float[]{1.5f, 3.0f};
+        float[] point2 = new float[]{1.5f, 0.0f};
+        double length1 = 1;
+        double length2 = 1;
+        int kPts = 0;
+        int NUMPOINTS = 2;
+        float[][] points = new float[][]{point1, point2};
+        int gPts = 0;
+        assertFalse(CMVCalculator.checkLIC12(points, length1, length2, kPts, NUMPOINTS));
+    }
+
+    @Test
+    public void testLIC12BothConditionsMet() {
+        float[] point1 = new float[]{0.0f, 0.0f};
+        float[] point2 = new float[]{2.0f, 2.0f};
+        float[] point3 = new float[]{2.1f, 2.1f};
+        float[] point4 = new float[]{2.1f, 2.1f};
+        double length1 = 1;
+        double length2 = 1;
+        int kPts = 1;
+        int NUMPOINTS = 4;
+        float[][] points = new float[][]{point1, point2, point3, point4};
+        assertTrue(CMVCalculator.checkLIC12(points, length1, length2, kPts, NUMPOINTS));
+    }
+
+    @Test
+    public void testLIC12OnlyOneConditionMet() {
+        float[] point1 = new float[]{0.0f, 0.0f};
+        float[] point2 = new float[]{2.0f, 2.0f};
+        float[] point3 = new float[]{2.1f, 2.1f};
+        float[] point4 = new float[]{5.1f, 5.1f};
+        double length1 = 1;
+        double length2 = 1;
+        int kPts = 1;
+        int NUMPOINTS = 4;
+        float[][] points = new float[][]{point1, point2, point3, point4};
+        assertFalse(CMVCalculator.checkLIC12(points, length1, length2, kPts, NUMPOINTS));
+    }
+        @Test
+    public void testLIC13TooFewPoints() {
+        float[] point1 = new float[]{1.5f, 3.0f};
+        float[] point2 = new float[]{1.5f, 0.0f};
+        float[] point3 = new float[]{1.5f, 3.0f};
+        float[] point4 = new float[]{1.5f, 0.0f};
+        double radius1 = 1;
+        double radius2 = 1;
+        int aPts = 1;
+        int bPts = 1;
+        float[][] points = new float[][]{point1, point2, point3, point4};
+        assertFalse(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2));
+    }
+
+    @Test
+    public void testLIC13OnlyOneConditionMet() {
+        float[] point1 = new float[]{0.0f, 0.0f};
+        float[] point2 = new float[]{2.0f, 0.0f};
+        float[] point3 = new float[]{2.0f, 0.0f};
+        float[] point4 = new float[]{4.0f, 0.0f};
+        float[] point5 = new float[]{4.0f, 0.0f};
+        double radius1 = 1;
+        double radius2 = 1;
+        int aPts = 1;
+        int bPts = 1;
+        float[][] points = new float[][]{point1, point2, point3, point4, point5};
+        assertFalse(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2));
+    }
+
+    @Test
+    public void testLIC13BothConditionMet() {
+        float[] point1 = new float[]{0.0f, 0.0f};
+        float[] point2 = new float[]{2.0f, 0.0f};
+        float[] point3 = new float[]{2.0f, 0.0f};
+        float[] point4 = new float[]{4.0f, 0.0f};
+        float[] point5 = new float[]{4.0f, 0.0f};
+
+        double radius1 = 1;
+        double radius2 = 5;
+
+        int aPts = 1;
+        int bPts = 1;
+
+        float[][] points = new float[][]{point1, point2, point3, point4, point5};
+
+        assertTrue(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2));
+    }
+
     public void testLIC6SmallerThanThreeReturnsFalse() {
         assertFalse(CMVCalculator.checkLIC6(new double[0][2], 1, 10));
         assertFalse(CMVCalculator.checkLIC6(TestUtils.toPoints(10, 20), 1, 10));
@@ -223,11 +360,116 @@ public class CMVCalculatorTest {
         float[] point1 = new float[]{0.0f, 4.0f};
         float[] point2 = new float[]{0.0f, 4.0f};
         float[] point3 = new float[]{0.0f, 4.0f};
+
         float[][] points = new float[][]{point0, point1, point2, point3};
 
         assertTrue(CMVCalculator.checkLIC7(points, 3.9f, 1));
         assertTrue(CMVCalculator.checkLIC7(points, 3.9f, 2));
         assertFalse(CMVCalculator.checkLIC7(points, 4.0f, 1));
         assertFalse(CMVCalculator.checkLIC7(points, 3.0f, 3));
+    }
+
+    @Test
+    public void testLIC9TooFewPoints() {
+        float[] point1 = new float[]{0.0f, 1.0f};
+        float[] point2 = new float[]{0.0f, 0.0f};
+        float[] point3 = new float[]{1.0f, 0.0f};
+
+        float[][] points = new float[][]{point1, point2, point3};
+
+        int cPts = 1;
+        int dPts = 1;
+
+        double epsilon = 0.5d * Math.PI;
+
+        assertFalse(CMVCalculator.checkLIC9(points, cPts, dPts, epsilon));
+    }
+
+    @Test
+    public void testLIC9ConditionNotMet() {
+        float[] point1 = new float[]{0.0f, 1.0f};
+        float[] point2 = new float[]{0.0f, 0.0f};
+        float[] point3 = new float[]{0.0f, 0.0f};
+        float[] point4 = new float[]{0.0f, 1.0f};
+        float[] point5 = new float[]{0.0f, 0.0f};
+        float[] point6 = new float[]{1.0f, 0.0f};
+
+        float[][] points = new float[][]{point1, point2, point3, point4, point5, point6};
+
+        int cPts = 1;
+        int dPts = 2;
+
+        double epsilon = 0.5d * Math.PI;
+
+        assertFalse(CMVCalculator.checkLIC9(points, cPts, dPts, epsilon));
+    }
+
+    @Test
+    public void testLIC9ConditionMet1() { // delta is less than pi - epsilon  (pi/2)
+        float[] point1 = new float[]{0.0f, 3.0f};
+        float[] point2 = new float[]{1.0f, 0.0f};
+        float[] point3 = new float[]{2.0f, 0.0f};
+        float[] point4 = new float[]{0.0f, 0.0f};
+        float[] point5 = new float[]{4.0f, 0.0f};
+        float[] point6 = new float[]{5.0f, 0.0f};
+        float[] point7 = new float[]{3.0f, 0.0f};
+
+        float[][] points = new float[][]{point1, point2, point3, point4, point5, point6, point7};
+
+        int cPts = 2;
+        int dPts = 2;
+
+        double epsilon = 1;
+
+        assertTrue(CMVCalculator.checkLIC9(points, cPts, dPts, epsilon));
+    }
+
+    @Test
+    public void testLIC9ConditionMet2() { // delta is greater than pi + epsilon (2*pi)
+        float[] point1 = new float[]{0.0f, 3.0f};
+        float[] point2 = new float[]{0.0f, 0.0f};
+        float[] point3 = new float[]{0.0f, 0.0f};
+        float[] point4 = new float[]{0.0f, 0.0f};
+        float[] point5 = new float[]{4.0f, 0.0f};
+        float[] point6 = new float[]{4.0f, 0.0f};
+        float[] point7 = new float[]{0.0f, 3.0f};
+
+        float[][] points = new float[][]{point1, point2, point3, point4, point5, point6, point7};
+
+        int cPts = 2;
+        int dPts = 2;
+
+        double epsilon = 1;
+
+        assertTrue(CMVCalculator.checkLIC9(points, cPts, dPts, epsilon));
+    }
+
+    public void testCheckLIC14_returnsTrue() {
+        int EPTS = 2;
+        int FPTS = 1;
+        double AREA1 = 10;
+        double AREA2 = 20;
+        double[][] dataPoints = new double[][] {
+                {1, 2}, {1, 1}, {3, 1}, {22, 8},
+                {9, 10}, {11, 12}, {13, 14}, {15, 16}
+        };
+        //returns true because the area of the triangle formed by the first, third, and fourth data points is 16.5
+
+        assertTrue(CMVCalculator.checkLIC14(EPTS, FPTS, AREA1, AREA2, dataPoints));
+    }
+
+    @Test
+    public void testCheckLIC14_returnsFalse() {
+        int EPTS = 2;
+        int FPTS = 1;
+        double AREA1 = 30;
+        double AREA2 = 40;
+        double[][] dataPoints = new double[][] {
+                {1, 2}, {3, 4}, {5, 6}, {7, 8},
+                {9, 10}, {11, 12}, {13, 14}, {15, 16}
+        };
+
+        //returns false because all of these points form a line with area of 0 between any 3 of them
+        assertFalse(CMVCalculator.checkLIC14(EPTS, FPTS, AREA1, AREA2, dataPoints));
     }
 }
