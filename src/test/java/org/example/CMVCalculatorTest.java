@@ -81,6 +81,27 @@ public class CMVCalculatorTest {
 
     @Test
 
+    public void testCheckLIC10True() {
+        double[][] dataPoints = {{0, 4}, {4, 0}, {0, 0}, {7, 8}, {9, 10}, {11, 12}, {13, 14}};
+        int EPTS = 1;
+        int FPTS = 1;
+        double AREA1 = 0.5;
+        // the points {0, 4}, {4, 0}, {0, 0} form a triangle with area greater than 0.5 (the value of AREA1).
+        // These points are separated by 1 (the value of EPTS) and 1 (the value of FPTS) consecutive intervening points, respectively
+        assertTrue(CMVCalculator.checkLIC10(EPTS, FPTS, AREA1, dataPoints));
+    }
+
+    @Test
+    public void testCheckLIC10False() {
+        double[][] dataPoints = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}};
+        int EPTS = 2;
+        int FPTS = 2;
+        double AREA1 = 0.5;
+        //here the only option is (1,2), (5, 6) and (9, 10) but the points are on a straight line so the area is 0
+        assertFalse(CMVCalculator.checkLIC10(EPTS, FPTS, AREA1, dataPoints));
+    }
+
+    @Test
     public void testCheckLIC4true() {
         float[][] dataPoints = {{1, 2}, {-3, 4}, {5, -6}, {-7, -8}, {9, 10}, {-11, 12}, {13, -14}, {-15, -16}, {17, 18}, {-19, 20}};
         int QUADS = 3;
