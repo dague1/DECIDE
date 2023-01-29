@@ -2,7 +2,7 @@ package org.example;
 
 import org.junit.Test;
 
-import static org.example.OperationType.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CMVCalculatorTest {
@@ -69,8 +69,8 @@ public class CMVCalculatorTest {
     public void testCheckLIC4true() {
         int NUMPOINTS = 10;
         float[][] dataPoints = {{1, 2}, {-3, 4}, {5, -6}, {-7, -8}, {9, 10}, {-11, 12}, {13, -14}, {-15, -16}, {17, 18}, {-19, 20}};
-        int QPTS = 4;
         int QUADS = 3;
+        int QPTS = 4;
         assertTrue(CMVCalculator.checkLIC4(NUMPOINTS, dataPoints, QPTS, QUADS));
     }
 
