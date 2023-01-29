@@ -64,4 +64,39 @@ public class CMVCalculatorTest {
         assertFalse(CMVCalculator.checkLIC1(points, 5.0d));
         assertFalse(CMVCalculator.checkLIC1(points, 5.1d));
     }
+
+    @Test
+    public void testTooFewPointsLIC11() {
+        float[] point1 = new float[]{1.5f, 3.0f};
+        float[] point2 = new float[]{1.5f, 0.0f};
+        float[][] points = new float[][]{point1, point2};
+        int NUMPOINTS = 2;
+        int gPts = 0;
+        assertFalse(CMVCalculator.checkLIC11(points, NUMPOINTS, gPts));
+    }
+
+    @Test
+    public void testWhenLICNotMetLIC11() {
+        float[] point1 = new float[]{0.0f, 0.0f};
+        float[] point2 = new float[]{0.0f, 1.0f};
+        float[] point3 = new float[]{1.0f, 3.0f};
+        float[][] points = new float[][]{point1, point2, point3};
+        int NUMPOINTS = 3;
+        int gPts = 1;
+        assertFalse(CMVCalculator.checkLIC11(points, NUMPOINTS, gPts));
+    }
+    @Test
+    public void testWhenLICMetLIC11() {
+        float[] point1 = new float[]{3.0f, 0.0f};
+        float[] point2 = new float[]{0.0f, 1.0f};
+        float[] point3 = new float[]{1.0f, 3.0f};
+        float[][] points = new float[][]{point1, point2, point3};
+        int NUMPOINTS = 3;
+        int gPts = 1;
+        assertTrue(CMVCalculator.checkLIC11(points, NUMPOINTS, gPts));
+    }
+
+
+
+
 }
