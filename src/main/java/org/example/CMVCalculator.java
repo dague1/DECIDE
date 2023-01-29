@@ -250,18 +250,18 @@ public class CMVCalculator {
      * @param
      * @return
      */
-    public static boolean checkLIC6(double[][] points, final int N_POINTS, final int DIST) {
+    public static boolean checkLIC6(double[][] points, final int N_POINTS, final double DIST) {
         // The condition can not be met if there are less than three points.
         if (points.length < 3) {
             return false;
         }
 
-        for (int i = 0; i < points.length - N_POINTS; i++) {
+        for (int i = 0; i <= points.length - N_POINTS; i++) {
             double[] startPoint = points[i];
             double[] endPoint = points[i + N_POINTS - 1];
 
-            for (int j = i; j < i + N_POINTS; j++) {
-                double[] curPoint = points[i + 1];
+            for (int j = i + 1; j < i + N_POINTS; j++) {
+                double[] curPoint = points[j];
 
                 double dist = startPoint[0] == endPoint[0] && startPoint[1] == endPoint[1]
                         ? MathUtils.calcDistanceBetweenTwoPoints(startPoint, curPoint)

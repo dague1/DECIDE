@@ -99,11 +99,72 @@ public class CMVCalculatorTest {
     @Test
     public void testLIC3ForMoreThanThreePoints() {
         // The second, third and fourth point make a triangle of size 13.5. This is the biggest triangle in the array.
-        double[][] points = new double[][]{new double[]{1.5f, 1.5f}, new double[]{1f, 1f}, new double[]{4f, 1f},
-                new double[]{2f, 10f}, new double[]{2.1f, 10f}};
+        double[][] points = new double[][]{new double[]{1.5f, 1.5f}, new double[]{1f, 1f}, new double[]{4f, 1f}, new double[]{2f, 10f}, new double[]{2.1f, 10f}};
         assertTrue(CMVCalculator.checkLIC3(points, 10));
         assertTrue(CMVCalculator.checkLIC3(points, 13.5));
         assertFalse(CMVCalculator.checkLIC3(points, 15));
+    }
+
+    @Test
+    public void testLIC6SmallerThanThreeReturnsFalse() {
+        assertFalse(CMVCalculator.checkLIC6(new double[0][2], 1, 10));
+        assertFalse(CMVCalculator.checkLIC6(TestUtils.toPoints(10, 20), 1, 10));
+        assertFalse(CMVCalculator.checkLIC6(TestUtils.toPoints(10, 20, 30, 40), 1, 10));
+    }
+
+    @Test
+    public void testLIC6N_POINTSBiggerThanLengthReturnsFalse() {
+        assertFalse(CMVCalculator.checkLIC6(TestUtils.toPoints(1, 1, 2, 2, 3, 3, 4, 4), 5, 1));
+    }
+
+    @Test
+    public void testLIC6WorksWhenTwoPointsAreTheSame() {
+        // The distance between the 0th/3rd point to the 2nd point is exactly 5.
+        // A distance smaller should return false.
+        // A distance equal or bigger should return true
+        double[][] points = TestUtils.toPoints(1, 1, 2, 2, 4, 5, 1, 1);
+        int N_POINTS = 4;
+
+        assertFalse(CMVCalculator.checkLIC6(points, N_POINTS, 5.1));
+        assertTrue(CMVCalculator.checkLIC6(points, N_POINTS, 5));
+        assertTrue(CMVCalculator.checkLIC6(points, N_POINTS, 4.9));
+    }
+
+    @Test
+    public void testLIC6WorksWhenTwoPointsOnLine() {
+        // The distance between the 0th/3rd point create the line y = x
+        // The distance to the point (0, 5) is 5/2 * sqrt(2)
+        // A distance smaller should return false.
+        // A distance equal or bigger should return true
+        double[][] points = TestUtils.toPoints(1, 1, 2, 2, 0, 5, 10, 10);
+        int N_POINTS = 4;
+
+        double DIST_THRESHOLD = (5f / 2f) * Math.sqrt(2);
+
+        assertFalse(CMVCalculator.checkLIC6(points, N_POINTS, DIST_THRESHOLD + 0.1));
+        assertTrue(CMVCalculator.checkLIC6(points, N_POINTS, DIST_THRESHOLD - 0.1));
+    }
+
+    @Test
+    public void testLIC6DealsWithArbitaryArrayLengths() {
+        // This test tests various array sizes with various valid N_POINTS values to ensure that there
+        // are no weird array index problems.
+        for (int pointsSize = 3; pointsSize < 10; pointsSize++) {
+            for (int nPointsParamter = 3; nPointsParamter <= pointsSize; nPointsParamter++) {
+                double[][] points = new double[pointsSize][2];
+                for (int i = 0; i < points.length; i++) {
+                    points[i][0] = i;
+                    points[i][1] = i;
+                }
+
+                try {
+                    CMVCalculator.checkLIC6(points, nPointsParamter, 5);
+                } catch (Exception e) {
+                    fail(String.format("CMVCalculator.checkLIC6 throws an exception when 'points.length=%d' " +
+                            "'and N_POINTS=%d'", pointsSize, nPointsParamter));
+                }
+            }
+        }
     }
 
     @Test
@@ -113,7 +174,7 @@ public class CMVCalculatorTest {
         float[] point2 = new float[]{0.0f, 4.0f};
         float[] point3 = new float[]{0.0f, 4.0f};
         float[][] points = new float[][]{point0, point1, point2, point3};
-     
+
         assertTrue(CMVCalculator.checkLIC7(points, 3.9f, 1));
         assertTrue(CMVCalculator.checkLIC7(points, 3.9f, 2));
         assertFalse(CMVCalculator.checkLIC7(points, 4.0f, 1));
