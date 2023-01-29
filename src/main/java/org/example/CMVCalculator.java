@@ -125,15 +125,17 @@ public class CMVCalculator {
      * @param LENGTH1 a double value given in the parameters
      * @return whether there are two consecutive data points for which the distance is bigger than the provided length parameter
      */
-    public static boolean checkLIC0(float[][] points, double LENGTH1) {
-        if (LENGTH1 < 0) {
+    public static boolean checkLIC0(double[][] points, double LENGTH1) {
+        if(LENGTH1 < 0) {
             return false;
-        }  // length is invalid
+        }
+
         for (int i = 0; i < points.length - 1; i++) {
-            if (calcDistanceBetweenTwoPoints(points[i], points[i + 1]) > LENGTH1) {
+            if (MathUtils.calcDistanceBetweenTwoPoints(points[i], points[i + 1]) > LENGTH1){
                 return true;
             }
         }
+
         return false;
     }
 
@@ -177,13 +179,27 @@ public class CMVCalculator {
 
     /**
      * There exists at least one set of three consecutive data points that are the vertices of a triangle
-     * with area greater than AREA1.
-     * (0 ≤ AREA1)
-     * @param
-     * @param
-     * @return
+     * with area greater than AREA1. If there are less than three poitns, there is no triangle and the
+     * result will be false.
+     *
+     * @param points An array containing any number of points. Each point should consist of two coordinates.
+     * @param area The boundary value that should be smaller or equal to at-least triangle determined by successive
+     *             points for the result to be true.
+     * @return True if there is atleast one set of three consecutive points which create a triangle with an area
+     *         larger than the provided area paramter. False if there are less than three points.
      */
-    public static boolean checkLIC3() {
+    public static boolean checkLIC3(double[][] points, double area) {
+        // There need to be atleast three consecutive data points for the condition to be true.
+        if (points.length < 3) {
+            return false;
+        }
+
+        for (int i = 0; i < points.length - 2; i++) {
+            if (MathUtils.calcTriangleArea(points[i], points[i + 1], points[i + 2]) >= area) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -230,40 +246,100 @@ public class CMVCalculator {
     }
 
     /**
+
      * There exists at least one set of two consecutive data points, (X[i],Y[i]) and (X[j],Y[j]), such
      * that X[j] - X[i] < 0. (where i = j-1)
      * @param
      * @param
      * @return
+     * There exists at least one set of two consecutive data points, (X[i],Y[i]) and (X[i+1],Y[i+1]), such
+     * that X[i+1] - X[i] < 0.
+     * @param points An array consisting on points. Each point in the array must have exactly two values.
+     *               There must be at least two points in the array.
+     * @return Whether there exist two consecutive points such that the second point's x-coordinate is bigger than
+     *         the first point's x-coordinate.
      */
-    public static boolean checkLIC5() {
+    public static boolean checkLIC5(double[][] points) {
+        for (int i = 0; i < points.length - 1; i++) {
+            if (points[i + 1][0] - points[i][0] < 0) {
+                return true;
+            }
+        }
+
         return false;
     }
 
     /**
-     * There exists at least one set of N PTS consecutive data points such that at least one of the
+     * Check LIC6
+     * <br>
+     * There exists at least one set of N_POINTS consecutive data points such that at least one of the
      * points lies a distance greater than DIST from the line joining the first and last of these N PTS
-     * points. If the first and last points of these N PTS are identical, then the calculated distance
+     * points. If the first and last points of these N_POINTS are identical, then the calculated distance
      * to compare with DIST will be the distance from the coincident point to all other points of
      * the N PTS consecutive points. The condition is not met when NUMPOINTS < 3.
-     * (3 ≤ N PTS ≤ NUMPOINTS), (0 ≤ DIST)
-     * @param
-     * @param
-     * @return
+
+     * (3 ≤ N_POINTS ≤ NUMPOINTS), (0 ≤ DIST)
+     *
+     * @param points An array of points. Each element should contain exactly two points representing x and y-coordinate.
+     * @param N_POINTS The number of consecutive data points for the check above.
+     * @param DIST The distance threshold for the condition.
+     * @return False if less than three points are provided. Otherwise true only if there exist N_POINTS consecutive
+     *         points such that:
+     *         <ol>
+     *             <li>The first and last point are the same and there is atleast one point further
+     *             than the distance parameter to these two points</li>
+     *             <li>The first and the last points are not the same and there is at least one point further
+     *             than away from the line defined by these two points than the provided distance.</li>
+     *         </ol>either (1) the first and last of these con
      */
-    public static boolean checkLIC6() {
+    public static boolean checkLIC6(double[][] points, final int N_POINTS, final double DIST) {
+        // The condition can not be met if there are less than three points.
+        if (points.length < 3) {
+            return false;
+        }
+
+        for (int i = 0; i <= points.length - N_POINTS; i++) {
+            double[] startPoint = points[i];
+            double[] endPoint = points[i + N_POINTS - 1];
+
+            for (int j = i + 1; j < i + N_POINTS; j++) {
+                double[] curPoint = points[j];
+
+                double dist = startPoint[0] == endPoint[0] && startPoint[1] == endPoint[1]
+                        ? MathUtils.calcDistanceBetweenTwoPoints(startPoint, curPoint)
+                        : MathUtils.calcDistanceBetweenPointAndLine(curPoint, startPoint, endPoint);
+
+                if (dist >= DIST) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
     /**
-     * There exists at least one set of two data points separated by exactly K PTS consecutive intervening points that are a distance greater than the length, LENGTH1, apart. The condition
+     * There exists at least one set of two data points separated by exactly K_PTS consecutive intervening points that are a distance greater than the length, LENGTH1, apart. The condition
      * is not met when NUMPOINTS < 3.
      * 1 ≤ K PTS ≤ (NUMPOINTS−2)
-     * @param
-     * @param
-     * @return
+     * @param points  a 2D array indicating the 2D point coordinates
+     * @param LENGTH1 a double value given in the parameters
+     * @param K_PTS an int value given in the parameters
+     * @return True if there is atleast one set of two points, separated by K_PTS consecutive intevening points, with a distance greater than LENGTH1. False Otherwise.
      */
-    public static boolean checkLIC7() {
+    public static boolean checkLIC7(float[][] points, double LENGTH1, int K_PTS) {
+
+        if (points.length < 3) { 
+            return false; 
+        } else if (K_PTS < 1 || K_PTS > points.length-2){ 
+            return false; 
+        }
+
+
+        for (int i = 0; i < points.length - K_PTS - 1; i++) {
+            if (calcDistanceBetweenTwoPoints(points[i], points[i + K_PTS + 1]) > LENGTH1){ return true; }
+        }
+
         return false;
     }
 
