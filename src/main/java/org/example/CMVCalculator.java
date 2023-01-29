@@ -246,7 +246,6 @@ public class CMVCalculator {
     }
 
     /**
-
      * There exists at least one set of two consecutive data points, (X[i],Y[i]) and (X[j],Y[j]), such
      * that X[j] - X[i] < 0. (where i = j-1)
      * @param
@@ -277,7 +276,6 @@ public class CMVCalculator {
      * points. If the first and last points of these N_POINTS are identical, then the calculated distance
      * to compare with DIST will be the distance from the coincident point to all other points of
      * the N PTS consecutive points. The condition is not met when NUMPOINTS < 3.
-
      * (3 ≤ N_POINTS ≤ NUMPOINTS), (0 ≤ DIST)
      *
      * @param points An array of points. Each element should contain exactly two points representing x and y-coordinate.
@@ -329,10 +327,10 @@ public class CMVCalculator {
      */
     public static boolean checkLIC7(float[][] points, double LENGTH1, int K_PTS) {
 
-        if (points.length < 3) { 
-            return false; 
-        } else if (K_PTS < 1 || K_PTS > points.length-2){ 
-            return false; 
+        if (points.length < 3) {
+            return false;
+        } else if (K_PTS < 1 || K_PTS > points.length-2){
+            return false;
         }
 
 
@@ -459,13 +457,39 @@ public class CMVCalculator {
      * AREA2. Both parts must be true for the LIC to be true. The condition is not met when
      * NUMPOINTS < 5.
      * 0 ≤ AREA2
-     * @param
-     * @param
-     * @return
+     * @param EPTS - The number of consecutive intervening points
+     * @param FPTS - The number of consecutive intervening points
+     * @param AREA1 - The area of the triangle
+     * @param AREA2 - The area of the triangle
+     * @param dataPoints - The data points
+     * @return true if constaints and both conditions satisfied, false otherwise
      */
 
-    public static boolean checkLIC14() {
-        return false;
+    public static boolean checkLIC14( int EPTS, int FPTS, double AREA1, double AREA2, double [][] dataPoints) {
+
+        if (dataPoints.length < 5) {
+            return false;
+        }
+
+        if (AREA2 < 0) {
+            return false;
+        }
+        boolean area1requirementIsSatisfied = false;
+        for (int i = 0; i < dataPoints.length - 2 - EPTS - FPTS; i++) {
+            double area = MathUtils.calcTriangleArea(dataPoints[i], dataPoints[i + EPTS + 1], dataPoints[i + EPTS + FPTS + 2]);
+            if (area > AREA1) {
+                area1requirementIsSatisfied = true;
+            }
+        }
+        boolean area2requirementIsSatisfied = false;
+        for (int i = 0; i < dataPoints.length - 2 - EPTS - FPTS; i++) {
+            double area = MathUtils.calcTriangleArea(dataPoints[i], dataPoints[i + EPTS + 1], dataPoints[i + EPTS + FPTS + 2]);
+            if (area < AREA2) {
+                area2requirementIsSatisfied = true;
+            }
+        }
+
+        return area2requirementIsSatisfied && area1requirementIsSatisfied;
     }
 
     public static boolean[] calculateCMV(float[][] points, Parameter parameter) {
