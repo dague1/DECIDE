@@ -326,14 +326,13 @@ public class CMVCalculator {
      * 1 ≤ G PTS ≤ NUMPOINTS−2
      *
      * @param points  a 2D array indicating the 2D point coordinates
-     * @param NUMPOINTS the number of points on the radar
      * @param gPts
      * @return whether there are points that satisfy the abovementioned condition.
      */
-    public static boolean checkLIC11(float[][] points, int NUMPOINTS, int gPts) {
-        if (NUMPOINTS<3) return false;
+    public static boolean checkLIC11(float[][] points, int gPts) {
+        if (points.length<3) return false;
 
-        for(int i=0;i<(NUMPOINTS - gPts -1);++i) {
+        for(int i=0;i<(points.length - gPts -1);++i) {
             if(points[i+gPts+1][0] - points[i][0] < 0) return true;
         }
         return false;
