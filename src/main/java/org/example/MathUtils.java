@@ -24,9 +24,22 @@ public class MathUtils {
      * @param point2 an array containing x coordinate and y coordinate of point 2
      * @return the distance between point1 and point2
      */
-    public static double calcDistanceBetweenTwoPoints(float[] point1, float[] point2) {
-        float diffX = point1[0] - point2[0];
-        float diffY = point1[1] - point2[1];
+    public static double calcDistanceBetweenTwoPoints(double[] point1, double[] point2) {
+        double diffX = point1[0] - point2[0];
+        double diffY = point1[1] - point2[1];
         return Math.sqrt(diffX * diffX + diffY * diffY);
+    }
+
+    public static double calcDistanceBetweenPointAndLine(double[] curPoint, double[] startPoint, double[] endPoint) {
+        // Firslty we convert the line points to a formula in the form of ax + bx + c = 0
+        // We do this using: https://math.stackexchange.com/questions/422602/convert-two-points-to-line-eq-ax-by-c-0
+        double a = startPoint[1] - endPoint[1];
+        double b = endPoint[0] - startPoint[0];
+        double c = startPoint[0] * endPoint[1] - endPoint[0] * startPoint[1];
+
+        // Then we compute the distance between the line and the point using the following equation:
+        // |a * x + b * y + c| / sqrt(a^2 + b^2)
+        // See: https://www.chilimath.com/lessons/advanced-algebra/distance-between-point-and-line-formula/
+        return Math.abs(a * curPoint[0] + b * curPoint[1] + c) / Math.sqrt(a * a + b * b);
     }
 }
