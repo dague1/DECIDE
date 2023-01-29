@@ -2,6 +2,7 @@ package org.example;
 
 import org.junit.Test;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CMVCalculatorTest {
@@ -79,6 +80,25 @@ public class CMVCalculatorTest {
     }
 
     @Test
+
+    public void testCheckLIC4true() {
+        float[][] dataPoints = {{1, 2}, {-3, 4}, {5, -6}, {-7, -8}, {9, 10}, {-11, 12}, {13, -14}, {-15, -16}, {17, 18}, {-19, 20}};
+        int QUADS = 3;
+        int QPTS = 4;
+        //is true because the first 4 and the next 4 elements are in their own separate quadrants which is > than QUADS
+        assertTrue(CMVCalculator.checkLIC4(dataPoints, QPTS, QUADS));
+    }
+
+    @Test
+    public void testCheckLIC4false() {
+        float[][] dataPoints = {{1, 2}, {-3, 4}, {5, -6}, {-7, -8}, {9, 10}, {-11, 12}, {13, -14}, {-15, -16}, {17, 18}, {-19, 20}};
+        int QPTS = 3;
+        int QUADS = 3;
+        //is false because there are 3 QPTS and 3 QUADS so can't be larger due to the condition requirement
+        assertFalse(CMVCalculator.checkLIC4(dataPoints, QPTS, QUADS));
+    }
+
+
     public void testLIC3FalseForLessThanThreePoints() {
         for (int i = 0; i <= 2; i++) {
             double[][] points = new double[i][2];

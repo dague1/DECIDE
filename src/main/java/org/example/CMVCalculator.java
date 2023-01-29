@@ -169,7 +169,6 @@ public class CMVCalculator {
      * point or the last point (or both) coincides with the vertex, the angle is undefined and the LIC
      * is not satisfied by those three points.
      * (0 ≤ EPSILON < PI)
-     *
      * @param
      * @param
      * @return
@@ -211,16 +210,48 @@ public class CMVCalculator {
      * is in quadrant I, the point (-l,0) is in quadrant II, the point (0,-l) is in quadrant III, the point
      * (0,1) is in quadrant I and the point (1,0) is in quadrant I.
      * (2 ≤ Q PTS ≤ NUMPOINTS), (1 ≤ QUADS ≤ 3)
-     *
-     * @param
-     * @param
-     * @return
+     * @param NUMPOINTS an integer representing the total number of data points
+     * @param dataPoints 2D array of floats, where each sub-array represents a point in the form of [x, y]
+     * @param QPTS an integer representing the number of consecutive points to check in each set
+     * @param QUADS an integer representing the number of quadrants that must be present in a set of QPTS points for the method to return true
+     * @return true if at least one set of consecutive QPTS points in dataPoints fall in more than QUADS quadrants, false otherwise.
      */
-    public static boolean checkLIC4() {
+    public static boolean checkLIC4(float[][] dataPoints, int QPTS, int QUADS) {
+        for (int i = 0; i <= dataPoints.length - QPTS; i++) {
+            int[] quadrantCount = new int[4];
+            for (int j = i; j < i + QPTS; j++) {
+                float x = dataPoints[j][0];
+                float y = dataPoints[j][1];
+                if (x >= 0 && y >= 0) {
+                    quadrantCount[0]++;
+                } else if (x < 0 && y >= 0) {
+                    quadrantCount[1]++;
+                } else if (x <= 0 && y < 0) {
+                    quadrantCount[2]++;
+                } else if (x > 0 && y < 0) {
+                    quadrantCount[3]++;
+                }
+            }
+            int quadrants = 0;
+            for (int count : quadrantCount) {
+                if (count > 0) {
+                    quadrants++;
+                }
+            }
+            if (quadrants > QUADS) {
+                return true;
+            }
+        }
         return false;
     }
 
     /**
+
+     * There exists at least one set of two consecutive data points, (X[i],Y[i]) and (X[j],Y[j]), such
+     * that X[j] - X[i] < 0. (where i = j-1)
+     * @param
+     * @param
+     * @return
      * There exists at least one set of two consecutive data points, (X[i],Y[i]) and (X[i+1],Y[i+1]), such
      * that X[i+1] - X[i] < 0.
      * @param points An array consisting on points. Each point in the array must have exactly two values.
@@ -246,6 +277,7 @@ public class CMVCalculator {
      * points. If the first and last points of these N_POINTS are identical, then the calculated distance
      * to compare with DIST will be the distance from the coincident point to all other points of
      * the N PTS consecutive points. The condition is not met when NUMPOINTS < 3.
+
      * (3 ≤ N_POINTS ≤ NUMPOINTS), (0 ≤ DIST)
      *
      * @param points An array of points. Each element should contain exactly two points representing x and y-coordinate.
@@ -290,7 +322,6 @@ public class CMVCalculator {
      * There exists at least one set of two data points separated by exactly K_PTS consecutive intervening points that are a distance greater than the length, LENGTH1, apart. The condition
      * is not met when NUMPOINTS < 3.
      * 1 ≤ K PTS ≤ (NUMPOINTS−2)
-     *
      * @param points  a 2D array indicating the 2D point coordinates
      * @param LENGTH1 a double value given in the parameters
      * @param K_PTS an int value given in the parameters
@@ -318,7 +349,6 @@ public class CMVCalculator {
      * radius RADIUS1. The condition is not met when NUMPOINTS < 5.
      * 1 ≤ A PTS, 1 ≤ B PTS
      * A PTS+B PTS ≤ (NUMPOINTS−3)
-     *
      * @param
      * @param
      * @return
@@ -339,7 +369,6 @@ public class CMVCalculator {
      * is not satisfied by those three points. When NUMPOINTS < 5, the condition is not met.
      * 1 ≤ C PTS, 1 ≤ D PTS
      * C PTS+D PTS ≤ NUMPOINTS−3
-     *
      * @param
      * @param
      * @return
@@ -354,7 +383,6 @@ public class CMVCalculator {
      * than AREA1. The condition is not met when NUMPOINTS < 5.
      * 1 ≤ E PTS, 1 ≤ F PTS
      * E PTS+F PTS ≤ NUMPOINTS−3
-     *
      * @param
      * @param
      * @return
@@ -369,7 +397,6 @@ public class CMVCalculator {
      * exactly G PTS consecutive intervening points, such that X[j] - X[i] < 0. (where i < j ) The
      * condition is not met when NUMPOINTS < 3.
      * 1 ≤ G PTS ≤ NUMPOINTS−2
-     *
      * @param
      * @param
      * @return
@@ -403,7 +430,6 @@ public class CMVCalculator {
      * circle of radius RADIUS2. Both parts must be true for the LIC to be true. The condition is
      * not met when NUMPOINTS < 5.
      * 0 ≤ RADIUS2
-     *
      * @param
      * @param
      * @return
@@ -419,7 +445,6 @@ public class CMVCalculator {
      * AREA2. Both parts must be true for the LIC to be true. The condition is not met when
      * NUMPOINTS < 5.
      * 0 ≤ AREA2
-     *
      * @param
      * @param
      * @return
