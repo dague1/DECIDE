@@ -274,7 +274,7 @@ public class CMVCalculator {
 
 
         for (int i = 0; i < points.length - K_PTS - 1; i++) {
-            if (calcDistanceBetweenTwoPoints(points[i], points[i + K_PTS]) > LENGTH1){ return true; }
+            if (calcDistanceBetweenTwoPoints(points[i], points[i + K_PTS + 1]) > LENGTH1){ return true; }
         }
 
         return false;
