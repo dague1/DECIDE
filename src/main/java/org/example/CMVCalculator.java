@@ -255,15 +255,28 @@ public class CMVCalculator {
     }
 
     /**
-     * There exists at least one set of two data points separated by exactly K PTS consecutive intervening points that are a distance greater than the length, LENGTH1, apart. The condition
+     * There exists at least one set of two data points separated by exactly K_PTS consecutive intervening points that are a distance greater than the length, LENGTH1, apart. The condition
      * is not met when NUMPOINTS < 3.
      * 1 ≤ K PTS ≤ (NUMPOINTS−2)
      *
-     * @param
-     * @param
-     * @return
+     * @param points  a 2D array indicating the 2D point coordinates
+     * @param LENGTH1 a double value given in the parameters
+     * @param K_PTS an int value given in the parameters
+     * @return True if there is atleast one set of two points, separated by K_PTS consecutive intevening points, with a distance greater than LENGTH1. False Otherwise.
      */
-    public static boolean checkLIC7() {
+    public static boolean checkLIC7(float[][] points, double LENGTH1, int K_PTS) {
+
+        if (points.length < 3) { 
+            return false; 
+        } else if (K_PTS < 1 || K_PTS > points.length-2){ 
+            return false; 
+        }
+
+
+        for (int i = 0; i < points.length - K_PTS - 1; i++) {
+            if (calcDistanceBetweenTwoPoints(points[i], points[i + K_PTS]) > LENGTH1){ return true; }
+        }
+
         return false;
     }
 
