@@ -82,7 +82,34 @@ public class CMVCalculatorTest {
     }
 
     @Test
+    public void testLIC11TooFewPoints() {
+        float[] point1 = new float[]{1.5f, 3.0f};
+        float[] point2 = new float[]{1.5f, 0.0f};
+        float[][] points = new float[][]{point1, point2};
+        int gPts = 0;
+        assertFalse(CMVCalculator.checkLIC11(points, gPts));
+    }
 
+    @Test
+    public void testLIC11WhenLICNotMet() {
+        float[] point1 = new float[]{0.0f, 0.0f};
+        float[] point2 = new float[]{0.0f, 1.0f};
+        float[] point3 = new float[]{1.0f, 3.0f};
+        float[][] points = new float[][]{point1, point2, point3};
+        int gPts = 1;
+        assertFalse(CMVCalculator.checkLIC11(points, gPts));
+    }
+    @Test
+    public void testLIC11WhenLICMet() {
+        float[] point1 = new float[]{3.0f, 0.0f};
+        float[] point2 = new float[]{0.0f, 1.0f};
+        float[] point3 = new float[]{1.0f, 3.0f};
+        float[][] points = new float[][]{point1, point2, point3};
+        int gPts = 1;
+        assertTrue(CMVCalculator.checkLIC11(points, gPts));
+
+    }
+        @Test
     public void testCheckLIC10True() {
         double[][] dataPoints = {{0, 4}, {4, 0}, {0, 0}, {7, 8}, {9, 10}, {11, 12}, {13, 14}};
         int EPTS = 1;
@@ -121,7 +148,7 @@ public class CMVCalculatorTest {
         assertFalse(CMVCalculator.checkLIC4(dataPoints, QPTS, QUADS));
     }
 
-
+    @Test
     public void testLIC3FalseForLessThanThreePoints() {
         for (int i = 0; i <= 2; i++) {
             double[][] points = new double[i][2];

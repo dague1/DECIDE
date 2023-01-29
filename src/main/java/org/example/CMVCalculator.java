@@ -449,11 +449,17 @@ public class CMVCalculator {
      * exactly G PTS consecutive intervening points, such that X[j] - X[i] < 0. (where i < j ) The
      * condition is not met when NUMPOINTS < 3.
      * 1 ≤ G PTS ≤ NUMPOINTS−2
-     * @param
-     * @param
-     * @return
+     *
+     * @param points  a 2D array indicating the 2D point coordinates
+     * @param gPts
+     * @return whether there are points that satisfy the abovementioned condition.
      */
-    public static boolean checkLIC11() {
+    public static boolean checkLIC11(float[][] points, int gPts) {
+        if (points.length<3) return false;
+
+        for(int i=0;i<(points.length - gPts -1);++i) {
+            if(points[i+gPts+1][0] - points[i][0] < 0) return true;
+        }
         return false;
     }
 
