@@ -192,11 +192,30 @@ public class CMVCalculator {
      * point or the last point (or both) coincides with the vertex, the angle is undefined and the LIC
      * is not satisfied by those three points.
      * (0 ≤ EPSILON < PI)
-     * @param
-     * @param
-     * @return
+     * @param points a 2D array indicating the 2D point coordinates
+     * @param EPSILON a double value given in the parameters
+     * @return whether there exists at least one set of three consecutive data points that satisfy above conditions
      */
-    public static boolean checkLIC2() {
+    public static boolean checkLIC2(float[][] points, double EPSILON) {
+        if(EPSILON >= Math.PI || EPSILON < 0) {
+            return false;
+        }
+        for (int i = 0; i < points.length - 2; i++){
+            if (points[i] == points[i+1] || points[i+1] == points[i+2]){
+                continue;
+            }
+            // calculate angle using vector doc product
+            // note that point[i+1] is the vertex of the angle
+            float dotVec = (points[i][0] - points[i+1][0]) * (points[i+2][0] - points[i+1][0]) +
+                            (points[i][1] - points[i+1][1]) * (points[i+2][1] - points[i+1][1]);
+            double length1 = calcDistanceBetweenTwoPoints(points[i], points[i+1]);
+            double length2 = calcDistanceBetweenTwoPoints(points[i+2], points[i+1]);
+            double cosAngle = dotVec / (length1 * length2);
+            double angle = Math.acos(cosAngle);
+            if(angle < Math.PI - EPSILON || angle > Math.PI + EPSILON){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -269,11 +288,6 @@ public class CMVCalculator {
     }
 
     /**
-     * There exists at least one set of two consecutive data points, (X[i],Y[i]) and (X[j],Y[j]), such
-     * that X[j] - X[i] < 0. (where i = j-1)
-     * @param
-     * @param
-     * @return
      * There exists at least one set of two consecutive data points, (X[i],Y[i]) and (X[i+1],Y[i+1]), such
      * that X[i+1] - X[i] < 0.
      * @param points An array consisting on points. Each point in the array must have exactly two values.
@@ -370,6 +384,7 @@ public class CMVCalculator {
      * radius RADIUS1. The condition is not met when NUMPOINTS < 5.
      * 1 ≤ A PTS, 1 ≤ B PTS
      * A PTS+B PTS ≤ (NUMPOINTS−3)
+     *
      * @param
      * @param
      * @return

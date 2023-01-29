@@ -82,6 +82,35 @@ public class CMVCalculatorTest {
     }
 
     @Test
+    public void testThreeAndFourPointsLIC2(){
+        float[] point1 = new float[]{0.0f, 1.0f};
+        float[] point2 = new float[]{0.0f, 0.0f};
+        float[] point3 = new float[]{1.0f, 0.0f};
+        float[][] points = new float[][]{point1, point2, point3};
+        // Epsilon invalid
+        assertFalse(CMVCalculator.checkLIC2(points, -1.0d));
+        // 0.5*pi < pi - 0.25*pi
+        assertTrue(CMVCalculator.checkLIC2(points, 0.25d * Math.PI));
+        // 0.5*pi = pi - 0.5*pi
+        assertFalse(CMVCalculator.checkLIC2(points, 0.5d * Math.PI));
+        // 0.5*pi > pi - 0.75*pi
+        assertFalse(CMVCalculator.checkLIC2(points, 0.75d * Math.PI));
+
+        // angle do not exist
+        points[2] = point2;
+        assertFalse(CMVCalculator.checkLIC2(points, 0.5d * Math.PI));
+
+        // angle123 = pi, angle234 = 0.25 * pi
+        point3 = new float[]{0.0f, -1.0f};
+        float[] point4 = new float[]{1.0f, 0.0f};
+        points = new float[][]{point1, point2, point3, point4};
+        assertTrue(CMVCalculator.checkLIC2(points, 0));
+        // angle123 = pi, angle234 = 0.5 * pi
+        point4[1] = -1.0f;
+        assertFalse(CMVCalculator.checkLIC2(points, 0.5*Math.PI));
+    }
+
+    @Test
     public void testLIC11TooFewPoints() {
         float[] point1 = new float[]{1.5f, 3.0f};
         float[] point2 = new float[]{1.5f, 0.0f};
@@ -129,7 +158,7 @@ public class CMVCalculatorTest {
         //here the only option is (1,2), (5, 6) and (9, 10) but the points are on a straight line so the area is 0
         assertFalse(CMVCalculator.checkLIC10(EPTS, FPTS, AREA1, dataPoints));
     }
-
+    
     @Test
     public void testCheckLIC4true() {
         float[][] dataPoints = {{1, 2}, {-3, 4}, {5, -6}, {-7, -8}, {9, 10}, {-11, 12}, {13, -14}, {-15, -16}, {17, 18}, {-19, 20}};
@@ -169,7 +198,8 @@ public class CMVCalculatorTest {
     @Test
     public void testLIC3ForMoreThanThreePoints() {
         // The second, third and fourth point make a triangle of size 13.5. This is the biggest triangle in the array.
-        double[][] points = new double[][]{new double[]{1.5f, 1.5f}, new double[]{1f, 1f}, new double[]{4f, 1f}, new double[]{2f, 10f}, new double[]{2.1f, 10f}};
+        double[][] points = new double[][]{new double[]{1.5f, 1.5f}, new double[]{1f, 1f}, new double[]{4f, 1f},
+                new double[]{2f, 10f}, new double[]{2.1f, 10f}};
         assertTrue(CMVCalculator.checkLIC3(points, 10));
         assertTrue(CMVCalculator.checkLIC3(points, 13.5));
         assertFalse(CMVCalculator.checkLIC3(points, 15));
