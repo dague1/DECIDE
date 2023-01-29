@@ -303,6 +303,7 @@ public class CMVCalculatorTest {
         float[] point1 = new float[]{0.0f, 4.0f};
         float[] point2 = new float[]{0.0f, 4.0f};
         float[] point3 = new float[]{0.0f, 4.0f};
+
         float[][] points = new float[][]{point0, point1, point2, point3};
 
         assertTrue(CMVCalculator.checkLIC7(points, 3.9f, 1));
@@ -312,6 +313,80 @@ public class CMVCalculatorTest {
     }
 
     @Test
+    public void testLIC9TooFewPoints() {
+        float[] point1 = new float[]{0.0f, 1.0f};
+        float[] point2 = new float[]{0.0f, 0.0f};
+        float[] point3 = new float[]{1.0f, 0.0f};
+
+        float[][] points = new float[][]{point1, point2, point3};
+
+        int cPts = 1;
+        int dPts = 1;
+
+        double epsilon = 0.5d * Math.PI;
+
+        assertFalse(CMVCalculator.checkLIC9(points, cPts, dPts, epsilon));
+    }
+
+    @Test
+    public void testLIC9ConditionNotMet() {
+        float[] point1 = new float[]{0.0f, 1.0f};
+        float[] point2 = new float[]{0.0f, 0.0f};
+        float[] point3 = new float[]{0.0f, 0.0f};
+        float[] point4 = new float[]{0.0f, 1.0f};
+        float[] point5 = new float[]{0.0f, 0.0f};
+        float[] point6 = new float[]{1.0f, 0.0f};
+
+        float[][] points = new float[][]{point1, point2, point3, point4, point5, point6};
+
+        int cPts = 1;
+        int dPts = 2;
+
+        double epsilon = 0.5d * Math.PI;
+
+        assertFalse(CMVCalculator.checkLIC9(points, cPts, dPts, epsilon));
+    }
+
+    @Test
+    public void testLIC9ConditionMet1() { // delta is less than pi - epsilon  (pi/2)
+        float[] point1 = new float[]{0.0f, 3.0f};
+        float[] point2 = new float[]{1.0f, 0.0f};
+        float[] point3 = new float[]{2.0f, 0.0f};
+        float[] point4 = new float[]{0.0f, 0.0f};
+        float[] point5 = new float[]{4.0f, 0.0f};
+        float[] point6 = new float[]{5.0f, 0.0f};
+        float[] point7 = new float[]{3.0f, 0.0f};
+
+        float[][] points = new float[][]{point1, point2, point3, point4, point5, point6, point7};
+
+        int cPts = 2;
+        int dPts = 2;
+
+        double epsilon = 1;
+
+        assertTrue(CMVCalculator.checkLIC9(points, cPts, dPts, epsilon));
+    }
+
+    @Test
+    public void testLIC9ConditionMet2() { // delta is greater than pi + epsilon (2*pi)
+        float[] point1 = new float[]{0.0f, 3.0f};
+        float[] point2 = new float[]{0.0f, 0.0f};
+        float[] point3 = new float[]{0.0f, 0.0f};
+        float[] point4 = new float[]{0.0f, 0.0f};
+        float[] point5 = new float[]{4.0f, 0.0f};
+        float[] point6 = new float[]{4.0f, 0.0f};
+        float[] point7 = new float[]{0.0f, 3.0f};
+
+        float[][] points = new float[][]{point1, point2, point3, point4, point5, point6, point7};
+
+        int cPts = 2;
+        int dPts = 2;
+
+        double epsilon = 1;
+
+        assertTrue(CMVCalculator.checkLIC9(points, cPts, dPts, epsilon));
+    }
+
     public void testCheckLIC14_returnsTrue() {
         int EPTS = 2;
         int FPTS = 1;
@@ -340,6 +415,4 @@ public class CMVCalculatorTest {
         //returns false because all of these points form a line with area of 0 between any 3 of them
         assertFalse(CMVCalculator.checkLIC14(EPTS, FPTS, AREA1, AREA2, dataPoints));
     }
-
-
 }

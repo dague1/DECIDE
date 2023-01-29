@@ -69,6 +69,29 @@ public class CMVCalculator {
         return new float[]{U_x, U_y};
     }
 
+
+    /**
+     * Helper function that returns true if the angle delta created between the three points is < (Math.PI - epsilon) or > (Math.PI + epsilon)
+     *
+     * @param point1 an array containing x coordinate and y coordinate point1
+     * @param point2 an array containing x coordinate and y coordinate point2
+     * @param point3 an array containing x coordinate and y coordinate point3
+     * @return returns true if the angle delta created between the three points is < (Math.PI - epsilon) or > (Math.PI + epsilon)
+     */
+    public static boolean deltaIsWithinBounds(float[] point1, float[] point2, float[] point3, double epsilon) {
+        if (point1 == point2 || point2 == point3 || Math.PI <= epsilon) return false;
+
+        double dist12 = Math.hypot(point2[0] - point2[1], point2[1]-point1[1]);
+        double dist23 = Math.hypot(point2[0] - point3[0], point2[1]-point3[1]);
+        double dist13 = Math.hypot(point1[0] - point3[0], point1[1]-point3[1]);
+
+        double delta = Math.acos((Math.pow(dist12, 2) + Math.pow(dist23, 2) - Math.pow(dist13, 2)) // the angle in radians
+                / (2 * dist12 * dist23));
+        return delta < (Math.PI - epsilon) || delta > (Math.PI + epsilon);
+    }
+
+
+
     /**
      * Used for calculate the minimum enclosing circle radius for the given three 2D points
      * First check if the three points are collinear (apply also to three identical points)
@@ -367,11 +390,28 @@ public class CMVCalculator {
      * is not satisfied by those three points. When NUMPOINTS < 5, the condition is not met.
      * 1 ≤ C PTS, 1 ≤ D PTS
      * C PTS+D PTS ≤ NUMPOINTS−3
+     *
+     * @param points a 2D array indicating the 2D point coordinates
+     * @param cPts first gap size
+     * @param dPts second gap size
+     * @param epsilon
+     * @return true if the aforementioned points satisfy the aforementioned conditions.
      * @param
      * @param
      * @return
      */
-    public static boolean checkLIC9() {
+    public static boolean checkLIC9(float[][] points, int cPts, int dPts, double epsilon) {
+
+        if(points.length < 5) return false;
+
+        if(cPts < 1 || dPts < 1 || (cPts + dPts) > points.length - 3) throw new IllegalArgumentException("Faulty input.");
+
+        for(int i=0;i<points.length - cPts - dPts - 2;++i) {
+            if(points[i] == points[i+cPts+1] || points[i+cPts+1] == points[i+cPts+dPts+2]) continue;
+            if(deltaIsWithinBounds(points[i], points[i+cPts+1], points[i+cPts+dPts+2], epsilon)) {
+                return true;
+            }
+        }
         return false;
     }
 
