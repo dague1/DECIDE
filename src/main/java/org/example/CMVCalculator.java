@@ -287,12 +287,30 @@ public class CMVCalculator {
      * 1 ≤ A PTS, 1 ≤ B PTS
      * A PTS+B PTS ≤ (NUMPOINTS−3)
      *
-     * @param
-     * @param
-     * @return
+     * @param points a 2D array indicating the 2D point coordinates
+     * @param RADIUS1 a double value given in the parameters
+     * @param A_PTS an int value given in the parameters
+     * @param B_PTS an int value given in the parameters
+     * @return True, if there exist a set of three datapoints in points, separated by A_PTS and B_PTS respectivly, 
+     *         that cannot be contained withing a circle with radius RADIUS1, False otherwise.
      */
 
-    public static boolean checkLIC8() {
+    public static boolean checkLIC8(float[][] points, double RADIUS1, int A_PTS, int B_PTS) {
+        if (A_PTS < 1 || B_PTS < 1){
+            return false;
+        } else if (A_PTS+B_PTS > points.length-3){
+            return false;
+        } else if (points.length < 5) {
+            return false;
+        }
+
+        for (int i = 0; i < points.length  - A_PTS - B_PTS - 2; i++) {
+            double min_radius = calcMinimumEnclosingCircleRadius(points[i], points[i+A_PTS + 1], points[i + A_PTS + B_PTS + 2]);
+            if (min_radius > RADIUS1){
+                return true;
+            }
+        }
+
         return false;
     }
 

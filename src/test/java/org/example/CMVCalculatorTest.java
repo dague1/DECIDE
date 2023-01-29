@@ -119,4 +119,37 @@ public class CMVCalculatorTest {
         assertFalse(CMVCalculator.checkLIC7(points, 4.0f, 1));
         assertFalse(CMVCalculator.checkLIC7(points, 3.0f, 3));
     }
+
+    @Test
+    public void testLIC8ForRadiusEdgeCase(){
+        float[] point0 = new float[]{0.0f, 0.0f};
+        float[] point1 = new float[]{0.0f, 0.0f};
+        float[] point2 = new float[]{0.0f, 2.0f};
+        float[] point3 = new float[]{0.0f, 0.0f};
+        float[] point4 = new float[]{0.0f, 4.0f};
+        float[][] points = new float[][]{point0, point1, point2, point3, point4};
+
+        assertFalse(CMVCalculator.checkLIC8(points, 2, 1, 1));
+        assertTrue(CMVCalculator.checkLIC8(points, 1.9, 1, 1));
+    }
+
+    @Test
+    public void testLIC8ForCorrectInterveningDistanceCalculation(){
+        float[] point0 = new float[]{0.0f, 0.0f};
+        float[] point1 = new float[]{10.0f, 0.0f};
+        float[] point2 = new float[]{10.0f, 0.0f};
+        float[] point3 = new float[]{10.0f, 0.0f};
+        float[] point4 = new float[]{0.0f, 0.0f};
+        float[] point5 = new float[]{10.0f, 0.0f};
+        float[] point6 = new float[]{10.0f, 0.0f};
+        float[] point7 = new float[]{10.0f, 0.0f};
+        float[] point8 = new float[]{10.0f, 0.0f};
+        float[] point9 = new float[]{0.0f, 0.0f};
+        float[][] points = new float[][]{point0, point1, point2, point3, point4, point5, point6, point7, point8, point9};
+
+      
+        assertFalse(CMVCalculator.checkLIC8(points, 2, 3, 4));
+        assertTrue(CMVCalculator.checkLIC8(points, 2, 4, 3));
+        assertTrue(CMVCalculator.checkLIC8(points, 2, 1, 1));
+    }
 }
