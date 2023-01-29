@@ -200,8 +200,8 @@ public class CMVCalculator {
      * @param QUADS an integer representing the number of quadrants that must be present in a set of QPTS points for the method to return true
      * @return true if at least one set of consecutive QPTS points in dataPoints fall in more than QUADS quadrants, false otherwise.
      */
-    public static boolean checkLIC4(int NUMPOINTS, float[][] dataPoints, int QPTS, int QUADS) {
-        for (int i = 0; i <= NUMPOINTS - QPTS; i++) {
+    public static boolean checkLIC4(float[][] dataPoints, int QPTS, int QUADS) {
+        for (int i = 0; i <= dataPoints.length - QPTS; i++) {
             int[] quadrantCount = new int[4];
             for (int j = i; j < i + QPTS; j++) {
                 float x = dataPoints[j][0];
