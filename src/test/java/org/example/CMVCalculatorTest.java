@@ -79,7 +79,7 @@ public class CMVCalculatorTest {
     }
 
     @Test
-    public void testTooFewPointsLIC11() {
+    public void testLIC11TooFewPoints() {
         float[] point1 = new float[]{1.5f, 3.0f};
         float[] point2 = new float[]{1.5f, 0.0f};
         float[][] points = new float[][]{point1, point2};
@@ -88,7 +88,7 @@ public class CMVCalculatorTest {
     }
 
     @Test
-    public void testWhenLICNotMetLIC11() {
+    public void testLIC11WhenLICNotMet() {
         float[] point1 = new float[]{0.0f, 0.0f};
         float[] point2 = new float[]{0.0f, 1.0f};
         float[] point3 = new float[]{1.0f, 3.0f};
@@ -97,7 +97,7 @@ public class CMVCalculatorTest {
         assertFalse(CMVCalculator.checkLIC11(points, gPts));
     }
     @Test
-    public void testWhenLICMetLIC11() {
+    public void testLIC11WhenLICMet() {
         float[] point1 = new float[]{3.0f, 0.0f};
         float[] point2 = new float[]{0.0f, 1.0f};
         float[] point3 = new float[]{1.0f, 3.0f};
