@@ -126,14 +126,16 @@ public class CMVCalculator {
      * @return whether there are two consecutive data points for which the distance is bigger than the provided length parameter
      */
     public static boolean checkLIC0(float[][] points, double LENGTH1) {
-        if (LENGTH1 < 0) {
+        if(LENGTH1 < 0) {
             return false;
-        }  // length is invalid
+        }
+
         for (int i = 0; i < points.length - 1; i++) {
-            if (calcDistanceBetweenTwoPoints(points[i], points[i + 1]) > LENGTH1) {
+            if (MathUtils.calcDistanceBetweenTwoPoints(points[i], points[i + 1]) > LENGTH1){
                 return true;
             }
         }
+
         return false;
     }
 
@@ -178,14 +180,27 @@ public class CMVCalculator {
 
     /**
      * There exists at least one set of three consecutive data points that are the vertices of a triangle
-     * with area greater than AREA1.
-     * (0 ≤ AREA1)
+     * with area greater than AREA1. If there are less than three poitns, there is no triangle and the
+     * result will be false.
      *
-     * @param
-     * @param
-     * @return
+     * @param points An array containing any number of points. Each point should consist of two coordinates.
+     * @param area The boundary value that should be smaller or equal to at-least triangle determined by successive
+     *             points for the result to be true.
+     * @return True if there is atleast one set of three consecutive points which create a triangle with an area
+     *         larger than the provided area paramter. False if there are less than three points.
      */
-    public static boolean checkLIC3() {
+    public static boolean checkLIC3(double[][] points, double area) {
+        // There need to be atleast three consecutive data points for the condition to be true.
+        if (points.length < 3) {
+            return false;
+        }
+
+        for (int i = 0; i < points.length - 2; i++) {
+            if (MathUtils.calcTriangleArea(points[i], points[i + 1], points[i + 2]) >= area) {
+                return true;
+            }
+        }
+
         return false;
     }
 
