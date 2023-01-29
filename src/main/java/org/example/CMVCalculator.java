@@ -252,7 +252,6 @@ public class CMVCalculator {
      * is in quadrant I, the point (-l,0) is in quadrant II, the point (0,-l) is in quadrant III, the point
      * (0,1) is in quadrant I and the point (1,0) is in quadrant I.
      * (2 ≤ Q PTS ≤ NUMPOINTS), (1 ≤ QUADS ≤ 3)
-     * @param NUMPOINTS an integer representing the total number of data points
      * @param dataPoints 2D array of floats, where each sub-array represents a point in the form of [x, y]
      * @param QPTS an integer representing the number of consecutive points to check in each set
      * @param QUADS an integer representing the number of quadrants that must be present in a set of QPTS points for the method to return true
@@ -608,7 +607,7 @@ public class CMVCalculator {
         return area2requirementIsSatisfied && area1requirementIsSatisfied;
     }
 
-    public static boolean[] calculateCMV(float[][] points, Parameter parameter) {
+    public static boolean[] calculateCMV(float[][] points, Parameters parameters) {
 
         return null;
     }
