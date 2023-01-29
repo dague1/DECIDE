@@ -187,7 +187,8 @@ public class CMVCalculatorTest {
         int NUMPOINTS = 4;
         float[][] points = new float[][]{point1, point2, point3, point4};
         assertFalse(CMVCalculator.checkLIC12(points, length1, length2, kPts, NUMPOINTS));
-
+    }
+        @Test
     public void testLIC13TooFewPoints() {
         float[] point1 = new float[]{1.5f, 3.0f};
         float[] point2 = new float[]{1.5f, 0.0f};
