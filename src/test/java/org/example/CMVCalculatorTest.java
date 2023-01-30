@@ -125,18 +125,18 @@ public class CMVCalculatorTest {
     public void testLIC4True() {
         double[][] dataPoints = {{1, 2}, {-3, 4}, {5, -6}, {-7, -8}, {9, 10}, {-11, 12}, {13, -14}, {-15, -16}, {17, 18}, {-19, 20}};
         int QUADS = 3;
-        int QPTS = 4;
+        int qPts = 4;
         //is true because the first 4 and the next 4 elements are in their own separate quadrants which is > than QUADS
-        assertTrue(CMVCalculator.checkLIC4(dataPoints, QPTS, QUADS));
+        assertTrue(CMVCalculator.checkLIC4(dataPoints, qPts, QUADS));
     }
 
     @Test
     public void testLIC4False() {
         double[][] dataPoints = {{1, 2}, {-3, 4}, {5, -6}, {-7, -8}, {9, 10}, {-11, 12}, {13, -14}, {-15, -16}, {17, 18}, {-19, 20}};
-        int QPTS = 3;
+        int qPts = 3;
         int QUADS = 3;
-        //is false because there are 3 QPTS and 3 QUADS so can't be larger due to the condition requirement
-        assertFalse(CMVCalculator.checkLIC4(dataPoints, QPTS, QUADS));
+        //is false because there are 3 qPts and 3 QUADS so can't be larger due to the condition requirement
+        assertFalse(CMVCalculator.checkLIC4(dataPoints, qPts, QUADS));
     }
 
     @Test
@@ -269,12 +269,12 @@ public class CMVCalculatorTest {
 
         double[][] points = new double[][]{point1, point2, point3};
 
-        int C_PTS = 1;
-        int D_PTS = 1;
+        int cPts = 1;
+        int dPts = 1;
 
         double epsilon = 0.5d * Math.PI;
 
-        assertFalse(CMVCalculator.checkLIC9(points, C_PTS, D_PTS, epsilon));
+        assertFalse(CMVCalculator.checkLIC9(points, cPts, dPts, epsilon));
     }
 
     @Test
@@ -288,12 +288,12 @@ public class CMVCalculatorTest {
 
         double[][] points = new double[][]{point1, point2, point3, point4, point5, point6};
 
-        int C_PTS = 1;
-        int D_PTS = 2;
+        int cPts = 1;
+        int dPts = 2;
 
         double epsilon = 0.5d * Math.PI;
 
-        assertFalse(CMVCalculator.checkLIC9(points, C_PTS, D_PTS, epsilon));
+        assertFalse(CMVCalculator.checkLIC9(points, cPts, dPts, epsilon));
     }
 
     @Test
@@ -308,12 +308,12 @@ public class CMVCalculatorTest {
 
         double[][] points = new double[][]{point1, point2, point3, point4, point5, point6, point7};
 
-        int C_PTS = 2;
-        int D_PTS = 2;
+        int cPts = 2;
+        int dPts = 2;
 
         double epsilon = 1;
 
-        assertTrue(CMVCalculator.checkLIC9(points, C_PTS, D_PTS, epsilon));
+        assertTrue(CMVCalculator.checkLIC9(points, cPts, dPts, epsilon));
     }
 
     @Test
@@ -328,33 +328,33 @@ public class CMVCalculatorTest {
 
         double[][] points = new double[][]{point1, point2, point3, point4, point5, point6, point7};
 
-        int C_PTS = 2;
-        int D_PTS = 2;
+        int cPts = 2;
+        int dPts = 2;
 
         double epsilon = 1;
 
-        assertTrue(CMVCalculator.checkLIC9(points, C_PTS, D_PTS, epsilon));
+        assertTrue(CMVCalculator.checkLIC9(points, cPts, dPts, epsilon));
     }
 
     @Test
     public void testLIC10True() {
         double[][] dataPoints = {{0, 4}, {4, 0}, {0, 0}, {7, 8}, {9, 10}, {11, 12}, {13, 14}};
-        int EPTS = 1;
-        int FPTS = 1;
+        int ePts = 1;
+        int fPts = 1;
         double AREA1 = 0.5;
         // the points {0, 4}, {4, 0}, {0, 0} form a triangle with area greater than 0.5 (the value of AREA1).
-        // These points are separated by 1 (the value of EPTS) and 1 (the value of FPTS) consecutive intervening points, respectively
-        assertTrue(CMVCalculator.checkLIC10(EPTS, FPTS, AREA1, dataPoints));
+        // These points are separated by 1 (the value of ePts) and 1 (the value of fPts) consecutive intervening points, respectively
+        assertTrue(CMVCalculator.checkLIC10(ePts, fPts, AREA1, dataPoints));
     }
 
     @Test
     public void testLIC10False() {
         double[][] dataPoints = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}};
-        int EPTS = 2;
-        int FPTS = 2;
+        int ePts = 2;
+        int fPts = 2;
         double AREA1 = 0.5;
         //here the only option is (1,2), (5, 6) and (9, 10) but the points are on a straight line so the area is 0
-        assertFalse(CMVCalculator.checkLIC10(EPTS, FPTS, AREA1, dataPoints));
+        assertFalse(CMVCalculator.checkLIC10(ePts, fPts, AREA1, dataPoints));
     }
 
     @Test
@@ -362,8 +362,8 @@ public class CMVCalculatorTest {
         double[] point1 = new double[]{1.5f, 3.0f};
         double[] point2 = new double[]{1.5f, 0.0f};
         double[][] points = new double[][]{point1, point2};
-        int G_PTS = 0;
-        assertFalse(CMVCalculator.checkLIC11(points, G_PTS));
+        int gPts = 0;
+        assertFalse(CMVCalculator.checkLIC11(points, gPts));
     }
 
     @Test
@@ -372,8 +372,8 @@ public class CMVCalculatorTest {
         double[] point2 = new double[]{0.0f, 1.0f};
         double[] point3 = new double[]{1.0f, 3.0f};
         double[][] points = new double[][]{point1, point2, point3};
-        int G_PTS = 1;
-        assertFalse(CMVCalculator.checkLIC11(points, G_PTS));
+        int gPts = 1;
+        assertFalse(CMVCalculator.checkLIC11(points, gPts));
     }
 
     @Test
@@ -382,8 +382,8 @@ public class CMVCalculatorTest {
         double[] point2 = new double[]{0.0f, 1.0f};
         double[] point3 = new double[]{1.0f, 3.0f};
         double[][] points = new double[][]{point1, point2, point3};
-        int G_PTS = 1;
-        assertTrue(CMVCalculator.checkLIC11(points, G_PTS));
+        int gPts = 1;
+        assertTrue(CMVCalculator.checkLIC11(points, gPts));
 
     }
 
@@ -393,9 +393,9 @@ public class CMVCalculatorTest {
         double[] point2 = new double[]{1.5f, 0.0f};
         double length1 = 1;
         double length2 = 1;
-        int K_PTS = 0;
+        int kPts = 0;
         double[][] points = new double[][]{point1, point2};
-        assertFalse(CMVCalculator.checkLIC12(points, length1, length2, K_PTS));
+        assertFalse(CMVCalculator.checkLIC12(points, length1, length2, kPts));
     }
 
     @Test
@@ -406,9 +406,9 @@ public class CMVCalculatorTest {
         double[] point4 = new double[]{2.1f, 2.1f};
         double length1 = 1;
         double length2 = 1;
-        int K_PTS = 1;
+        int kPts = 1;
         double[][] points = new double[][]{point1, point2, point3, point4};
-        assertTrue(CMVCalculator.checkLIC12(points, length1, length2, K_PTS));
+        assertTrue(CMVCalculator.checkLIC12(points, length1, length2, kPts));
     }
 
     @Test
@@ -419,9 +419,9 @@ public class CMVCalculatorTest {
         double[] point4 = new double[]{5.1f, 5.1f};
         double length1 = 1;
         double length2 = 1;
-        int K_PTS = 1;
+        int kPts = 1;
         double[][] points = new double[][]{point1, point2, point3, point4};
-        assertFalse(CMVCalculator.checkLIC12(points, length1, length2, K_PTS));
+        assertFalse(CMVCalculator.checkLIC12(points, length1, length2, kPts));
     }
 
     @Test
@@ -432,10 +432,10 @@ public class CMVCalculatorTest {
         double[] point4 = new double[]{1.5f, 0.0f};
         double radius1 = 1;
         double radius2 = 1;
-        int A_PTS = 1;
-        int B_PTS = 1;
+        int aPts = 1;
+        int bPts = 1;
         double[][] points = new double[][]{point1, point2, point3, point4};
-        assertFalse(CMVCalculator.checkLIC13(points, A_PTS, B_PTS, radius1, radius2));
+        assertFalse(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2));
     }
 
     @Test
@@ -447,10 +447,10 @@ public class CMVCalculatorTest {
         double[] point5 = new double[]{4.0f, 0.0f};
         double radius1 = 1;
         double radius2 = 1;
-        int A_PTS = 1;
-        int B_PTS = 1;
+        int aPts = 1;
+        int bPts = 1;
         double[][] points = new double[][]{point1, point2, point3, point4, point5};
-        assertFalse(CMVCalculator.checkLIC13(points, A_PTS, B_PTS, radius1, radius2));
+        assertFalse(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2));
     }
 
     @Test
@@ -464,35 +464,35 @@ public class CMVCalculatorTest {
         double radius1 = 1;
         double radius2 = 5;
 
-        int A_PTS = 1;
-        int B_PTS = 1;
+        int aPts = 1;
+        int bPts = 1;
 
         double[][] points = new double[][]{point1, point2, point3, point4, point5};
 
-        assertTrue(CMVCalculator.checkLIC13(points, A_PTS, B_PTS, radius1, radius2));
+        assertTrue(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2));
     }
 
     @Test
     public void testLIC14ReturnsTrue() {
-        int E_PTS = 2;
-        int F_PTS = 1;
+        int ePts = 2;
+        int fPts = 1;
         double AREA1 = 10;
         double AREA2 = 20;
         double[][] dataPoints = new double[][]{{1, 2}, {1, 1}, {3, 1}, {22, 8}, {9, 10}, {11, 12}, {13, 14}, {15, 16}};
         //returns true because the area of the triangle formed by the first, third, and fourth data points is 16.5
 
-        assertTrue(CMVCalculator.checkLIC14(dataPoints, E_PTS, F_PTS, AREA1, AREA2));
+        assertTrue(CMVCalculator.checkLIC14(dataPoints, ePts, fPts, AREA1, AREA2));
     }
 
     @Test
     public void testLIC14ReturnsFalse() {
-        int E_PTS = 2;
-        int F_PTS = 1;
+        int ePts = 2;
+        int fPts = 1;
         double AREA1 = 30;
         double AREA2 = 40;
         double[][] dataPoints = new double[][]{{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}, {11, 12}, {13, 14}, {15, 16}};
 
         //returns false because all of these points form a line with area of 0 between any 3 of them
-        assertFalse(CMVCalculator.checkLIC14(dataPoints, E_PTS, F_PTS, AREA1, AREA2));
+        assertFalse(CMVCalculator.checkLIC14(dataPoints, ePts, fPts, AREA1, AREA2));
     }
 }
