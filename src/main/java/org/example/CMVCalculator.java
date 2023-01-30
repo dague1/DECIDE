@@ -384,18 +384,18 @@ public class CMVCalculator {
      * @param NUMPOINTS
      * @return whether the points satisfy the aforementioned conditions.
      */
-    public static boolean checkLIC12(double[][] points, double length1, double length2, int kPts, int NUMPOINTS) {
+    public static boolean checkLIC12(double[][] points, double length1, double length2, int kPts) {
 
         boolean condition1 = false;
         boolean condition2 = false;
 
-        if (NUMPOINTS < 3) return false;
+        if (points.length < 3) return false;
 
         if (length2 < 0) {
             throw new IllegalArgumentException("Faulty input");
         }
 
-        for (int i = 0; i < NUMPOINTS - kPts - 1; ++i) {
+        for (int i = 0; i < points.length - kPts - 1; ++i) {
             if (MathUtils.calcDistanceBetweenTwoPoints(points[i], points[i + kPts + 1]) > length1) condition1 = true;
             if (MathUtils.calcDistanceBetweenTwoPoints(points[i], points[i + kPts + 1]) < length2) condition2 = true;
         }
@@ -454,7 +454,7 @@ public class CMVCalculator {
      * @return true if constaints and both conditions satisfied, false otherwise
      */
 
-    public static boolean checkLIC14(int EPTS, int FPTS, double AREA1, double AREA2, double[][] dataPoints) {
+    public static boolean checkLIC14(double[][] dataPoints, int EPTS, int FPTS, double AREA1, double AREA2) {
 
         if (dataPoints.length < 5) {
             return false;
@@ -482,7 +482,22 @@ public class CMVCalculator {
     }
 
     public static boolean[] calculateCMV(double[][] points, Parameters parameters) {
-
-        return null;
+        boolean[] cmv = new boolean[15];
+        cmv[0] = checkLIC0(points, parameters.length1());
+        cmv[1] = checkLIC1(points, parameters.radius1());
+        cmv[2] = checkLIC2(points, parameters.epsilon());
+        cmv[3] = checkLIC3(points, parameters.area1());
+        cmv[4] = checkLIC4(points, parameters.qPts(), parameters.quads());
+        cmv[5] = checkLIC5(points);
+        cmv[6] = checkLIC6(points, parameters.nPts(), parameters.dist());
+        cmv[7] = checkLIC7(points, parameters.length1(), parameters.kPts());
+        cmv[8] = checkLIC8(points, parameters.radius1(), parameters.aPts(), parameters.bPts());
+        cmv[9] = checkLIC9(points, parameters.cPts(), parameters.dPts(), parameters.epsilon());
+        cmv[10] = checkLIC0(points, parameters.length1());
+        cmv[11] = checkLIC11(points, parameters.gPts());
+        cmv[12] = checkLIC12(points, parameters.length1(), parameters.length2(), parameters.kPts());
+        cmv[13] = checkLIC13(points, parameters.aPts(), parameters.bPts(), parameters.radius1(), parameters.radius2());
+        cmv[14] = checkLIC14(points, parameters.ePts(), parameters.fPts(), parameters.area1(), parameters.area2());
+        return cmv;
     }
 }
