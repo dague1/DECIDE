@@ -7,136 +7,6 @@ package org.example;
  */
 public class CMVCalculator {
 
-    /**
-     * Used for calculate distance between two 2D points
-     *
-     * @param point1 an array containing x coordinate and y coordinate of point 1
-     * @param point2 an array containing x coordinate and y coordinate of point 2
-     * @return the distance between point1 and point2
-     */
-    private static double calcDistanceBetweenTwoPoints(float[] point1, float[] point2) {
-        float del_x = point1[0] - point2[0];
-        float del_y = point1[1] - point2[1];
-        return Math.sqrt(del_x * del_x + del_y * del_y);
-    }
-
-    /**
-     * Used for judge whether three 2D points are on the same line
-     * This is calculated by the equation (y1-y2) * (x1-x3) = (y1-y3) * (x1-x2)
-     * If the three points are on the same line, the above equation should be true
-     *
-     * @param point1 an array containing x coordinate and y coordinate of point 1
-     * @param point2 an array containing x coordinate and y coordinate of point 2
-     * @param point3 an array containing x coordinate and y coordinate of point 2
-     * @return whether the three points are on the same line
-     */
-    private static boolean checkCollinear(float[] point1, float[] point2, float[] point3) {
-        return (point1[1] - point2[1]) * (point1[0] - point3[0]) == (point1[1] - point3[1]) * (point1[0] - point2[0]);
-    }
-
-    /**
-     * Used for calculate the center point (or middle point) between two 2D points
-     *
-     * @param point1 an array containing x coordinate and y coordinate of point 1
-     * @param point2 an array containing x coordinate and y coordinate of point 2
-     * @return the center point between point1 and point2
-     */
-    private static float[] getMiddlePoint(float[] point1, float[] point2) {
-        float center_x = (point1[0] + point2[0]) / 2.0f;
-        float center_y = (point1[1] + point2[1]) / 2.0f;
-        return new float[]{center_x, center_y};
-    }
-
-    /**
-     * Used for calculate the circumcenter of a triangle
-     * Formula according to https://en.wikipedia.org/wiki/Circumscribed_circle#Circumcircle_equations
-     *
-     * @param point1 an array containing x coordinate and y coordinate of triangle vertex 1
-     * @param point2 an array containing x coordinate and y coordinate of triangle vertex 2
-     * @param point3 an array containing x coordinate and y coordinate of triangle vertex 3
-     * @return the circumcenter of the input triangle
-     */
-    private static float[] getCircumcenter(float[] point1, float[] point2, float[] point3) {
-        float D = 2.0f * (point1[0] * (point2[1] - point3[1]) + point2[0] * (point3[1] - point1[1]) + point3[0] * (point1[1] - point2[1]));
-        float Ax2 = point1[0] * point1[0];
-        float Ay2 = point1[1] * point1[1];
-        float Bx2 = point2[0] * point2[0];
-        float By2 = point2[1] * point2[1];
-        float Cx2 = point3[0] * point3[0];
-        float Cy2 = point3[1] * point3[1];
-        float U_x = 1.0f / D * ((Ax2 + Ay2) * (point2[1] - point3[1]) + (Bx2 + By2) * (point3[1] - point1[1]) + (Cx2 + Cy2) * (point1[1] - point2[1]));
-        float U_y = 1.0f / D * ((Ax2 + Ay2) * (point3[0] - point2[0]) + (Bx2 + By2) * (point1[0] - point3[0]) + (Cx2 + Cy2) * (point2[0] - point1[0]));
-        return new float[]{U_x, U_y};
-    }
-
-
-    /**
-     * Helper function that returns true if the angle delta created between the three points is < (Math.PI - epsilon) or > (Math.PI + epsilon)
-     *
-     * @param point1 an array containing x coordinate and y coordinate point1
-     * @param point2 an array containing x coordinate and y coordinate point2
-     * @param point3 an array containing x coordinate and y coordinate point3
-     * @return returns true if the angle delta created between the three points is < (Math.PI - epsilon) or > (Math.PI + epsilon)
-     */
-    public static boolean deltaIsWithinBounds(float[] point1, float[] point2, float[] point3, double epsilon) {
-        if (point1 == point2 || point2 == point3 || Math.PI <= epsilon) return false;
-
-        double dist12 = Math.hypot(point2[0] - point2[1], point2[1] - point1[1]);
-        double dist23 = Math.hypot(point2[0] - point3[0], point2[1] - point3[1]);
-        double dist13 = Math.hypot(point1[0] - point3[0], point1[1] - point3[1]);
-
-        double delta = Math.acos((Math.pow(dist12, 2) + Math.pow(dist23, 2) - Math.pow(dist13, 2)) // the angle in radians
-                / (2 * dist12 * dist23));
-        return delta < (Math.PI - epsilon) || delta > (Math.PI + epsilon);
-    }
-
-
-    /**
-     * Used for calculate the minimum enclosing circle radius for the given three 2D points
-     * First check if the three points are collinear (apply also to three identical points)
-     * Then check if the three points satisfy that two points on the circle boundary and the other inside the circle
-     * If above two check failed, then compute the circumcenter O of the triangle and the radius would be |OA|
-     * A could be any point from the three points
-     *
-     * @param point1 an array containing x coordinate and y coordinate point1
-     * @param point2 an array containing x coordinate and y coordinate point2
-     * @param point3 an array containing x coordinate and y coordinate point3
-     * @return the radius of the minimum enclosing circle of the three input points
-     */
-    private static double calcMinimumEnclosingCircleRadius(float[] point1, float[] point2, float[] point3) {
-        double radius;
-        // first check if the three points are collinear (this also apply if three points are identical)
-        if (checkCollinear(point1, point2, point3)) {
-            // the minimum enclosing circle radius should be
-            // half of the maximum length between L1_2, L1_3, L2_3
-            radius = Math.max(calcDistanceBetweenTwoPoints(point1, point2), calcDistanceBetweenTwoPoints(point1, point3));
-            radius = Math.max(radius, calcDistanceBetweenTwoPoints(point2, point3)) / 2.0d;
-            return radius;
-        }
-
-        // try all 2 points (on boundary) circles
-        // in this case, we assume the line between the 2 points is the circle's diameter
-        // if we could find the enclosing circle, compare the radius with RADIUS1
-        float[][] points = new float[][]{point1, point2, point3};
-        for (int m = 0; m < 3; m++) {
-            for (int n = m + 1; n < 3; n++) {
-                float[] center = getMiddlePoint(points[m], points[n]);
-                radius = calcDistanceBetweenTwoPoints(points[m], points[n]) / 2.0d;
-                // check if the third point is enclosed in the circle
-                // if so, we found the minimum enclosing circle (which is unique)
-                if (calcDistanceBetweenTwoPoints(center, points[3 - m - n]) < radius) {
-                    return radius;
-                }
-            }
-        }
-
-        // if above conditions are not met, then
-        // the 3 points (all on boundary) circle would be the minimum enclosing circle
-        // get the radius and compare it with RADIUS1
-        float[] center = getCircumcenter(point1, point2, point3);
-        radius = calcDistanceBetweenTwoPoints(center, point1);
-        return radius;
-    }
 
     /**
      * There exists at least one set of two consecutive data points that are a distance greater than
@@ -170,13 +40,13 @@ public class CMVCalculator {
      * @param RADIUS1 a double value given in the parameters
      * @return whether there are three consecutive data points that cannot all be contained within or on a circle of radius RADIUS1.
      */
-    public static boolean checkLIC1(float[][] points, double RADIUS1) {
+    public static boolean checkLIC1(double[][] points, double RADIUS1) {
         if (RADIUS1 < 0) {
             return false;
         }
         double radius;
         for (int i = 0; i < points.length - 2; i++) {
-            radius = calcMinimumEnclosingCircleRadius(points[i], points[i + 1], points[i + 2]);
+            radius = MathUtils.calcMinimumEnclosingCircleRadius(points[i], points[i + 1], points[i + 2]);
             if (radius > RADIUS1) return true;
         }
         return false;
@@ -196,7 +66,7 @@ public class CMVCalculator {
      * @param EPSILON a double value given in the parameters
      * @return whether there exists at least one set of three consecutive data points that satisfy above conditions
      */
-    public static boolean checkLIC2(float[][] points, double EPSILON) {
+    public static boolean checkLIC2(double[][] points, double EPSILON) {
         if (EPSILON >= Math.PI || EPSILON < 0) {
             return false;
         }
@@ -206,9 +76,9 @@ public class CMVCalculator {
             }
             // calculate angle using vector doc product
             // note that point[i+1] is the vertex of the angle
-            float dotVec = (points[i][0] - points[i + 1][0]) * (points[i + 2][0] - points[i + 1][0]) + (points[i][1] - points[i + 1][1]) * (points[i + 2][1] - points[i + 1][1]);
-            double length1 = calcDistanceBetweenTwoPoints(points[i], points[i + 1]);
-            double length2 = calcDistanceBetweenTwoPoints(points[i + 2], points[i + 1]);
+            double dotVec = (points[i][0] - points[i + 1][0]) * (points[i + 2][0] - points[i + 1][0]) + (points[i][1] - points[i + 1][1]) * (points[i + 2][1] - points[i + 1][1]);
+            double length1 = MathUtils.calcDistanceBetweenTwoPoints(points[i], points[i + 1]);
+            double length2 = MathUtils.calcDistanceBetweenTwoPoints(points[i + 2], points[i + 1]);
             double cosAngle = dotVec / (length1 * length2);
             double angle = Math.acos(cosAngle);
             if (angle < Math.PI - EPSILON || angle > Math.PI + EPSILON) {
@@ -252,17 +122,17 @@ public class CMVCalculator {
      * (0,1) is in quadrant I and the point (1,0) is in quadrant I.
      * (2 ≤ Q PTS ≤ NUMPOINTS), (1 ≤ QUADS ≤ 3)
      *
-     * @param dataPoints 2D array of floats, where each sub-array represents a point in the form of [x, y]
+     * @param dataPoints 2D array of doubles, where each sub-array represents a point in the form of [x, y]
      * @param QPTS       an integer representing the number of consecutive points to check in each set
      * @param QUADS      an integer representing the number of quadrants that must be present in a set of QPTS points for the method to return true
      * @return true if at least one set of consecutive QPTS points in dataPoints fall in more than QUADS quadrants, false otherwise.
      */
-    public static boolean checkLIC4(float[][] dataPoints, int QPTS, int QUADS) {
+    public static boolean checkLIC4(double[][] dataPoints, int QPTS, int QUADS) {
         for (int i = 0; i <= dataPoints.length - QPTS; i++) {
             int[] quadrantCount = new int[4];
             for (int j = i; j < i + QPTS; j++) {
-                float x = dataPoints[j][0];
-                float y = dataPoints[j][1];
+                double x = dataPoints[j][0];
+                double y = dataPoints[j][1];
                 if (x >= 0 && y >= 0) {
                     quadrantCount[0]++;
                 } else if (x < 0 && y >= 0) {
@@ -361,7 +231,7 @@ public class CMVCalculator {
      * @param K_PTS   an int value given in the parameters
      * @return True if there is atleast one set of two points, separated by K_PTS consecutive intevening points, with a distance greater than LENGTH1. False Otherwise.
      */
-    public static boolean checkLIC7(float[][] points, double LENGTH1, int K_PTS) {
+    public static boolean checkLIC7(double[][] points, double LENGTH1, int K_PTS) {
 
         if (points.length < 3) {
             return false;
@@ -371,7 +241,7 @@ public class CMVCalculator {
 
 
         for (int i = 0; i < points.length - K_PTS - 1; i++) {
-            if (calcDistanceBetweenTwoPoints(points[i], points[i + K_PTS + 1]) > LENGTH1) {
+            if (MathUtils.calcDistanceBetweenTwoPoints(points[i], points[i + K_PTS + 1]) > LENGTH1) {
                 return true;
             }
         }
@@ -394,7 +264,7 @@ public class CMVCalculator {
      * that cannot be contained withing a circle with radius RADIUS1, False otherwise.
      */
 
-    public static boolean checkLIC8(float[][] points, double RADIUS1, int A_PTS, int B_PTS) {
+    public static boolean checkLIC8(double[][] points, double RADIUS1, int A_PTS, int B_PTS) {
         if (A_PTS < 1 || B_PTS < 1) {
             return false;
         } else if (A_PTS + B_PTS > points.length - 3) {
@@ -404,7 +274,7 @@ public class CMVCalculator {
         }
 
         for (int i = 0; i < points.length - A_PTS - B_PTS - 2; i++) {
-            double min_radius = calcMinimumEnclosingCircleRadius(points[i], points[i + A_PTS + 1], points[i + A_PTS + B_PTS + 2]);
+            double min_radius = MathUtils.calcMinimumEnclosingCircleRadius(points[i], points[i + A_PTS + 1], points[i + A_PTS + B_PTS + 2]);
             if (min_radius > RADIUS1) {
                 return true;
             }
@@ -434,7 +304,7 @@ public class CMVCalculator {
      * @return true if the aforementioned points satisfy the aforementioned conditions.
      * @return
      */
-    public static boolean checkLIC9(float[][] points, int cPts, int dPts, double epsilon) {
+    public static boolean checkLIC9(double[][] points, int cPts, int dPts, double epsilon) {
 
         if (points.length < 5) return false;
 
@@ -443,7 +313,7 @@ public class CMVCalculator {
 
         for (int i = 0; i < points.length - cPts - dPts - 2; ++i) {
             if (points[i] == points[i + cPts + 1] || points[i + cPts + 1] == points[i + cPts + dPts + 2]) continue;
-            if (deltaIsWithinBounds(points[i], points[i + cPts + 1], points[i + cPts + dPts + 2], epsilon)) {
+            if (MathUtils.deltaIsWithinBounds(points[i], points[i + cPts + 1], points[i + cPts + dPts + 2], epsilon)) {
                 return true;
             }
         }
@@ -490,7 +360,7 @@ public class CMVCalculator {
      * @param gPts
      * @return whether there are points that satisfy the abovementioned condition.
      */
-    public static boolean checkLIC11(float[][] points, int gPts) {
+    public static boolean checkLIC11(double[][] points, int gPts) {
         if (points.length < 3) return false;
 
         for (int i = 0; i < (points.length - gPts - 1); ++i) {
@@ -514,20 +384,20 @@ public class CMVCalculator {
      * @param NUMPOINTS
      * @return whether the points satisfy the aforementioned conditions.
      */
-    public static boolean checkLIC12(float[][] points, double length1, double length2, int kPts, int NUMPOINTS) {
+    public static boolean checkLIC12(double[][] points, double length1, double length2, int kPts) {
 
         boolean condition1 = false;
         boolean condition2 = false;
 
-        if (NUMPOINTS < 3) return false;
+        if (points.length < 3) return false;
 
         if (length2 < 0) {
             throw new IllegalArgumentException("Faulty input");
         }
 
-        for (int i = 0; i < NUMPOINTS - kPts - 1; ++i) {
-            if (calcDistanceBetweenTwoPoints(points[i], points[i + kPts + 1]) > length1) condition1 = true;
-            if (calcDistanceBetweenTwoPoints(points[i], points[i + kPts + 1]) < length2) condition2 = true;
+        for (int i = 0; i < points.length - kPts - 1; ++i) {
+            if (MathUtils.calcDistanceBetweenTwoPoints(points[i], points[i + kPts + 1]) > length1) condition1 = true;
+            if (MathUtils.calcDistanceBetweenTwoPoints(points[i], points[i + kPts + 1]) < length2) condition2 = true;
         }
 
         return (condition1 && condition2);
@@ -550,7 +420,7 @@ public class CMVCalculator {
      * @param radius2 specified radius of the second circle
      * @return whether the points in the points-array meet the aforementioned conditions.
      */
-    public static boolean checkLIC13(float[][] points, int aPts, int bPts, double radius1, double radius2) {
+    public static boolean checkLIC13(double[][] points, int aPts, int bPts, double radius1, double radius2) {
 
         if (points.length < 5) return false;
         if (radius2 < 0) throw new IllegalArgumentException("Faulty input");
@@ -560,7 +430,7 @@ public class CMVCalculator {
         double radius;
 
         for (int i = 0; i < points.length - aPts - bPts - 2; ++i) {
-            radius = calcMinimumEnclosingCircleRadius(points[i], points[i + aPts + 1], points[i + aPts + bPts + 1]);
+            radius = MathUtils.calcMinimumEnclosingCircleRadius(points[i], points[i + aPts + 1], points[i + aPts + bPts + 1]);
             if (radius >= radius1) condition1 = true;
             if (radius <= radius2) condition2 = true;
         }
@@ -584,7 +454,7 @@ public class CMVCalculator {
      * @return true if constaints and both conditions satisfied, false otherwise
      */
 
-    public static boolean checkLIC14(int EPTS, int FPTS, double AREA1, double AREA2, double[][] dataPoints) {
+    public static boolean checkLIC14(double[][] dataPoints, int EPTS, int FPTS, double AREA1, double AREA2) {
 
         if (dataPoints.length < 5) {
             return false;
@@ -611,8 +481,23 @@ public class CMVCalculator {
         return area2requirementIsSatisfied && area1requirementIsSatisfied;
     }
 
-    public static boolean[] calculateCMV(float[][] points, Parameters parameters) {
-
-        return null;
+    public static boolean[] calculateCMV(double[][] points, Parameters parameters) {
+        boolean[] cmv = new boolean[15];
+        cmv[0] = checkLIC0(points, parameters.length1());
+        cmv[1] = checkLIC1(points, parameters.radius1());
+        cmv[2] = checkLIC2(points, parameters.epsilon());
+        cmv[3] = checkLIC3(points, parameters.area1());
+        cmv[4] = checkLIC4(points, parameters.qPts(), parameters.quads());
+        cmv[5] = checkLIC5(points);
+        cmv[6] = checkLIC6(points, parameters.nPts(), parameters.dist());
+        cmv[7] = checkLIC7(points, parameters.length1(), parameters.kPts());
+        cmv[8] = checkLIC8(points, parameters.radius1(), parameters.aPts(), parameters.bPts());
+        cmv[9] = checkLIC9(points, parameters.cPts(), parameters.dPts(), parameters.epsilon());
+        cmv[10] = checkLIC0(points, parameters.length1());
+        cmv[11] = checkLIC11(points, parameters.gPts());
+        cmv[12] = checkLIC12(points, parameters.length1(), parameters.length2(), parameters.kPts());
+        cmv[13] = checkLIC13(points, parameters.aPts(), parameters.bPts(), parameters.radius1(), parameters.radius2());
+        cmv[14] = checkLIC14(points, parameters.ePts(), parameters.fPts(), parameters.area1(), parameters.area2());
+        return cmv;
     }
 }
