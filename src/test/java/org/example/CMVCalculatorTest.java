@@ -35,29 +35,29 @@ public class CMVCalculatorTest {
     @Test
     public void TestBasicThreePointsLIC1() {
         // check three identical points
-        float[] point1 = new float[]{1.0f, 1.0f};
-        float[][] points = new float[][]{point1, point1, point1};
+        double[] point1 = new double[]{1.0f, 1.0f};
+        double[][] points = new double[][]{point1, point1, point1};
         assertFalse(CMVCalculator.checkLIC1(points, 1.0d));
         // check invalid RADIUS1
         assertFalse(CMVCalculator.checkLIC1(points, -1.0d));
 
         // check three collinear points
-        float[] point2 = new float[]{1.0f, 0.0f};
-        float[] point3 = new float[]{1.0f, 2.0f};
-        points = new float[][]{point1, point2, point3};
+        double[] point2 = new double[]{1.0f, 0.0f};
+        double[] point3 = new double[]{1.0f, 2.0f};
+        points = new double[][]{point1, point2, point3};
         assertFalse(CMVCalculator.checkLIC1(points, 1.0d));
         assertFalse(CMVCalculator.checkLIC1(points, 1.5d));
         assertTrue(CMVCalculator.checkLIC1(points, 0.8d));
 
         // check 2 points (on boundary) circle
-        point1 = new float[]{0.2f, 1.0f};
+        point1 = new double[]{0.2f, 1.0f};
         points[0] = point1;
         assertFalse(CMVCalculator.checkLIC1(points, 1.0d));
         assertFalse(CMVCalculator.checkLIC1(points, 1.5d));
         assertTrue(CMVCalculator.checkLIC1(points, 0.8d));
 
         // check 3 points (on boundary) circle
-        point1 = new float[]{0.0f, 1.0f};
+        point1 = new double[]{0.0f, 1.0f};
         points[0] = point1;
         assertFalse(CMVCalculator.checkLIC1(points, 1.0d));
         assertFalse(CMVCalculator.checkLIC1(points, 1.5d));
@@ -66,11 +66,11 @@ public class CMVCalculatorTest {
 
     @Test
     public void testFourPointsLIC1() {
-        float[] point1 = new float[]{1.5f, 3.0f};
-        float[] point2 = new float[]{1.5f, 0.0f};
-        float[] point3 = new float[]{0.0f, 1.5f};
-        float[] point4 = new float[]{5.5f, 3.0f};
-        float[][] points = new float[][]{point1, point2, point3, point4};
+        double[] point1 = new double[]{1.5f, 3.0f};
+        double[] point2 = new double[]{1.5f, 0.0f};
+        double[] point3 = new double[]{0.0f, 1.5f};
+        double[] point4 = new double[]{5.5f, 3.0f};
+        double[][] points = new double[][]{point1, point2, point3, point4};
 
         assertTrue(CMVCalculator.checkLIC1(points, 0.5d));
         assertTrue(CMVCalculator.checkLIC1(points, 1.0d));
@@ -82,10 +82,10 @@ public class CMVCalculatorTest {
 
     @Test
     public void testThreeAndFourPointsLIC2() {
-        float[] point1 = new float[]{0.0f, 1.0f};
-        float[] point2 = new float[]{0.0f, 0.0f};
-        float[] point3 = new float[]{1.0f, 0.0f};
-        float[][] points = new float[][]{point1, point2, point3};
+        double[] point1 = new double[]{0.0f, 1.0f};
+        double[] point2 = new double[]{0.0f, 0.0f};
+        double[] point3 = new double[]{1.0f, 0.0f};
+        double[][] points = new double[][]{point1, point2, point3};
         // Epsilon invalid
         assertFalse(CMVCalculator.checkLIC2(points, -1.0d));
         // 0.5*pi < pi - 0.25*pi
@@ -100,9 +100,9 @@ public class CMVCalculatorTest {
         assertFalse(CMVCalculator.checkLIC2(points, 0.5d * Math.PI));
 
         // angle123 = pi, angle234 = 0.25 * pi
-        point3 = new float[]{0.0f, -1.0f};
-        float[] point4 = new float[]{1.0f, 0.0f};
-        points = new float[][]{point1, point2, point3, point4};
+        point3 = new double[]{0.0f, -1.0f};
+        double[] point4 = new double[]{1.0f, 0.0f};
+        points = new double[][]{point1, point2, point3, point4};
         assertTrue(CMVCalculator.checkLIC2(points, 0));
         // angle123 = pi, angle234 = 0.5 * pi
         point4[1] = -1.0f;
@@ -111,29 +111,29 @@ public class CMVCalculatorTest {
 
     @Test
     public void testLIC11TooFewPoints() {
-        float[] point1 = new float[]{1.5f, 3.0f};
-        float[] point2 = new float[]{1.5f, 0.0f};
-        float[][] points = new float[][]{point1, point2};
+        double[] point1 = new double[]{1.5f, 3.0f};
+        double[] point2 = new double[]{1.5f, 0.0f};
+        double[][] points = new double[][]{point1, point2};
         int gPts = 0;
         assertFalse(CMVCalculator.checkLIC11(points, gPts));
     }
 
     @Test
     public void testLIC11WhenLICNotMet() {
-        float[] point1 = new float[]{0.0f, 0.0f};
-        float[] point2 = new float[]{0.0f, 1.0f};
-        float[] point3 = new float[]{1.0f, 3.0f};
-        float[][] points = new float[][]{point1, point2, point3};
+        double[] point1 = new double[]{0.0f, 0.0f};
+        double[] point2 = new double[]{0.0f, 1.0f};
+        double[] point3 = new double[]{1.0f, 3.0f};
+        double[][] points = new double[][]{point1, point2, point3};
         int gPts = 1;
         assertFalse(CMVCalculator.checkLIC11(points, gPts));
     }
 
     @Test
     public void testLIC11WhenLICMet() {
-        float[] point1 = new float[]{3.0f, 0.0f};
-        float[] point2 = new float[]{0.0f, 1.0f};
-        float[] point3 = new float[]{1.0f, 3.0f};
-        float[][] points = new float[][]{point1, point2, point3};
+        double[] point1 = new double[]{3.0f, 0.0f};
+        double[] point2 = new double[]{0.0f, 1.0f};
+        double[] point3 = new double[]{1.0f, 3.0f};
+        double[][] points = new double[][]{point1, point2, point3};
         int gPts = 1;
         assertTrue(CMVCalculator.checkLIC11(points, gPts));
 
@@ -162,7 +162,7 @@ public class CMVCalculatorTest {
 
     @Test
     public void testCheckLIC4true() {
-        float[][] dataPoints = {{1, 2}, {-3, 4}, {5, -6}, {-7, -8}, {9, 10}, {-11, 12}, {13, -14}, {-15, -16}, {17, 18}, {-19, 20}};
+        double[][] dataPoints = {{1, 2}, {-3, 4}, {5, -6}, {-7, -8}, {9, 10}, {-11, 12}, {13, -14}, {-15, -16}, {17, 18}, {-19, 20}};
         int QUADS = 3;
         int QPTS = 4;
         //is true because the first 4 and the next 4 elements are in their own separate quadrants which is > than QUADS
@@ -171,7 +171,7 @@ public class CMVCalculatorTest {
 
     @Test
     public void testCheckLIC4false() {
-        float[][] dataPoints = {{1, 2}, {-3, 4}, {5, -6}, {-7, -8}, {9, 10}, {-11, 12}, {13, -14}, {-15, -16}, {17, 18}, {-19, 20}};
+        double[][] dataPoints = {{1, 2}, {-3, 4}, {5, -6}, {-7, -8}, {9, 10}, {-11, 12}, {13, -14}, {-15, -16}, {17, 18}, {-19, 20}};
         int QPTS = 3;
         int QUADS = 3;
         //is false because there are 3 QPTS and 3 QUADS so can't be larger due to the condition requirement
@@ -207,81 +207,81 @@ public class CMVCalculatorTest {
 
     @Test
     public void testLIC12TooFewPoints() {
-        float[] point1 = new float[]{1.5f, 3.0f};
-        float[] point2 = new float[]{1.5f, 0.0f};
+        double[] point1 = new double[]{1.5f, 3.0f};
+        double[] point2 = new double[]{1.5f, 0.0f};
         double length1 = 1;
         double length2 = 1;
         int kPts = 0;
         int NUMPOINTS = 2;
-        float[][] points = new float[][]{point1, point2};
+        double[][] points = new double[][]{point1, point2};
         int gPts = 0;
         assertFalse(CMVCalculator.checkLIC12(points, length1, length2, kPts, NUMPOINTS));
     }
 
     @Test
     public void testLIC12BothConditionsMet() {
-        float[] point1 = new float[]{0.0f, 0.0f};
-        float[] point2 = new float[]{2.0f, 2.0f};
-        float[] point3 = new float[]{2.1f, 2.1f};
-        float[] point4 = new float[]{2.1f, 2.1f};
+        double[] point1 = new double[]{0.0f, 0.0f};
+        double[] point2 = new double[]{2.0f, 2.0f};
+        double[] point3 = new double[]{2.1f, 2.1f};
+        double[] point4 = new double[]{2.1f, 2.1f};
         double length1 = 1;
         double length2 = 1;
         int kPts = 1;
         int NUMPOINTS = 4;
-        float[][] points = new float[][]{point1, point2, point3, point4};
+        double[][] points = new double[][]{point1, point2, point3, point4};
         assertTrue(CMVCalculator.checkLIC12(points, length1, length2, kPts, NUMPOINTS));
     }
 
     @Test
     public void testLIC12OnlyOneConditionMet() {
-        float[] point1 = new float[]{0.0f, 0.0f};
-        float[] point2 = new float[]{2.0f, 2.0f};
-        float[] point3 = new float[]{2.1f, 2.1f};
-        float[] point4 = new float[]{5.1f, 5.1f};
+        double[] point1 = new double[]{0.0f, 0.0f};
+        double[] point2 = new double[]{2.0f, 2.0f};
+        double[] point3 = new double[]{2.1f, 2.1f};
+        double[] point4 = new double[]{5.1f, 5.1f};
         double length1 = 1;
         double length2 = 1;
         int kPts = 1;
         int NUMPOINTS = 4;
-        float[][] points = new float[][]{point1, point2, point3, point4};
+        double[][] points = new double[][]{point1, point2, point3, point4};
         assertFalse(CMVCalculator.checkLIC12(points, length1, length2, kPts, NUMPOINTS));
     }
 
     @Test
     public void testLIC13TooFewPoints() {
-        float[] point1 = new float[]{1.5f, 3.0f};
-        float[] point2 = new float[]{1.5f, 0.0f};
-        float[] point3 = new float[]{1.5f, 3.0f};
-        float[] point4 = new float[]{1.5f, 0.0f};
+        double[] point1 = new double[]{1.5f, 3.0f};
+        double[] point2 = new double[]{1.5f, 0.0f};
+        double[] point3 = new double[]{1.5f, 3.0f};
+        double[] point4 = new double[]{1.5f, 0.0f};
         double radius1 = 1;
         double radius2 = 1;
         int aPts = 1;
         int bPts = 1;
-        float[][] points = new float[][]{point1, point2, point3, point4};
+        double[][] points = new double[][]{point1, point2, point3, point4};
         assertFalse(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2));
     }
 
     @Test
     public void testLIC13OnlyOneConditionMet() {
-        float[] point1 = new float[]{0.0f, 0.0f};
-        float[] point2 = new float[]{2.0f, 0.0f};
-        float[] point3 = new float[]{2.0f, 0.0f};
-        float[] point4 = new float[]{4.0f, 0.0f};
-        float[] point5 = new float[]{4.0f, 0.0f};
+        double[] point1 = new double[]{0.0f, 0.0f};
+        double[] point2 = new double[]{2.0f, 0.0f};
+        double[] point3 = new double[]{2.0f, 0.0f};
+        double[] point4 = new double[]{4.0f, 0.0f};
+        double[] point5 = new double[]{4.0f, 0.0f};
         double radius1 = 1;
         double radius2 = 1;
         int aPts = 1;
         int bPts = 1;
-        float[][] points = new float[][]{point1, point2, point3, point4, point5};
+        double[][] points = new double[][]{point1, point2, point3, point4, point5};
         assertFalse(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2));
     }
 
     @Test
     public void testLIC13BothConditionMet() {
-        float[] point1 = new float[]{0.0f, 0.0f};
-        float[] point2 = new float[]{2.0f, 0.0f};
-        float[] point3 = new float[]{2.0f, 0.0f};
-        float[] point4 = new float[]{4.0f, 0.0f};
-        float[] point5 = new float[]{4.0f, 0.0f};
+        double[] point1 = new double[]{0.0f, 0.0f};
+        double[] point2 = new double[]{2.0f, 0.0f};
+        double[] point3 = new double[]{2.0f, 0.0f};
+        double[] point4 = new double[]{4.0f, 0.0f};
+        double[] point5 = new double[]{4.0f, 0.0f};
 
         double radius1 = 1;
         double radius2 = 5;
@@ -289,7 +289,7 @@ public class CMVCalculatorTest {
         int aPts = 1;
         int bPts = 1;
 
-        float[][] points = new float[][]{point1, point2, point3, point4, point5};
+        double[][] points = new double[][]{point1, point2, point3, point4, point5};
 
         assertTrue(CMVCalculator.checkLIC13(points, aPts, bPts, radius1, radius2));
     }
@@ -356,12 +356,12 @@ public class CMVCalculatorTest {
 
     @Test
     public void testLIC7() {
-        float[] point0 = new float[]{0.0f, 0.0f};
-        float[] point1 = new float[]{0.0f, 4.0f};
-        float[] point2 = new float[]{0.0f, 4.0f};
-        float[] point3 = new float[]{0.0f, 4.0f};
+        double[] point0 = new double[]{0.0f, 0.0f};
+        double[] point1 = new double[]{0.0f, 4.0f};
+        double[] point2 = new double[]{0.0f, 4.0f};
+        double[] point3 = new double[]{0.0f, 4.0f};
 
-        float[][] points = new float[][]{point0, point1, point2, point3};
+        double[][] points = new double[][]{point0, point1, point2, point3};
 
         assertTrue(CMVCalculator.checkLIC7(points, 3.9f, 1));
         assertTrue(CMVCalculator.checkLIC7(points, 3.9f, 2));
@@ -371,12 +371,12 @@ public class CMVCalculatorTest {
 
     @Test
     public void testLIC8ForRadiusEdgeCase() {
-        float[] point0 = new float[]{0.0f, 0.0f};
-        float[] point1 = new float[]{0.0f, 0.0f};
-        float[] point2 = new float[]{0.0f, 2.0f};
-        float[] point3 = new float[]{0.0f, 0.0f};
-        float[] point4 = new float[]{0.0f, 4.0f};
-        float[][] points = new float[][]{point0, point1, point2, point3, point4};
+        double[] point0 = new double[]{0.0f, 0.0f};
+        double[] point1 = new double[]{0.0f, 0.0f};
+        double[] point2 = new double[]{0.0f, 2.0f};
+        double[] point3 = new double[]{0.0f, 0.0f};
+        double[] point4 = new double[]{0.0f, 4.0f};
+        double[][] points = new double[][]{point0, point1, point2, point3, point4};
 
         assertFalse(CMVCalculator.checkLIC8(points, 2, 1, 1));
         assertTrue(CMVCalculator.checkLIC8(points, 1.9, 1, 1));
@@ -384,17 +384,17 @@ public class CMVCalculatorTest {
 
     @Test
     public void testLIC8ForCorrectInterveningDistanceCalculation() {
-        float[] point0 = new float[]{0.0f, 0.0f};
-        float[] point1 = new float[]{10.0f, 0.0f};
-        float[] point2 = new float[]{10.0f, 0.0f};
-        float[] point3 = new float[]{10.0f, 0.0f};
-        float[] point4 = new float[]{0.0f, 0.0f};
-        float[] point5 = new float[]{10.0f, 0.0f};
-        float[] point6 = new float[]{10.0f, 0.0f};
-        float[] point7 = new float[]{10.0f, 0.0f};
-        float[] point8 = new float[]{10.0f, 0.0f};
-        float[] point9 = new float[]{0.0f, 0.0f};
-        float[][] points = new float[][]{point0, point1, point2, point3, point4, point5, point6, point7, point8, point9};
+        double[] point0 = new double[]{0.0f, 0.0f};
+        double[] point1 = new double[]{10.0f, 0.0f};
+        double[] point2 = new double[]{10.0f, 0.0f};
+        double[] point3 = new double[]{10.0f, 0.0f};
+        double[] point4 = new double[]{0.0f, 0.0f};
+        double[] point5 = new double[]{10.0f, 0.0f};
+        double[] point6 = new double[]{10.0f, 0.0f};
+        double[] point7 = new double[]{10.0f, 0.0f};
+        double[] point8 = new double[]{10.0f, 0.0f};
+        double[] point9 = new double[]{0.0f, 0.0f};
+        double[][] points = new double[][]{point0, point1, point2, point3, point4, point5, point6, point7, point8, point9};
 
 
         assertFalse(CMVCalculator.checkLIC8(points, 2, 3, 4));
@@ -404,11 +404,11 @@ public class CMVCalculatorTest {
 
     @Test
     public void testLIC9TooFewPoints() {
-        float[] point1 = new float[]{0.0f, 1.0f};
-        float[] point2 = new float[]{0.0f, 0.0f};
-        float[] point3 = new float[]{1.0f, 0.0f};
+        double[] point1 = new double[]{0.0f, 1.0f};
+        double[] point2 = new double[]{0.0f, 0.0f};
+        double[] point3 = new double[]{1.0f, 0.0f};
 
-        float[][] points = new float[][]{point1, point2, point3};
+        double[][] points = new double[][]{point1, point2, point3};
 
         int cPts = 1;
         int dPts = 1;
@@ -420,14 +420,14 @@ public class CMVCalculatorTest {
 
     @Test
     public void testLIC9ConditionNotMet() {
-        float[] point1 = new float[]{0.0f, 1.0f};
-        float[] point2 = new float[]{0.0f, 0.0f};
-        float[] point3 = new float[]{0.0f, 0.0f};
-        float[] point4 = new float[]{0.0f, 1.0f};
-        float[] point5 = new float[]{0.0f, 0.0f};
-        float[] point6 = new float[]{1.0f, 0.0f};
+        double[] point1 = new double[]{0.0f, 1.0f};
+        double[] point2 = new double[]{0.0f, 0.0f};
+        double[] point3 = new double[]{0.0f, 0.0f};
+        double[] point4 = new double[]{0.0f, 1.0f};
+        double[] point5 = new double[]{0.0f, 0.0f};
+        double[] point6 = new double[]{1.0f, 0.0f};
 
-        float[][] points = new float[][]{point1, point2, point3, point4, point5, point6};
+        double[][] points = new double[][]{point1, point2, point3, point4, point5, point6};
 
         int cPts = 1;
         int dPts = 2;
@@ -439,15 +439,15 @@ public class CMVCalculatorTest {
 
     @Test
     public void testLIC9ConditionMet1() { // delta is less than pi - epsilon  (pi/2)
-        float[] point1 = new float[]{0.0f, 3.0f};
-        float[] point2 = new float[]{1.0f, 0.0f};
-        float[] point3 = new float[]{2.0f, 0.0f};
-        float[] point4 = new float[]{0.0f, 0.0f};
-        float[] point5 = new float[]{4.0f, 0.0f};
-        float[] point6 = new float[]{5.0f, 0.0f};
-        float[] point7 = new float[]{3.0f, 0.0f};
+        double[] point1 = new double[]{0.0f, 3.0f};
+        double[] point2 = new double[]{1.0f, 0.0f};
+        double[] point3 = new double[]{2.0f, 0.0f};
+        double[] point4 = new double[]{0.0f, 0.0f};
+        double[] point5 = new double[]{4.0f, 0.0f};
+        double[] point6 = new double[]{5.0f, 0.0f};
+        double[] point7 = new double[]{3.0f, 0.0f};
 
-        float[][] points = new float[][]{point1, point2, point3, point4, point5, point6, point7};
+        double[][] points = new double[][]{point1, point2, point3, point4, point5, point6, point7};
 
         int cPts = 2;
         int dPts = 2;
@@ -459,15 +459,15 @@ public class CMVCalculatorTest {
 
     @Test
     public void testLIC9ConditionMet2() { // delta is greater than pi + epsilon (2*pi)
-        float[] point1 = new float[]{0.0f, 3.0f};
-        float[] point2 = new float[]{0.0f, 0.0f};
-        float[] point3 = new float[]{0.0f, 0.0f};
-        float[] point4 = new float[]{0.0f, 0.0f};
-        float[] point5 = new float[]{4.0f, 0.0f};
-        float[] point6 = new float[]{4.0f, 0.0f};
-        float[] point7 = new float[]{0.0f, 3.0f};
+        double[] point1 = new double[]{0.0f, 3.0f};
+        double[] point2 = new double[]{0.0f, 0.0f};
+        double[] point3 = new double[]{0.0f, 0.0f};
+        double[] point4 = new double[]{0.0f, 0.0f};
+        double[] point5 = new double[]{4.0f, 0.0f};
+        double[] point6 = new double[]{4.0f, 0.0f};
+        double[] point7 = new double[]{0.0f, 3.0f};
 
-        float[][] points = new float[][]{point1, point2, point3, point4, point5, point6, point7};
+        double[][] points = new double[][]{point1, point2, point3, point4, point5, point6, point7};
 
         int cPts = 2;
         int dPts = 2;
