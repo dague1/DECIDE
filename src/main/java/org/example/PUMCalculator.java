@@ -13,6 +13,7 @@ public class PUMCalculator {
      * should be set to true. If LCM[i,j] is ANDD, PUM[i,j] should be set to true only if (CMV[i] AND
      * CMV[j]) is true. If LCM[i,j] is ORR, PUM[i,j] should be set to true if (CMV[i] OR CMV[j]) is
      * true. (Note that the LCM is symmetric, i.e. LCM[i,j]=LCM[j,i] for all i and j.)
+     *
      * @param cmv Conditions Met Vector. Should not be null.
      * @param lcm Logical Connection Matrix. Should be a square matrix with where the width/length is equal to the length
      *            of the cmv.
@@ -26,8 +27,7 @@ public class PUMCalculator {
         // The lcm should be a square matrix with the same height and width as the cmv's length.
         // If this is not the case, an illegal argument has been provided.
         if (lcm.length != numConditions || Arrays.stream(lcm).map(row -> row.length).anyMatch(len -> len != numConditions)) {
-            throw new IllegalArgumentException("The provided cmv and lcm have incompatible dimensions. The lcm should" +
-                    "be a square, symmetrical matrix with the same height/width as the cmv's length");
+            throw new IllegalArgumentException("The provided cmv and lcm have incompatible dimensions. The lcm should" + "be a square, symmetrical matrix with the same height/width as the cmv's length");
         }
 
         boolean[][] pum = new boolean[numConditions][numConditions];
@@ -55,7 +55,8 @@ public class PUMCalculator {
             case ORR -> {
                 return val1 || val2;
             }
-            default -> throw new IllegalStateException(String.format("OperationType '%s' is not a valid operation type!", operationType));
+            default ->
+                    throw new IllegalStateException(String.format("OperationType '%s' is not a valid operation type!", operationType));
         }
     }
 }

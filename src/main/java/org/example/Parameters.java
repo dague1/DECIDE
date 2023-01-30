@@ -2,6 +2,7 @@ package org.example;
 
 /**
  * This class contains the Parameters data.
+ *
  * @author Group 4
  */
 public record Parameters(double length1, double radius1, double epsilon, double area1, int qPts, int quads, double dist,

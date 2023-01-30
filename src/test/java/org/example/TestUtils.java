@@ -5,6 +5,7 @@ public class TestUtils {
      * Method for creating a points array more easily.
      * <br>
      * coordinateToPointsArray(1f, 2f, 3f, 4f) <==> new double[][]{new double{1f, 2f}, new double[]{3f, 4f}}
+     *
      * @param points The coordinates of the points. The first is the first x-coordinate, the second is the first
      *               y-coordinate, the third the second x-coordinate etc. There should be an even number of points.
      * @return An array of points (arrays with two elements) specified by the parameter.
