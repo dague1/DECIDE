@@ -212,10 +212,9 @@ public class CMVCalculatorTest {
         double length1 = 1;
         double length2 = 1;
         int kPts = 0;
-        int NUMPOINTS = 2;
         double[][] points = new double[][]{point1, point2};
         int gPts = 0;
-        assertFalse(CMVCalculator.checkLIC12(points, length1, length2, kPts, NUMPOINTS));
+        assertFalse(CMVCalculator.checkLIC12(points, length1, length2, kPts));
     }
 
     @Test
@@ -227,9 +226,8 @@ public class CMVCalculatorTest {
         double length1 = 1;
         double length2 = 1;
         int kPts = 1;
-        int NUMPOINTS = 4;
         double[][] points = new double[][]{point1, point2, point3, point4};
-        assertTrue(CMVCalculator.checkLIC12(points, length1, length2, kPts, NUMPOINTS));
+        assertTrue(CMVCalculator.checkLIC12(points, length1, length2, kPts));
     }
 
     @Test
@@ -241,9 +239,8 @@ public class CMVCalculatorTest {
         double length1 = 1;
         double length2 = 1;
         int kPts = 1;
-        int NUMPOINTS = 4;
         double[][] points = new double[][]{point1, point2, point3, point4};
-        assertFalse(CMVCalculator.checkLIC12(points, length1, length2, kPts, NUMPOINTS));
+        assertFalse(CMVCalculator.checkLIC12(points, length1, length2, kPts));
     }
 
     @Test
@@ -485,7 +482,7 @@ public class CMVCalculatorTest {
         double[][] dataPoints = new double[][]{{1, 2}, {1, 1}, {3, 1}, {22, 8}, {9, 10}, {11, 12}, {13, 14}, {15, 16}};
         //returns true because the area of the triangle formed by the first, third, and fourth data points is 16.5
 
-        assertTrue(CMVCalculator.checkLIC14(EPTS, FPTS, AREA1, AREA2, dataPoints));
+        assertTrue(CMVCalculator.checkLIC14(dataPoints, EPTS, FPTS, AREA1, AREA2));
     }
 
     @Test
@@ -497,6 +494,6 @@ public class CMVCalculatorTest {
         double[][] dataPoints = new double[][]{{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}, {11, 12}, {13, 14}, {15, 16}};
 
         //returns false because all of these points form a line with area of 0 between any 3 of them
-        assertFalse(CMVCalculator.checkLIC14(EPTS, FPTS, AREA1, AREA2, dataPoints));
+        assertFalse(CMVCalculator.checkLIC14(dataPoints, EPTS, FPTS, AREA1, AREA2));
     }
 }
