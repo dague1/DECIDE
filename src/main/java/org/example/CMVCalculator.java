@@ -392,7 +392,7 @@ public class CMVCalculator {
         if (points.length < 3) return false;
 
         if (length2 < 0) {
-            throw new IllegalArgumentException("Faulty input");
+            return false;
         }
 
         for (int i = 0; i < points.length - kPts - 1; ++i) {
@@ -423,7 +423,7 @@ public class CMVCalculator {
     public static boolean checkLIC13(double[][] points, int aPts, int bPts, double radius1, double radius2) {
 
         if (points.length < 5) return false;
-        if (radius2 < 0) throw new IllegalArgumentException("Faulty input");
+        if (radius2 < 0) return false;
 
         boolean condition1 = false;
         boolean condition2 = false;
