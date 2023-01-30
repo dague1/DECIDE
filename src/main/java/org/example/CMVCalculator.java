@@ -81,15 +81,14 @@ public class CMVCalculator {
     public static boolean deltaIsWithinBounds(float[] point1, float[] point2, float[] point3, double epsilon) {
         if (point1 == point2 || point2 == point3 || Math.PI <= epsilon) return false;
 
-        double dist12 = Math.hypot(point2[0] - point2[1], point2[1]-point1[1]);
-        double dist23 = Math.hypot(point2[0] - point3[0], point2[1]-point3[1]);
-        double dist13 = Math.hypot(point1[0] - point3[0], point1[1]-point3[1]);
+        double dist12 = Math.hypot(point2[0] - point2[1], point2[1] - point1[1]);
+        double dist23 = Math.hypot(point2[0] - point3[0], point2[1] - point3[1]);
+        double dist13 = Math.hypot(point1[0] - point3[0], point1[1] - point3[1]);
 
         double delta = Math.acos((Math.pow(dist12, 2) + Math.pow(dist23, 2) - Math.pow(dist13, 2)) // the angle in radians
                 / (2 * dist12 * dist23));
         return delta < (Math.PI - epsilon) || delta > (Math.PI + epsilon);
     }
-
 
 
     /**
@@ -149,12 +148,12 @@ public class CMVCalculator {
      * @return whether there are two consecutive data points for which the distance is bigger than the provided length parameter
      */
     public static boolean checkLIC0(double[][] points, double LENGTH1) {
-        if(LENGTH1 < 0) {
+        if (LENGTH1 < 0) {
             return false;
         }
 
         for (int i = 0; i < points.length - 1; i++) {
-            if (MathUtils.calcDistanceBetweenTwoPoints(points[i], points[i + 1]) > LENGTH1){
+            if (MathUtils.calcDistanceBetweenTwoPoints(points[i], points[i + 1]) > LENGTH1) {
                 return true;
             }
         }
@@ -192,27 +191,27 @@ public class CMVCalculator {
      * point or the last point (or both) coincides with the vertex, the angle is undefined and the LIC
      * is not satisfied by those three points.
      * (0 ≤ EPSILON < PI)
-     * @param points a 2D array indicating the 2D point coordinates
+     *
+     * @param points  a 2D array indicating the 2D point coordinates
      * @param EPSILON a double value given in the parameters
      * @return whether there exists at least one set of three consecutive data points that satisfy above conditions
      */
     public static boolean checkLIC2(float[][] points, double EPSILON) {
-        if(EPSILON >= Math.PI || EPSILON < 0) {
+        if (EPSILON >= Math.PI || EPSILON < 0) {
             return false;
         }
-        for (int i = 0; i < points.length - 2; i++){
-            if (points[i] == points[i+1] || points[i+1] == points[i+2]){
+        for (int i = 0; i < points.length - 2; i++) {
+            if (points[i] == points[i + 1] || points[i + 1] == points[i + 2]) {
                 continue;
             }
             // calculate angle using vector doc product
             // note that point[i+1] is the vertex of the angle
-            float dotVec = (points[i][0] - points[i+1][0]) * (points[i+2][0] - points[i+1][0]) +
-                            (points[i][1] - points[i+1][1]) * (points[i+2][1] - points[i+1][1]);
-            double length1 = calcDistanceBetweenTwoPoints(points[i], points[i+1]);
-            double length2 = calcDistanceBetweenTwoPoints(points[i+2], points[i+1]);
+            float dotVec = (points[i][0] - points[i + 1][0]) * (points[i + 2][0] - points[i + 1][0]) + (points[i][1] - points[i + 1][1]) * (points[i + 2][1] - points[i + 1][1]);
+            double length1 = calcDistanceBetweenTwoPoints(points[i], points[i + 1]);
+            double length2 = calcDistanceBetweenTwoPoints(points[i + 2], points[i + 1]);
             double cosAngle = dotVec / (length1 * length2);
             double angle = Math.acos(cosAngle);
-            if(angle < Math.PI - EPSILON || angle > Math.PI + EPSILON){
+            if (angle < Math.PI - EPSILON || angle > Math.PI + EPSILON) {
                 return true;
             }
         }
@@ -225,10 +224,10 @@ public class CMVCalculator {
      * result will be false.
      *
      * @param points An array containing any number of points. Each point should consist of two coordinates.
-     * @param area The boundary value that should be smaller or equal to at-least triangle determined by successive
-     *             points for the result to be true.
+     * @param area   The boundary value that should be smaller or equal to at-least triangle determined by successive
+     *               points for the result to be true.
      * @return True if there is atleast one set of three consecutive points which create a triangle with an area
-     *         larger than the provided area paramter. False if there are less than three points.
+     * larger than the provided area paramter. False if there are less than three points.
      */
     public static boolean checkLIC3(double[][] points, double area) {
         // There need to be atleast three consecutive data points for the condition to be true.
@@ -252,9 +251,10 @@ public class CMVCalculator {
      * is in quadrant I, the point (-l,0) is in quadrant II, the point (0,-l) is in quadrant III, the point
      * (0,1) is in quadrant I and the point (1,0) is in quadrant I.
      * (2 ≤ Q PTS ≤ NUMPOINTS), (1 ≤ QUADS ≤ 3)
+     *
      * @param dataPoints 2D array of floats, where each sub-array represents a point in the form of [x, y]
-     * @param QPTS an integer representing the number of consecutive points to check in each set
-     * @param QUADS an integer representing the number of quadrants that must be present in a set of QPTS points for the method to return true
+     * @param QPTS       an integer representing the number of consecutive points to check in each set
+     * @param QUADS      an integer representing the number of quadrants that must be present in a set of QPTS points for the method to return true
      * @return true if at least one set of consecutive QPTS points in dataPoints fall in more than QUADS quadrants, false otherwise.
      */
     public static boolean checkLIC4(float[][] dataPoints, int QPTS, int QUADS) {
@@ -289,10 +289,11 @@ public class CMVCalculator {
     /**
      * There exists at least one set of two consecutive data points, (X[i],Y[i]) and (X[i+1],Y[i+1]), such
      * that X[i+1] - X[i] < 0.
+     *
      * @param points An array consisting on points. Each point in the array must have exactly two values.
      *               There must be at least two points in the array.
      * @return Whether there exist two consecutive points such that the second point's x-coordinate is bigger than
-     *         the first point's x-coordinate.
+     * the first point's x-coordinate.
      */
     public static boolean checkLIC5(double[][] points) {
         for (int i = 0; i < points.length - 1; i++) {
@@ -314,17 +315,17 @@ public class CMVCalculator {
      * the N PTS consecutive points. The condition is not met when NUMPOINTS < 3.
      * (3 ≤ N_POINTS ≤ NUMPOINTS), (0 ≤ DIST)
      *
-     * @param points An array of points. Each element should contain exactly two points representing x and y-coordinate.
+     * @param points   An array of points. Each element should contain exactly two points representing x and y-coordinate.
      * @param N_POINTS The number of consecutive data points for the check above.
-     * @param DIST The distance threshold for the condition.
+     * @param DIST     The distance threshold for the condition.
      * @return False if less than three points are provided. Otherwise true only if there exist N_POINTS consecutive
-     *         points such that:
-     *         <ol>
-     *             <li>The first and last point are the same and there is atleast one point further
-     *             than the distance parameter to these two points</li>
-     *             <li>The first and the last points are not the same and there is at least one point further
-     *             than away from the line defined by these two points than the provided distance.</li>
-     *         </ol>either (1) the first and last of these con
+     * points such that:
+     * <ol>
+     *     <li>The first and last point are the same and there is atleast one point further
+     *     than the distance parameter to these two points</li>
+     *     <li>The first and the last points are not the same and there is at least one point further
+     *     than away from the line defined by these two points than the provided distance.</li>
+     * </ol>either (1) the first and last of these con
      */
     public static boolean checkLIC6(double[][] points, final int N_POINTS, final double DIST) {
         // The condition can not be met if there are less than three points.
@@ -339,9 +340,7 @@ public class CMVCalculator {
             for (int j = i + 1; j < i + N_POINTS; j++) {
                 double[] curPoint = points[j];
 
-                double dist = startPoint[0] == endPoint[0] && startPoint[1] == endPoint[1]
-                        ? MathUtils.calcDistanceBetweenTwoPoints(startPoint, curPoint)
-                        : MathUtils.calcDistanceBetweenPointAndLine(curPoint, startPoint, endPoint);
+                double dist = startPoint[0] == endPoint[0] && startPoint[1] == endPoint[1] ? MathUtils.calcDistanceBetweenTwoPoints(startPoint, curPoint) : MathUtils.calcDistanceBetweenPointAndLine(curPoint, startPoint, endPoint);
 
                 if (dist >= DIST) {
                     return true;
@@ -356,22 +355,25 @@ public class CMVCalculator {
      * There exists at least one set of two data points separated by exactly K_PTS consecutive intervening points that are a distance greater than the length, LENGTH1, apart. The condition
      * is not met when NUMPOINTS < 3.
      * 1 ≤ K PTS ≤ (NUMPOINTS−2)
+     *
      * @param points  a 2D array indicating the 2D point coordinates
      * @param LENGTH1 a double value given in the parameters
-     * @param K_PTS an int value given in the parameters
+     * @param K_PTS   an int value given in the parameters
      * @return True if there is atleast one set of two points, separated by K_PTS consecutive intevening points, with a distance greater than LENGTH1. False Otherwise.
      */
     public static boolean checkLIC7(float[][] points, double LENGTH1, int K_PTS) {
 
         if (points.length < 3) {
             return false;
-        } else if (K_PTS < 1 || K_PTS > points.length-2){
+        } else if (K_PTS < 1 || K_PTS > points.length - 2) {
             return false;
         }
 
 
         for (int i = 0; i < points.length - K_PTS - 1; i++) {
-            if (calcDistanceBetweenTwoPoints(points[i], points[i + K_PTS + 1]) > LENGTH1){ return true; }
+            if (calcDistanceBetweenTwoPoints(points[i], points[i + K_PTS + 1]) > LENGTH1) {
+                return true;
+            }
         }
 
         return false;
@@ -384,26 +386,26 @@ public class CMVCalculator {
      * 1 ≤ A PTS, 1 ≤ B PTS
      * A PTS+B PTS ≤ (NUMPOINTS−3)
      *
-     * @param points a 2D array indicating the 2D point coordinates
+     * @param points  a 2D array indicating the 2D point coordinates
      * @param RADIUS1 a double value given in the parameters
-     * @param A_PTS an int value given in the parameters
-     * @param B_PTS an int value given in the parameters
-     * @return True, if there exist a set of three datapoints in points, separated by A_PTS and B_PTS respectivly, 
-     *         that cannot be contained withing a circle with radius RADIUS1, False otherwise.
+     * @param A_PTS   an int value given in the parameters
+     * @param B_PTS   an int value given in the parameters
+     * @return True, if there exist a set of three datapoints in points, separated by A_PTS and B_PTS respectivly,
+     * that cannot be contained withing a circle with radius RADIUS1, False otherwise.
      */
 
     public static boolean checkLIC8(float[][] points, double RADIUS1, int A_PTS, int B_PTS) {
-        if (A_PTS < 1 || B_PTS < 1){
+        if (A_PTS < 1 || B_PTS < 1) {
             return false;
-        } else if (A_PTS+B_PTS > points.length-3){
+        } else if (A_PTS + B_PTS > points.length - 3) {
             return false;
         } else if (points.length < 5) {
             return false;
         }
 
-        for (int i = 0; i < points.length  - A_PTS - B_PTS - 2; i++) {
-            double min_radius = calcMinimumEnclosingCircleRadius(points[i], points[i+A_PTS + 1], points[i + A_PTS + B_PTS + 2]);
-            if (min_radius > RADIUS1){
+        for (int i = 0; i < points.length - A_PTS - B_PTS - 2; i++) {
+            double min_radius = calcMinimumEnclosingCircleRadius(points[i], points[i + A_PTS + 1], points[i + A_PTS + B_PTS + 2]);
+            if (min_radius > RADIUS1) {
                 return true;
             }
         }
@@ -423,24 +425,25 @@ public class CMVCalculator {
      * 1 ≤ C PTS, 1 ≤ D PTS
      * C PTS+D PTS ≤ NUMPOINTS−3
      *
-     * @param points a 2D array indicating the 2D point coordinates
-     * @param cPts first gap size
-     * @param dPts second gap size
+     * @param points  a 2D array indicating the 2D point coordinates
+     * @param cPts    first gap size
+     * @param dPts    second gap size
      * @param epsilon
+     * @param
+     * @param
      * @return true if the aforementioned points satisfy the aforementioned conditions.
-     * @param
-     * @param
      * @return
      */
     public static boolean checkLIC9(float[][] points, int cPts, int dPts, double epsilon) {
 
-        if(points.length < 5) return false;
+        if (points.length < 5) return false;
 
-        if(cPts < 1 || dPts < 1 || (cPts + dPts) > points.length - 3) throw new IllegalArgumentException("Faulty input.");
+        if (cPts < 1 || dPts < 1 || (cPts + dPts) > points.length - 3)
+            throw new IllegalArgumentException("Faulty input.");
 
-        for(int i=0;i<points.length - cPts - dPts - 2;++i) {
-            if(points[i] == points[i+cPts+1] || points[i+cPts+1] == points[i+cPts+dPts+2]) continue;
-            if(deltaIsWithinBounds(points[i], points[i+cPts+1], points[i+cPts+dPts+2], epsilon)) {
+        for (int i = 0; i < points.length - cPts - dPts - 2; ++i) {
+            if (points[i] == points[i + cPts + 1] || points[i + cPts + 1] == points[i + cPts + dPts + 2]) continue;
+            if (deltaIsWithinBounds(points[i], points[i + cPts + 1], points[i + cPts + dPts + 2], epsilon)) {
                 return true;
             }
         }
@@ -453,13 +456,14 @@ public class CMVCalculator {
      * than AREA1. The condition is not met when NUMPOINTS < 5.
      * 1 ≤ E PTS, 1 ≤ F PTS
      * E PTS+F PTS ≤ NUMPOINTS−3
-     * @param EPTS the number of consecutive intervening points between the first and second data points
-     * @param FPTS the number of consecutive intervening points between the second and third data points
-     * @param AREA1 the area of the triangle
+     *
+     * @param EPTS       the number of consecutive intervening points between the first and second data points
+     * @param FPTS       the number of consecutive intervening points between the second and third data points
+     * @param AREA1      the area of the triangle
      * @param dataPoints the data points
      * @return true if the condition is met, false otherwise
      */
-    public static boolean checkLIC10(int EPTS, int FPTS, double AREA1, double [][] dataPoints) {
+    public static boolean checkLIC10(int EPTS, int FPTS, double AREA1, double[][] dataPoints) {
         if (dataPoints.length < 5) {
             return false;
         }
@@ -482,15 +486,15 @@ public class CMVCalculator {
      * condition is not met when NUMPOINTS < 3.
      * 1 ≤ G PTS ≤ NUMPOINTS−2
      *
-     * @param points  a 2D array indicating the 2D point coordinates
+     * @param points a 2D array indicating the 2D point coordinates
      * @param gPts
      * @return whether there are points that satisfy the abovementioned condition.
      */
     public static boolean checkLIC11(float[][] points, int gPts) {
-        if (points.length<3) return false;
+        if (points.length < 3) return false;
 
-        for(int i=0;i<(points.length - gPts -1);++i) {
-            if(points[i+gPts+1][0] - points[i][0] < 0) return true;
+        for (int i = 0; i < (points.length - gPts - 1); ++i) {
+            if (points[i + gPts + 1][0] - points[i][0] < 0) return true;
         }
         return false;
     }
@@ -515,15 +519,15 @@ public class CMVCalculator {
         boolean condition1 = false;
         boolean condition2 = false;
 
-        if(NUMPOINTS < 3) return false;
+        if (NUMPOINTS < 3) return false;
 
-        if(length2 < 0) {
+        if (length2 < 0) {
             throw new IllegalArgumentException("Faulty input");
         }
 
-        for(int i = 0; i < NUMPOINTS - kPts - 1; ++i) {
-         if(calcDistanceBetweenTwoPoints(points[i], points[i + kPts + 1]) > length1) condition1 = true;
-         if(calcDistanceBetweenTwoPoints(points[i], points[i + kPts + 1]) < length2) condition2 = true;
+        for (int i = 0; i < NUMPOINTS - kPts - 1; ++i) {
+            if (calcDistanceBetweenTwoPoints(points[i], points[i + kPts + 1]) > length1) condition1 = true;
+            if (calcDistanceBetweenTwoPoints(points[i], points[i + kPts + 1]) < length2) condition2 = true;
         }
 
         return (condition1 && condition2);
@@ -538,28 +542,27 @@ public class CMVCalculator {
      * circle of radius RADIUS2. Both parts must be true for the LIC to be true. The condition is
      * not met when NUMPOINTS < 5.
      * 0 ≤ RADIUS2
-
      *
-     * @param points An array consisting on points. Each point in the array must have exactly two values. There must be at least two points in the array.
-     * @param aPts first separation size
-     * @param bPts second separation size
+     * @param points  An array consisting on points. Each point in the array must have exactly two values. There must be at least two points in the array.
+     * @param aPts    first separation size
+     * @param bPts    second separation size
      * @param radius1 specified radius of the first circle
      * @param radius2 specified radius of the second circle
      * @return whether the points in the points-array meet the aforementioned conditions.
      */
     public static boolean checkLIC13(float[][] points, int aPts, int bPts, double radius1, double radius2) {
 
-        if(points.length < 5 ) return false;
-        if(radius2 < 0) throw new IllegalArgumentException("Faulty input");
+        if (points.length < 5) return false;
+        if (radius2 < 0) throw new IllegalArgumentException("Faulty input");
 
         boolean condition1 = false;
         boolean condition2 = false;
         double radius;
 
-        for(int i = 0;i < points.length - aPts - bPts - 2; ++i) {
-            radius = calcMinimumEnclosingCircleRadius(points[i], points[i+aPts+1], points[i+aPts+bPts+1]);
-            if(radius >= radius1) condition1 = true;
-            if(radius <= radius2) condition2 = true;
+        for (int i = 0; i < points.length - aPts - bPts - 2; ++i) {
+            radius = calcMinimumEnclosingCircleRadius(points[i], points[i + aPts + 1], points[i + aPts + bPts + 1]);
+            if (radius >= radius1) condition1 = true;
+            if (radius <= radius2) condition2 = true;
         }
 
         return (condition1 && condition2);
@@ -572,15 +575,16 @@ public class CMVCalculator {
      * AREA2. Both parts must be true for the LIC to be true. The condition is not met when
      * NUMPOINTS < 5.
      * 0 ≤ AREA2
-     * @param EPTS - The number of consecutive intervening points
-     * @param FPTS - The number of consecutive intervening points
-     * @param AREA1 - The area of the triangle
-     * @param AREA2 - The area of the triangle
+     *
+     * @param EPTS       - The number of consecutive intervening points
+     * @param FPTS       - The number of consecutive intervening points
+     * @param AREA1      - The area of the triangle
+     * @param AREA2      - The area of the triangle
      * @param dataPoints - The data points
      * @return true if constaints and both conditions satisfied, false otherwise
      */
 
-    public static boolean checkLIC14( int EPTS, int FPTS, double AREA1, double AREA2, double [][] dataPoints) {
+    public static boolean checkLIC14(int EPTS, int FPTS, double AREA1, double AREA2, double[][] dataPoints) {
 
         if (dataPoints.length < 5) {
             return false;
