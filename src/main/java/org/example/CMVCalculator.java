@@ -123,14 +123,14 @@ public class CMVCalculator {
      * (2 ≤ Q PTS ≤ NUMPOINTS), (1 ≤ QUADS ≤ 3)
      *
      * @param dataPoints 2D array of doubles, where each sub-array represents a point in the form of [x, y]
-     * @param QPTS       an integer representing the number of consecutive points to check in each set
-     * @param QUADS      an integer representing the number of quadrants that must be present in a set of QPTS points for the method to return true
-     * @return true if at least one set of consecutive QPTS points in dataPoints fall in more than QUADS quadrants, false otherwise.
+     * @param qPts       an integer representing the number of consecutive points to check in each set
+     * @param QUADS      an integer representing the number of quadrants that must be present in a set of qPts points for the method to return true
+     * @return true if at least one set of consecutive qPts points in dataPoints fall in more than QUADS quadrants, false otherwise.
      */
-    public static boolean checkLIC4(double[][] dataPoints, int QPTS, int QUADS) {
-        for (int i = 0; i <= dataPoints.length - QPTS; i++) {
+    public static boolean checkLIC4(double[][] dataPoints, int qPts, int QUADS) {
+        for (int i = 0; i <= dataPoints.length - qPts; i++) {
             int[] quadrantCount = new int[4];
-            for (int j = i; j < i + QPTS; j++) {
+            for (int j = i; j < i + qPts; j++) {
                 double x = dataPoints[j][0];
                 double y = dataPoints[j][1];
                 if (x >= 0 && y >= 0) {
@@ -222,26 +222,26 @@ public class CMVCalculator {
     }
 
     /**
-     * There exists at least one set of two data points separated by exactly K_PTS consecutive intervening points that are a distance greater than the length, LENGTH1, apart. The condition
+     * There exists at least one set of two data points separated by exactly kPts consecutive intervening points that are a distance greater than the length, LENGTH1, apart. The condition
      * is not met when NUMPOINTS < 3.
      * 1 ≤ K PTS ≤ (NUMPOINTS−2)
      *
      * @param points  a 2D array indicating the 2D point coordinates
      * @param LENGTH1 a double value given in the parameters
-     * @param K_PTS   an int value given in the parameters
-     * @return True if there is atleast one set of two points, separated by K_PTS consecutive intevening points, with a distance greater than LENGTH1. False Otherwise.
+     * @param kPts   an int value given in the parameters
+     * @return True if there is atleast one set of two points, separated by kPts consecutive intevening points, with a distance greater than LENGTH1. False Otherwise.
      */
-    public static boolean checkLIC7(double[][] points, double LENGTH1, int K_PTS) {
+    public static boolean checkLIC7(double[][] points, double LENGTH1, int kPts) {
 
         if (points.length < 3) {
             return false;
-        } else if (K_PTS < 1 || K_PTS > points.length - 2) {
+        } else if (kPts < 1 || kPts > points.length - 2) {
             return false;
         }
 
 
-        for (int i = 0; i < points.length - K_PTS - 1; i++) {
-            if (MathUtils.calcDistanceBetweenTwoPoints(points[i], points[i + K_PTS + 1]) > LENGTH1) {
+        for (int i = 0; i < points.length - kPts - 1; i++) {
+            if (MathUtils.calcDistanceBetweenTwoPoints(points[i], points[i + kPts + 1]) > LENGTH1) {
                 return true;
             }
         }
@@ -258,23 +258,23 @@ public class CMVCalculator {
      *
      * @param points  a 2D array indicating the 2D point coordinates
      * @param RADIUS1 a double value given in the parameters
-     * @param A_PTS   an int value given in the parameters
-     * @param B_PTS   an int value given in the parameters
-     * @return True, if there exist a set of three datapoints in points, separated by A_PTS and B_PTS respectivly,
+     * @param aPts   an int value given in the parameters
+     * @param bPts   an int value given in the parameters
+     * @return True, if there exist a set of three datapoints in points, separated by aPts and bPts respectivly,
      * that cannot be contained withing a circle with radius RADIUS1, False otherwise.
      */
 
-    public static boolean checkLIC8(double[][] points, double RADIUS1, int A_PTS, int B_PTS) {
-        if (A_PTS < 1 || B_PTS < 1) {
+    public static boolean checkLIC8(double[][] points, double RADIUS1, int aPts, int bPts) {
+        if (aPts < 1 || bPts < 1) {
             return false;
-        } else if (A_PTS + B_PTS > points.length - 3) {
+        } else if (aPts + bPts > points.length - 3) {
             return false;
         } else if (points.length < 5) {
             return false;
         }
 
-        for (int i = 0; i < points.length - A_PTS - B_PTS - 2; i++) {
-            double min_radius = MathUtils.calcMinimumEnclosingCircleRadius(points[i], points[i + A_PTS + 1], points[i + A_PTS + B_PTS + 2]);
+        for (int i = 0; i < points.length - aPts - bPts - 2; i++) {
+            double min_radius = MathUtils.calcMinimumEnclosingCircleRadius(points[i], points[i + aPts + 1], points[i + aPts + bPts + 2]);
             if (min_radius > RADIUS1) {
                 return true;
             }
@@ -327,19 +327,19 @@ public class CMVCalculator {
      * 1 ≤ E PTS, 1 ≤ F PTS
      * E PTS+F PTS ≤ NUMPOINTS−3
      *
-     * @param EPTS       the number of consecutive intervening points between the first and second data points
-     * @param FPTS       the number of consecutive intervening points between the second and third data points
+     * @param ePts       the number of consecutive intervening points between the first and second data points
+     * @param fPts       the number of consecutive intervening points between the second and third data points
      * @param AREA1      the area of the triangle
      * @param dataPoints the data points
      * @return true if the condition is met, false otherwise
      */
-    public static boolean checkLIC10(int EPTS, int FPTS, double AREA1, double[][] dataPoints) {
+    public static boolean checkLIC10(int ePts, int fPts, double AREA1, double[][] dataPoints) {
         if (dataPoints.length < 5) {
             return false;
         }
         for (int i = 0; i < dataPoints.length - 3; i++) {
-            for (int j = i + EPTS + 1; j < dataPoints.length - 2; j++) {
-                for (int k = j + FPTS + 1; k < dataPoints.length - 1; k++) {
+            for (int j = i + ePts + 1; j < dataPoints.length - 2; j++) {
+                for (int k = j + fPts + 1; k < dataPoints.length - 1; k++) {
                     if (MathUtils.calcTriangleArea(dataPoints[i], dataPoints[j], dataPoints[k]) > AREA1) {
                         return true;
                     }
@@ -381,7 +381,6 @@ public class CMVCalculator {
      * @param length1
      * @param length2
      * @param kPts
-     * @param NUMPOINTS
      * @return whether the points satisfy the aforementioned conditions.
      */
     public static boolean checkLIC12(double[][] points, double length1, double length2, int kPts) {
@@ -446,15 +445,15 @@ public class CMVCalculator {
      * NUMPOINTS < 5.
      * 0 ≤ AREA2
      *
-     * @param EPTS       - The number of consecutive intervening points
-     * @param FPTS       - The number of consecutive intervening points
+     * @param ePts       - The number of consecutive intervening points
+     * @param fPts       - The number of consecutive intervening points
      * @param AREA1      - The area of the triangle
      * @param AREA2      - The area of the triangle
      * @param dataPoints - The data points
      * @return true if constaints and both conditions satisfied, false otherwise
      */
 
-    public static boolean checkLIC14(double[][] dataPoints, int EPTS, int FPTS, double AREA1, double AREA2) {
+    public static boolean checkLIC14(double[][] dataPoints, int ePts, int fPts, double AREA1, double AREA2) {
 
         if (dataPoints.length < 5) {
             return false;
@@ -464,15 +463,15 @@ public class CMVCalculator {
             return false;
         }
         boolean area1requirementIsSatisfied = false;
-        for (int i = 0; i < dataPoints.length - 2 - EPTS - FPTS; i++) {
-            double area = MathUtils.calcTriangleArea(dataPoints[i], dataPoints[i + EPTS + 1], dataPoints[i + EPTS + FPTS + 2]);
+        for (int i = 0; i < dataPoints.length - 2 - ePts - fPts; i++) {
+            double area = MathUtils.calcTriangleArea(dataPoints[i], dataPoints[i + ePts + 1], dataPoints[i + ePts + fPts + 2]);
             if (area > AREA1) {
                 area1requirementIsSatisfied = true;
             }
         }
         boolean area2requirementIsSatisfied = false;
-        for (int i = 0; i < dataPoints.length - 2 - EPTS - FPTS; i++) {
-            double area = MathUtils.calcTriangleArea(dataPoints[i], dataPoints[i + EPTS + 1], dataPoints[i + EPTS + FPTS + 2]);
+        for (int i = 0; i < dataPoints.length - 2 - ePts - fPts; i++) {
+            double area = MathUtils.calcTriangleArea(dataPoints[i], dataPoints[i + ePts + 1], dataPoints[i + ePts + fPts + 2]);
             if (area < AREA2) {
                 area2requirementIsSatisfied = true;
             }
