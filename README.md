@@ -19,7 +19,7 @@ The goal is to keep the revision history as clean as possible.
 ### Marten: 
 ### Chenyi: 
 ### Nils: 
-### Karlis: 
+### Karlis: Implemented LIC 4, 10, 14 with tests
 
 ## P+ Worthy Additions
 We did the following additional things that are not required by the assignment. 
