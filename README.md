@@ -17,6 +17,7 @@ The goal is to keep the revision history as clean as possible.
 
 ### David:
 ### Marten: 
+I wrote the code and tests for the FUV calculation, the PUM calculation, and LICs 3, 5, and 6. Furthermore, I also set up the CI/CD pipeline and also added some minor fixes and refactors.
 ### Chenyi: 
 ### Nils: 
 ### Karlis: 
