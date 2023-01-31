@@ -20,3 +20,13 @@ The goal is to keep the revision history as clean as possible.
 ### Chenyi: 
 ### Nils: 
 ### Karlis: 
+
+## P+ Worthy Additions
+We did the following additional things that are not required by the assignment. 
+We feel these additions should warrant the grade of P+.
+- We set up a CI/CD pipeline through Github actions that automatically builds and runs all tests in the project. The action can be found [here](https://github.com/dague1/DECIDE/actions).
+- We wrote JavaDoc for the majority of public methods in the project.
+- We wrote an extensive test suite of automated tests that achieve 95% line coverage of the entire project. See image below
+- Many pull requests were peer-reviewed by multiple people to ensure higher code quality.
+
+![Node Coverage Image](.readmecontent/coverage.png)
