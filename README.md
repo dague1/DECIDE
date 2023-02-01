@@ -17,7 +17,7 @@ The goal is to keep the revision history as clean as possible.
 
 ### David:
 ### Marten: 
-### Chenyi: 
+### Chenyi: Implemented LIC 0, 1, 2 with tests. 
 ### Nils: 
 ### Karlis: Implemented LIC 4, 10, 14 with tests
 
