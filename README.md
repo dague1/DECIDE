@@ -14,12 +14,16 @@ The goal is to keep the revision history as clean as possible.
 - Commits should be atomic. They should change or add exactly one thing to the codebase. Squash your commits if needed to achieve this. 
 
 ## Contributions
-
 ### David:
-### Marten: 
-### Chenyi: Implemented LIC 0, 1, 2 with tests. 
-### Nils: 
-### Karlis: Implemented LIC 4, 10, 14 with tests
+I wrote LIC 9, 11, 12 and 13, their tests, and tests for Decide().
+### Marten:
+I wrote the code and tests for the FUV calculation, the PUM calculation, and LICs 3, 5, and 6. Furthermore, I also set up the CI/CD pipeline and also added some minor fixes and refactors.
+### Chenyi:
+Implemented LIC 0, 1, 2 with tests.
+### Nils:
+### Karlis:
+Implemented LIC 4, 10, 14 with tests
+
 
 ## P+ Worthy Additions
 We did the following additional things that are not required by the assignment. 
