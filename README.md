@@ -21,6 +21,7 @@ I wrote the code and tests for the FUV calculation, the PUM calculation, and LIC
 ### Chenyi:
 Implemented LIC 0, 1, 2 with tests.
 ### Nils:
+Implemented LIC 7 and 8, with test as well as developed integration tests tests for Decide().
 ### Karlis:
 Implemented LIC 4, 10, 14 with tests
 
